@@ -15,6 +15,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Objects;
+
 @Component
 @RequiredArgsConstructor
 public class NaverApiClient implements OAuthApiClient {
@@ -56,7 +58,7 @@ public class NaverApiClient implements OAuthApiClient {
 
         NaverTokens response = restTemplate.postForObject(url, request, NaverTokens.class);
 
-        assert response != null;
+        Objects.requireNonNull(response);
         return response.getAccessToken();
     }
 
