@@ -1,9 +1,8 @@
 package com.musicpedia.musicpediaapi.domain.auth.controller;
 
-import com.musicpedia.musicpediaapi.global.util.AuthTokens;
 import com.musicpedia.musicpediaapi.domain.auth.dto.kakao.KakaoLoginParams;
-import com.musicpedia.musicpediaapi.domain.auth.dto.naver.NaverLoginParams;
 import com.musicpedia.musicpediaapi.domain.auth.service.OAuthLoginService;
+import com.musicpedia.musicpediaapi.global.util.AuthTokens;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,13 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
     private final OAuthLoginService oAuthLoginService;
 
-    @PostMapping("/kakao")
+    @PostMapping("/login/kakao")
     public ResponseEntity<AuthTokens> loginKakao(@RequestBody KakaoLoginParams params) {
-        return ResponseEntity.ok(oAuthLoginService.login(params));
-    }
-
-    @PostMapping("/naver")
-    public ResponseEntity<AuthTokens> loginNaver(@RequestBody NaverLoginParams params) {
         return ResponseEntity.ok(oAuthLoginService.login(params));
     }
 }

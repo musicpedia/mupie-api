@@ -1,9 +1,13 @@
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${DB_URL}:${DB_PORT}/${DB_NAME}
-    username: ${USER_NAME}
-    password: ${PASSWORD}
-  jpa:
-    hibernate:
-      ddl-auto: validate
+  config:
+    activate:
+      on-profile: prod
+jwt:
+  secret-key: ${JWT_SECRET}
+
+oauth:
+  kakao:
+    client-id: ${KAKAO_CLIENT_ID}
+    url:
+      auth: https://kauth.kakao.com
+      api: https://kapi.kakao.com
