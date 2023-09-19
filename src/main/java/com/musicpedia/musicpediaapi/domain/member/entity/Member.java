@@ -1,6 +1,5 @@
 package com.musicpedia.musicpediaapi.domain.member.entity;
 
-import com.musicpedia.musicpediaapi.domain.auth.entity.OAuthProvider;
 import com.musicpedia.musicpediaapi.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,16 +13,32 @@ public class Member extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "EMAIL", nullable = false)
     private String email;
 
+    @Column(name = "nickname", nullable = false)
     private String nickname;
 
+    @Column(name = "profile_image")
+    private String profileImage;
 
-    private OAuthProvider oAuthProvider;
+    @Column(name = "DESCRIPTION")
+    private String description;
+
+    @Embedded
+    private OAuthInfo oauthInfo;
 
     @Builder
-    public Member(String email, String nickname, OAuthProvider oAuthProvider) {
+    public Member(
+            String email,
+            String nickname,
+            String profileImage,
+            String description,
+            OAuthInfo oauthInfo
+    ) {
         this.email = email;
         this.nickname = nickname;
-        this.oAuthProvider = oAuthProvider;
+        this.profileImage = profileImage;
+        this.description = description;
+        this.oauthInfo = oauthInfo;
     }}
