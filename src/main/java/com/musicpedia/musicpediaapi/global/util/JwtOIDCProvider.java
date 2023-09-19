@@ -16,7 +16,6 @@ import java.util.Base64;
 
 @RequiredArgsConstructor
 @Component
-@Slf4j
 public class JwtOIDCProvider {
     private static final String KID = "kid";
 
@@ -32,16 +31,15 @@ public class JwtOIDCProvider {
                     .build()
                     .parseClaimsJwt(getUnsignedToken(token));
         } catch (ExpiredJwtException e) {
-            throw new IllegalArgumentException("만료된 JWT");
+            throw new IllegalArgumentException("만료된 Id Token 입니다.");
         } catch (Exception e) {
-            log.error(e.toString());
-            throw new IllegalArgumentException("잘못된 JWT");
+            throw new IllegalArgumentException("잘못된 Id Token 입니다.");
         }
     }
 
     private String getUnsignedToken(String token) {
         String[] splitToken = token.split("\\.");
-        if (splitToken.length != 3) throw new IllegalArgumentException("잘못된 JWT");
+        if (splitToken.length != 3) throw new IllegalArgumentException("잘못된 Id Token 입니다.");
         return splitToken[0] + "." + splitToken[1] + ".";
     }
 
@@ -53,10 +51,9 @@ public class JwtOIDCProvider {
                     .build()
                     .parseClaimsJws(token);
         } catch (ExpiredJwtException e) {
-            throw new IllegalArgumentException("만료된 JWT");
+            throw new IllegalArgumentException("만료된 Id Token 입니다.");
         } catch (Exception e) {
-            log.error(e.toString());
-            throw new IllegalArgumentException("잘못된 JWT");
+            throw new IllegalArgumentException("잘못된 Id Token 입니다.");
         }
     }
 
