@@ -39,3 +39,7 @@ oauth:
     url:
       auth: https://kauth.kakao.com
       api: https://kapi.kakao.com
+  google:
+    client-id: ${GOOGLE_CLIENT_ID}
+    url:
+      auth: https://accounts.google.com

@@ -64,8 +64,10 @@ public class JwtOIDCProvider {
                 body.getAudience(),
                 body.getSubject(),
                 body.get("email", String.class),
+                body.get("name", String.class),
                 body.get("nickname", String.class),
-                body.get("picture", String.class));
+                body.get("picture", String.class)
+        );
     }
 
     private Key getRSAPublicKey(String modulus, String exponent)
