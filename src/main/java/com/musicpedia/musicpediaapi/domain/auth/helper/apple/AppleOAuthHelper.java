@@ -1,6 +1,6 @@
-package com.musicpedia.musicpediaapi.domain.auth.helper.google;
+package com.musicpedia.musicpediaapi.domain.auth.helper.apple;
 
-import com.musicpedia.musicpediaapi.domain.auth.client.GoogleOAuthClient;
+import com.musicpedia.musicpediaapi.domain.auth.client.AppleOAuthClient;
 import com.musicpedia.musicpediaapi.domain.auth.helper.OAuthOIDCHelper;
 import com.musicpedia.musicpediaapi.global.dto.OIDCDecodePayload;
 import com.musicpedia.musicpediaapi.global.dto.OIDCPublicKeysResponse;
@@ -10,19 +10,19 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class GoogleOAuthHelper {
+public class AppleOAuthHelper {
     private final OAuthOIDCHelper oauthOIDCHelper;
-    private final GoogleOAuthClient googleOAuthClient;
+    private final AppleOAuthClient appleOAuthClient;
 
-    @Value("${oauth.google.url.auth}")
+    @Value("${oauth.apple.url.auth}")
     private String iss;
 
-    @Value("${oauth.google.client-id}")
+    @Value("${oauth.apple.client-id}")
     private String aud;
 
     public OIDCDecodePayload getOIDCDecodePayload(String token) {
         // key 찾기
-        OIDCPublicKeysResponse oidcPublicKeysResponse = googleOAuthClient.getGoogleOIDCOpenKeys();
+        OIDCPublicKeysResponse oidcPublicKeysResponse = appleOAuthClient.getAppleOIDCOpenKeys();
         return oauthOIDCHelper.getPayloadFromIdToken(
                 token,
                 iss,

@@ -43,3 +43,7 @@ oauth:
     client-id: ${GOOGLE_CLIENT_ID}
     url:
       auth: https://accounts.google.com
+  apple:
+    client-id: ${APPLE_CLIENT_ID}
+    url:
+      auth: https://appleid.apple.com
