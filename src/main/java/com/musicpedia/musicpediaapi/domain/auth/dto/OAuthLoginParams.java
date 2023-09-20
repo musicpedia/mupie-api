@@ -1,8 +1,8 @@
 package com.musicpedia.musicpediaapi.domain.auth.dto;
 
-import com.musicpedia.musicpediaapi.domain.auth.entity.OAuthProvider;
+import lombok.Data;
 
-public interface OAuthLoginParams {
-    OAuthProvider oAuthProvider();
-    String getIdToken();
+@Data
+public class OAuthLoginParams {
+    private String idToken;
 }

@@ -1,7 +1,6 @@
 package com.musicpedia.musicpediaapi.domain.auth.controller;
 
-import com.musicpedia.musicpediaapi.domain.auth.dto.google.GoogleLoginParams;
-import com.musicpedia.musicpediaapi.domain.auth.dto.kakao.KakaoLoginParams;
+import com.musicpedia.musicpediaapi.domain.auth.dto.OAuthLoginParams;
 import com.musicpedia.musicpediaapi.domain.auth.service.AuthService;
 import com.musicpedia.musicpediaapi.domain.auth.service.google.GoogleOAuthLoginService;
 import com.musicpedia.musicpediaapi.domain.auth.service.kakao.KakaoOAuthLoginService;
@@ -22,13 +21,13 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login/kakao")
-    public ResponseEntity<AuthTokens> loginKakao(@RequestBody KakaoLoginParams kakaoLoginParams) {
-        return ResponseEntity.ok(kakaoOAuthLoginService.login(kakaoLoginParams));
+    public ResponseEntity<AuthTokens> loginKakao(@RequestBody OAuthLoginParams loginParams) {
+        return ResponseEntity.ok(kakaoOAuthLoginService.login(loginParams));
     }
 
     @PostMapping("/login/google")
-    public ResponseEntity<AuthTokens> loginGoogle(@RequestBody GoogleLoginParams googleLoginParams) {
-        return ResponseEntity.ok(googleOAuthLoginService.login(googleLoginParams));
+    public ResponseEntity<AuthTokens> loginGoogle(@RequestBody OAuthLoginParams loginParams) {
+        return ResponseEntity.ok(googleOAuthLoginService.login(loginParams));
     }
 
     @PostMapping("/reissue")
