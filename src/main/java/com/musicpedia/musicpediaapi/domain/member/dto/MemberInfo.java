@@ -8,7 +8,7 @@ import lombok.Data;
 public class MemberInfo {
     private String id;
     private String email;
-    private String nickname;
+    private String name;
     private String profile_image;
     private String description;
 }

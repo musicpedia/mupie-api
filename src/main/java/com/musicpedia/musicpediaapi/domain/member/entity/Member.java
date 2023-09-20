@@ -16,8 +16,8 @@ public class Member extends BaseTimeEntity {
     @Column(name = "EMAIL", nullable = false)
     private String email;
 
-    @Column(name = "nickname", nullable = false)
-    private String nickname;
+    @Column(name = "name", nullable = false)
+    private String name;
 
     @Column(name = "profile_image")
     private String profileImage;
@@ -31,13 +31,13 @@ public class Member extends BaseTimeEntity {
     @Builder
     public Member(
             String email,
-            String nickname,
+            String name,
             String profileImage,
             String description,
             OAuthInfo oauthInfo
     ) {
         this.email = email;
-        this.nickname = nickname;
+        this.name = name;
         this.profileImage = profileImage;
         this.description = description;
         this.oauthInfo = oauthInfo;
