@@ -1,4 +1,4 @@
-package com.musicpedia.musicpediaapi.global.helper;
+package com.musicpedia.musicpediaapi.domain.auth.helper;
 
 import com.musicpedia.musicpediaapi.global.dto.OIDCDecodePayload;
 import com.musicpedia.musicpediaapi.global.dto.OIDCPublicKeyDto;

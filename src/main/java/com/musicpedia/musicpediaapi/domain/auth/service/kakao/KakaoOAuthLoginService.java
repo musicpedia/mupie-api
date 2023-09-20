@@ -1,4 +1,4 @@
-package com.musicpedia.musicpediaapi.domain.auth.service;
+package com.musicpedia.musicpediaapi.domain.auth.service.kakao;
 
 import com.musicpedia.musicpediaapi.domain.auth.dto.OAuthLoginParams;
 import com.musicpedia.musicpediaapi.domain.member.entity.OAuthInfo;
@@ -8,7 +8,7 @@ import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import com.musicpedia.musicpediaapi.domain.member.repository.MemberRepository;
 import com.musicpedia.musicpediaapi.global.dto.AuthTokens;
 import com.musicpedia.musicpediaapi.global.dto.OIDCDecodePayload;
-import com.musicpedia.musicpediaapi.global.helper.KakaoOAuthHelper;
+import com.musicpedia.musicpediaapi.domain.auth.helper.kakao.KakaoOAuthHelper;
 import com.musicpedia.musicpediaapi.global.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,7 +34,7 @@ public class KakaoOAuthLoginService {
         MemberInfo memberInfo = MemberInfo.builder()
                 .email(oidcDecodePayload.getEmail())
                 .profile_image(oidcDecodePayload.getPicture())
-                .nickname(oidcDecodePayload.getNickname())
+                .name(oidcDecodePayload.getNickname())
                 .build();
 
         Long memberId = findOrCreateMember(oauthInfo, memberInfo);
@@ -51,7 +51,7 @@ public class KakaoOAuthLoginService {
     private Long newMember(OAuthInfo oauthInfo, MemberInfo memberInfo) {
         Member member = Member.builder()
                 .email(memberInfo.getEmail())
-                .nickname(memberInfo.getNickname())
+                .name(memberInfo.getName())
                 .profileImage(memberInfo.getProfile_image())
                 .oauthInfo(oauthInfo)
                 .build();

@@ -1,6 +1,7 @@
-package com.musicpedia.musicpediaapi.global.helper;
+package com.musicpedia.musicpediaapi.domain.auth.helper.kakao;
 
 import com.musicpedia.musicpediaapi.domain.auth.client.KakaoOAuthClient;
+import com.musicpedia.musicpediaapi.domain.auth.helper.OAuthOIDCHelper;
 import com.musicpedia.musicpediaapi.global.dto.OIDCDecodePayload;
 import com.musicpedia.musicpediaapi.global.dto.OIDCPublicKeysResponse;
 import lombok.RequiredArgsConstructor;
