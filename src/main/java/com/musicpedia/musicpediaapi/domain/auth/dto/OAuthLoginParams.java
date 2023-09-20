@@ -7,4 +7,7 @@ import lombok.Data;
 public class OAuthLoginParams {
     @JsonProperty("id_token")
     private String idToken;
+
+    @JsonProperty("name")
+    private String name;
 }

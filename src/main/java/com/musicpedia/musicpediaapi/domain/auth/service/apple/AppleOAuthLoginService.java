@@ -53,7 +53,7 @@ public class AppleOAuthLoginService {
     private Long newMember(OAuthInfo oauthInfo, MemberInfo memberInfo) {
         Member member = Member.builder()
                 .email(memberInfo.getEmail())
-                .name(memberInfo.getName())
+                .name("apple_"+memberInfo.getEmail().substring(0,memberInfo.getEmail().indexOf('@')))
                 .profileImage(memberInfo.getProfile_image())
                 .oauthInfo(oauthInfo)
                 .build();
