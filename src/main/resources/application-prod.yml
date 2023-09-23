@@ -1,0 +1,36 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DB_END_POINT}:${DB_PORT}/mupie?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+
+jwt:
+  secret-key: ${JWT_SECRET}
+
+oauth:
+  kakao:
+    client-id: ${KAKAO_CLIENT_ID}
+    url:
+      auth: https://kauth.kakao.com
+      api: https://kapi.kakao.com
+  google:
+    client-id: ${GOOGLE_CLIENT_ID}
+    url:
+      auth: https://accounts.google.com
+  apple:
+    client-id: ${APPLE_CLIENT_ID}
+    url:
+      auth: https://appleid.apple.com

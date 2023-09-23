@@ -1,0 +1,8 @@
+version: '3'
+services:
+  mupie:
+    image: ghcr.io/musicpedia/mupie-api:${IMAGE_VERSION}
+    env_file:
+      - .env
+    ports:
+      - "80:8080"
