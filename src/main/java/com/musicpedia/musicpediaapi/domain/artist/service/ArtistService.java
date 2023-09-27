@@ -22,18 +22,18 @@ public class ArtistService {
 
     private String accessToken;
 
-    public ResponseEntity<SpotifyArtistInfo> getArtistInfo(long memberId, String artistId) {
+    public SpotifyArtistInfo getArtistInfo(long memberId, String artistId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFoundException("해당하는 id의 회원을 찾을 수 없습니다."));
         accessToken = findOrCreateAccessToken(member);
 
         try {
-            return spotifyApiClient.requestArtistInfo(accessToken, artistId);
+            return spotifyApiClient.requestArtistInfo(accessToken, artistId).getBody();
         } catch (HttpClientErrorException.Unauthorized e) {
             accessToken = spotifyApiClient.requestAccessToken();
             member.refreshAccessToken(accessToken);
             memberRepository.save(member);
-            return spotifyApiClient.requestArtistInfo(accessToken, artistId);
+            return spotifyApiClient.requestArtistInfo(accessToken, artistId).getBody();
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new IllegalArgumentException("아티스트 정보 조회 실패");
