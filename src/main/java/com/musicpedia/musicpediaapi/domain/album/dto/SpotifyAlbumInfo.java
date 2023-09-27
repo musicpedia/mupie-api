@@ -1,11 +1,14 @@
 package com.musicpedia.musicpediaapi.domain.album.dto;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.musicpedia.musicpediaapi.domain.artist.dto.SpotifyArtistInfo;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
+@JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class SpotifyAlbumInfo {
     private String id;
 
@@ -15,15 +18,15 @@ public class SpotifyAlbumInfo {
 
     private String type;
 
-    private String album_type;
+    private String albumType;
 
     private List<AlbumArtist> artists;
 
-    private String release_date;
+    private String releaseDate;
 
-    private String release_date_precision;
+    private String releaseDatePrecision;
 
-    private int total_tracks;
+    private int totalTracks;
 
     @Data
     public static class AlbumImage {
