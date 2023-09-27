@@ -1,8 +1,9 @@
 package com.musicpedia.musicpediaapi.domain.auth.client;
 
-import com.musicpedia.musicpediaapi.domain.auth.dto.spotify.SpotifyAccessToken;
 import com.musicpedia.musicpediaapi.domain.artist.dto.SpotifyArtistInfo;
+import com.musicpedia.musicpediaapi.domain.auth.dto.spotify.SpotifyAccessToken;
 import com.musicpedia.musicpediaapi.domain.auth.entity.OAuthProvider;
+import com.musicpedia.musicpediaapi.domain.search.dto.SpotifySearchAlbumTrackArtistInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -62,9 +63,29 @@ public class SpotifyApiClient {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         httpHeaders.set("Authorization", "Bearer " + accessToken);
+        httpHeaders.set("Accept-Language", "ko-KR");
 
         HttpEntity<?> request = new HttpEntity<>(httpHeaders);
 
         return restTemplate.exchange(url+artistId, HttpMethod.GET, request, SpotifyArtistInfo.class);
+    }
+
+    public ResponseEntity<SpotifySearchAlbumTrackArtistInfo> searchAlbumTrackArtist(String accessToken, String keyword, long offset, int limit) {
+        StringBuilder queryStringBuilder = new StringBuilder();
+        queryStringBuilder.append("/v1/search?q=").append(keyword);
+        queryStringBuilder.append("&type=track,album,artist");
+        queryStringBuilder.append("&offset=").append(offset);
+        queryStringBuilder.append("&limit=").append(limit);
+
+        String url = apiUrl + queryStringBuilder;
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        httpHeaders.set("Authorization", "Bearer " + accessToken);
+        httpHeaders.set("Accept-Language", "ko-KR");
+
+        HttpEntity<?> request = new HttpEntity<>(httpHeaders);
+
+        return restTemplate.exchange(url, HttpMethod.GET, request, SpotifySearchAlbumTrackArtistInfo.class);
     }
 }
