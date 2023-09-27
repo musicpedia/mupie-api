@@ -12,9 +12,11 @@ import com.musicpedia.musicpediaapi.domain.auth.helper.kakao.KakaoOAuthHelper;
 import com.musicpedia.musicpediaapi.global.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class KakaoOAuthLoginService {
     private final KakaoOAuthHelper kakaoOAuthHelper;
     private final MemberRepository memberRepository;
@@ -33,7 +35,7 @@ public class KakaoOAuthLoginService {
 
         MemberInfo memberInfo = MemberInfo.builder()
                 .email(oidcDecodePayload.getEmail())
-                .profile_image(oidcDecodePayload.getPicture())
+                .profileImage(oidcDecodePayload.getPicture())
                 .name(oidcDecodePayload.getNickname())
                 .build();
 
@@ -52,7 +54,7 @@ public class KakaoOAuthLoginService {
         Member member = Member.builder()
                 .email(memberInfo.getEmail())
                 .name(memberInfo.getName())
-                .profileImage(memberInfo.getProfile_image())
+                .profileImage(memberInfo.getProfileImage())
                 .oauthInfo(oauthInfo)
                 .build();
 

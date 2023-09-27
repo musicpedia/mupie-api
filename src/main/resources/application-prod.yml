@@ -34,3 +34,9 @@ oauth:
     client-id: ${APPLE_CLIENT_ID}
     url:
       auth: https://appleid.apple.com
+  spotify:
+    client-id: ${SPOTIFY_CLIENT_ID}
+    client-secret: ${SPOTIFY_CLIENT_SECRET}
+    url:
+      auth: https://accounts.spotify.com
+      api: https://api.spotify.com

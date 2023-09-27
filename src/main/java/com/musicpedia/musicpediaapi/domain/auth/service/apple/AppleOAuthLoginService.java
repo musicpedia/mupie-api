@@ -12,11 +12,13 @@ import com.musicpedia.musicpediaapi.global.dto.OIDCDecodePayload;
 import com.musicpedia.musicpediaapi.global.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AppleOAuthLoginService {
     private final AppleOAuthHelper appleOAuthHelper;
     private final MemberRepository memberRepository;
@@ -35,7 +37,7 @@ public class AppleOAuthLoginService {
 
         MemberInfo memberInfo = MemberInfo.builder()
                 .email(oidcDecodePayload.getEmail())
-                .profile_image(oidcDecodePayload.getPicture())
+                .profileImage(oidcDecodePayload.getPicture())
                 .name(Optional.ofNullable(oidcDecodePayload.getName()).orElse(oidcDecodePayload.getNickname()))
                 .build();
 
@@ -54,7 +56,7 @@ public class AppleOAuthLoginService {
         Member member = Member.builder()
                 .email(memberInfo.getEmail())
                 .name("apple_"+memberInfo.getEmail().substring(0,memberInfo.getEmail().indexOf('@')))
-                .profileImage(memberInfo.getProfile_image())
+                .profileImage(memberInfo.getProfileImage())
                 .oauthInfo(oauthInfo)
                 .build();
 
