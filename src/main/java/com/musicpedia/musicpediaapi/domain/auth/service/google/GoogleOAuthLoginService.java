@@ -12,11 +12,13 @@ import com.musicpedia.musicpediaapi.global.dto.OIDCDecodePayload;
 import com.musicpedia.musicpediaapi.global.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class GoogleOAuthLoginService {
     private final GoogleOAuthHelper googleOAuthHelper;
     private final MemberRepository memberRepository;
@@ -35,7 +37,7 @@ public class GoogleOAuthLoginService {
 
         MemberInfo memberInfo = MemberInfo.builder()
                 .email(oidcDecodePayload.getEmail())
-                .profile_image(oidcDecodePayload.getPicture())
+                .profileImage(oidcDecodePayload.getPicture())
                 .name(Optional.ofNullable(oidcDecodePayload.getName()).orElse(oidcDecodePayload.getNickname()))
                 .build();
 
@@ -54,7 +56,7 @@ public class GoogleOAuthLoginService {
         Member member = Member.builder()
                 .email(memberInfo.getEmail())
                 .name(memberInfo.getName())
-                .profileImage(memberInfo.getProfile_image())
+                .profileImage(memberInfo.getProfileImage())
                 .oauthInfo(oauthInfo)
                 .build();
 
