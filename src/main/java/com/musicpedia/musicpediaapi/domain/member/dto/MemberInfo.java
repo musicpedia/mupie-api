@@ -9,7 +9,7 @@ import lombok.Data;
 @Builder
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class MemberInfo {
-    private String id;
+    private long id;
 
     private String email;
 
