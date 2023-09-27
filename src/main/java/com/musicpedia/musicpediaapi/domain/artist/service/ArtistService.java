@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -39,14 +41,13 @@ public class ArtistService {
     }
 
     private String findOrCreateAccessToken(Member member) {
-        accessToken = member.getSpotifyAccessToken();
+        Optional<String> spotifyAccessToken = Optional.ofNullable(member.getSpotifyAccessToken());
 
-        if (accessToken == null) {
+        return spotifyAccessToken.orElseGet(() -> {
             accessToken = spotifyApiClient.requestAccessToken();
             member.refreshAccessToken(accessToken);
             memberRepository.save(member);
-        }
-
-        return accessToken;
+            return accessToken;
+        });
     }
 }
