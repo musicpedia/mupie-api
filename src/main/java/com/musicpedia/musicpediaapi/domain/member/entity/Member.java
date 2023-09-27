@@ -13,7 +13,7 @@ public class Member extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "EMAIL", nullable = false)
+    @Column(name = "email", nullable = false)
     private String email;
 
     @Column(name = "name", nullable = false)
@@ -22,8 +22,11 @@ public class Member extends BaseTimeEntity {
     @Column(name = "profile_image")
     private String profileImage;
 
-    @Column(name = "DESCRIPTION")
+    @Column(name = "description")
     private String description;
+
+    @Column(name = "spotify_access_token")
+    private String spotifyAccessToken;
 
     @Embedded
     private OAuthInfo oauthInfo;
@@ -41,4 +44,10 @@ public class Member extends BaseTimeEntity {
         this.profileImage = profileImage;
         this.description = description;
         this.oauthInfo = oauthInfo;
-    }}
+    }
+
+    public void refreshAccessToken(String accessToken) {
+        this.spotifyAccessToken = accessToken;
+    }
+
+}

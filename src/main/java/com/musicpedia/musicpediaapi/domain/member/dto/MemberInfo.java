@@ -9,6 +9,6 @@ public class MemberInfo {
     private String id;
     private String email;
     private String name;
-    private String profile_image;
+    private String profileImage;
     private String description;
 }
