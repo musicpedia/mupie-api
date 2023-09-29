@@ -1,13 +1,13 @@
 package com.musicpedia.musicpediaapi.domain.artist.service;
 
 import com.musicpedia.musicpediaapi.domain.artist.dto.SpotifyArtistInfo;
-import com.musicpedia.musicpediaapi.domain.auth.client.SpotifyApiClient;
+import com.musicpedia.musicpediaapi.global.client.spotify.SpotifyApiClient;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import com.musicpedia.musicpediaapi.domain.member.exception.MemberNotFoundException;
 import com.musicpedia.musicpediaapi.domain.member.repository.MemberRepository;
+import com.musicpedia.musicpediaapi.global.client.spotify.SpotifyTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -18,6 +18,7 @@ import java.util.Optional;
 @Slf4j
 public class ArtistService {
     private final SpotifyApiClient spotifyApiClient;
+    private final SpotifyTokenProvider spotifyTokenProvider;
     private final MemberRepository memberRepository;
 
     private String accessToken;
@@ -28,12 +29,12 @@ public class ArtistService {
         accessToken = findOrCreateAccessToken(member);
 
         try {
-            return spotifyApiClient.requestArtistInfo(accessToken, artistId).getBody();
+            return spotifyApiClient.requestArtist(accessToken, artistId).getBody();
         } catch (HttpClientErrorException.Unauthorized e) {
-            accessToken = spotifyApiClient.requestAccessToken();
+            accessToken = spotifyTokenProvider.requestAccessToken();
             member.refreshAccessToken(accessToken);
             memberRepository.save(member);
-            return spotifyApiClient.requestArtistInfo(accessToken, artistId).getBody();
+            return spotifyApiClient.requestArtist(accessToken, artistId).getBody();
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new IllegalArgumentException("아티스트 정보 조회 실패");
@@ -44,7 +45,7 @@ public class ArtistService {
         Optional<String> spotifyAccessToken = Optional.ofNullable(member.getSpotifyAccessToken());
 
         return spotifyAccessToken.orElseGet(() -> {
-            accessToken = spotifyApiClient.requestAccessToken();
+            accessToken = spotifyTokenProvider.requestAccessToken();
             member.refreshAccessToken(accessToken);
             memberRepository.save(member);
             return accessToken;

@@ -1,4 +1,4 @@
-package com.musicpedia.musicpediaapi.domain.auth.dto.spotify;
+package com.musicpedia.musicpediaapi.global.dto.spotify;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

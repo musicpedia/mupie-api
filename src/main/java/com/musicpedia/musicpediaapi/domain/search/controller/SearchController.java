@@ -39,7 +39,8 @@ public class SearchController {
             HttpServletRequest httpServletRequest
     ) {
         long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
-        return ResponseEntity.ok(new SpotifySearchAlbumsInfo());
+        SpotifySearchAlbumsInfo searchInfo = searchService.getAlbumSearchInfo(memberId, keyword, offset, limit);
+        return ResponseEntity.ok(searchInfo);
     }
 
     @GetMapping("/artists")
@@ -50,7 +51,8 @@ public class SearchController {
             HttpServletRequest httpServletRequest
     ) {
         long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
-        return ResponseEntity.ok(new SpotifySearchArtistsInfo());
+        SpotifySearchArtistsInfo searchInfo = searchService.getArtistSearchInfo(memberId, keyword, offset, limit);
+        return ResponseEntity.ok(searchInfo);
     }
 
     @GetMapping("/tracks")
@@ -61,6 +63,7 @@ public class SearchController {
             HttpServletRequest httpServletRequest
     ) {
         long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
-        return ResponseEntity.ok(new SpotifySearchTracksInfo());
+        SpotifySearchTracksInfo searchInfo = searchService.getTrackSearchInfo(memberId, keyword, offset, limit);
+        return ResponseEntity.ok(searchInfo);
     }
 }
