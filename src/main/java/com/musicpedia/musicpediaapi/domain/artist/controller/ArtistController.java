@@ -19,6 +19,7 @@ public class ArtistController {
     @GetMapping("/{artistId}")
     public ResponseEntity<SpotifyArtistInfo> getArtist(@PathVariable String artistId, HttpServletRequest httpServletRequest) {
         long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
-        return artistService.getArtistInfo(memberId, artistId);
+        SpotifyArtistInfo artistInfo = artistService.getArtistInfo(memberId, artistId);
+        return ResponseEntity.ok(artistInfo);
     }
 }

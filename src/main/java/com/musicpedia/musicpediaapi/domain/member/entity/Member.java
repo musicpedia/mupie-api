@@ -1,5 +1,6 @@
 package com.musicpedia.musicpediaapi.domain.member.entity;
 
+import com.musicpedia.musicpediaapi.domain.member.dto.MemberInfo;
 import com.musicpedia.musicpediaapi.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -50,4 +51,13 @@ public class Member extends BaseTimeEntity {
         this.spotifyAccessToken = accessToken;
     }
 
+    public MemberInfo toMemberInfo() {
+        return MemberInfo.builder()
+                .email(this.email)
+                .id(this.id)
+                .name(this.name)
+                .description(this.description)
+                .profileImage(this.profileImage)
+                .build();
+    }
 }

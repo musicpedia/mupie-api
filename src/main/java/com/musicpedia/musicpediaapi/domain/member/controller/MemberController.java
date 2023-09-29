@@ -1,5 +1,6 @@
 package com.musicpedia.musicpediaapi.domain.member.controller;
 
+import com.musicpedia.musicpediaapi.domain.member.dto.MemberInfo;
 import com.musicpedia.musicpediaapi.domain.member.service.MemberService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,7 +20,8 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping()
-    public ResponseEntity<String> test(HttpServletRequest httpServletRequest) {
-        return ResponseEntity.ok(httpServletRequest.getAttribute("memberId").toString());
+    public ResponseEntity<MemberInfo> getMember(HttpServletRequest httpServletRequest) {
+        long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
+        return ResponseEntity.ok(memberService.getMemberInfo(memberId));
     }
 }
