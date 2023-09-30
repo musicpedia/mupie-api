@@ -1,10 +1,10 @@
-package com.musicpedia.musicpediaapi.domain.search.controller;
+package com.musicpedia.musicpediaapi.domain.spotify.search.controller;
 
-import com.musicpedia.musicpediaapi.domain.search.dto.SpotifySearchAlbumTrackArtistInfo;
-import com.musicpedia.musicpediaapi.domain.search.dto.SpotifySearchAlbumsInfo;
-import com.musicpedia.musicpediaapi.domain.search.dto.SpotifySearchArtistsInfo;
-import com.musicpedia.musicpediaapi.domain.search.dto.SpotifySearchTracksInfo;
-import com.musicpedia.musicpediaapi.domain.search.service.SearchService;
+import com.musicpedia.musicpediaapi.domain.spotify.search.dto.SpotifySearchAlbumTrackArtistInfo;
+import com.musicpedia.musicpediaapi.domain.spotify.search.dto.SpotifySearchAlbumsInfo;
+import com.musicpedia.musicpediaapi.domain.spotify.search.dto.SpotifySearchArtistsInfo;
+import com.musicpedia.musicpediaapi.domain.spotify.search.dto.SpotifySearchTracksInfo;
+import com.musicpedia.musicpediaapi.domain.spotify.search.service.SearchService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

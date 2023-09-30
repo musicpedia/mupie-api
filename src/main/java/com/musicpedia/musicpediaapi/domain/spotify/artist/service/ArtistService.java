@@ -1,6 +1,6 @@
-package com.musicpedia.musicpediaapi.domain.artist.service;
+package com.musicpedia.musicpediaapi.domain.spotify.artist.service;
 
-import com.musicpedia.musicpediaapi.domain.artist.dto.SpotifyArtistInfo;
+import com.musicpedia.musicpediaapi.domain.spotify.artist.dto.SpotifyArtistInfo;
 import com.musicpedia.musicpediaapi.global.client.spotify.SpotifyApiClient;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import com.musicpedia.musicpediaapi.domain.member.exception.MemberNotFoundException;

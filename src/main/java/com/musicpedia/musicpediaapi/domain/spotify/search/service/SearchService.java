@@ -1,13 +1,13 @@
-package com.musicpedia.musicpediaapi.domain.search.service;
+package com.musicpedia.musicpediaapi.domain.spotify.search.service;
 
-import com.musicpedia.musicpediaapi.domain.search.dto.SpotifySearchAlbumsInfo;
-import com.musicpedia.musicpediaapi.domain.search.dto.SpotifySearchArtistsInfo;
-import com.musicpedia.musicpediaapi.domain.search.dto.SpotifySearchTracksInfo;
+import com.musicpedia.musicpediaapi.domain.spotify.search.dto.SpotifySearchAlbumsInfo;
+import com.musicpedia.musicpediaapi.domain.spotify.search.dto.SpotifySearchArtistsInfo;
+import com.musicpedia.musicpediaapi.domain.spotify.search.dto.SpotifySearchTracksInfo;
+import com.musicpedia.musicpediaapi.domain.spotify.search.dto.SpotifySearchAlbumTrackArtistInfo;
 import com.musicpedia.musicpediaapi.global.client.spotify.SpotifyApiClient;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import com.musicpedia.musicpediaapi.domain.member.exception.MemberNotFoundException;
 import com.musicpedia.musicpediaapi.domain.member.repository.MemberRepository;
-import com.musicpedia.musicpediaapi.domain.search.dto.SpotifySearchAlbumTrackArtistInfo;
 import com.musicpedia.musicpediaapi.global.client.spotify.SpotifyTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

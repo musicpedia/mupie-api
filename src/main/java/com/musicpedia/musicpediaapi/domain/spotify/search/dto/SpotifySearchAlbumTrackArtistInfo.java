@@ -1,4 +1,4 @@
-package com.musicpedia.musicpediaapi.domain.search.dto;
+package com.musicpedia.musicpediaapi.domain.spotify.search.dto;
 
 import lombok.Data;
 

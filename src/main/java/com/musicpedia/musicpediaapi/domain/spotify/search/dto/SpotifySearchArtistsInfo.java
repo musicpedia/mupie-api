@@ -1,6 +1,6 @@
-package com.musicpedia.musicpediaapi.domain.search.dto;
+package com.musicpedia.musicpediaapi.domain.spotify.search.dto;
 
-import com.musicpedia.musicpediaapi.domain.artist.dto.SpotifyArtistInfo;
+import com.musicpedia.musicpediaapi.domain.spotify.artist.dto.SpotifyArtistInfo;
 import lombok.Data;
 
 import java.util.List;

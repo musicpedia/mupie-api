@@ -1,13 +1,6 @@
 package com.musicpedia.musicpediaapi.global.client.spotify;
 
-        import com.musicpedia.musicpediaapi.domain.artist.dto.SpotifyArtistInfo;
         import com.musicpedia.musicpediaapi.global.dto.spotify.SpotifyAccessToken;
-        import com.musicpedia.musicpediaapi.domain.auth.entity.OAuthProvider;
-        import com.musicpedia.musicpediaapi.domain.search.dto.SpotifySearchAlbumTrackArtistInfo;
-        import com.musicpedia.musicpediaapi.domain.search.dto.SpotifySearchAlbumsInfo;
-        import com.musicpedia.musicpediaapi.domain.search.dto.SpotifySearchArtistsInfo;
-        import com.musicpedia.musicpediaapi.domain.search.dto.SpotifySearchTracksInfo;
-        import lombok.RequiredArgsConstructor;
         import org.springframework.beans.factory.annotation.Value;
         import org.springframework.http.*;
         import org.springframework.stereotype.Component;

@@ -1,5 +1,5 @@
 // SpotifyArtistInfo
-package com.musicpedia.musicpediaapi.domain.artist.dto;
+package com.musicpedia.musicpediaapi.domain.spotify.artist.dto;
 
 import lombok.Data;
 

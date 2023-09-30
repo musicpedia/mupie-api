@@ -1,7 +1,7 @@
-package com.musicpedia.musicpediaapi.domain.artist.controller;
+package com.musicpedia.musicpediaapi.domain.spotify.artist.controller;
 
-import com.musicpedia.musicpediaapi.domain.artist.dto.SpotifyArtistInfo;
-import com.musicpedia.musicpediaapi.domain.artist.service.ArtistService;
+import com.musicpedia.musicpediaapi.domain.spotify.artist.dto.SpotifyArtistInfo;
+import com.musicpedia.musicpediaapi.domain.spotify.artist.service.ArtistService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
