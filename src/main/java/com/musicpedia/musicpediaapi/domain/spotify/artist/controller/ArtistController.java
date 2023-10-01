@@ -1,7 +1,7 @@
-package com.musicpedia.musicpediaapi.domain.artist.controller;
+package com.musicpedia.musicpediaapi.domain.spotify.artist.controller;
 
-import com.musicpedia.musicpediaapi.domain.artist.dto.SpotifyArtistInfo;
-import com.musicpedia.musicpediaapi.domain.artist.service.ArtistService;
+import com.musicpedia.musicpediaapi.domain.spotify.artist.dto.SpotifyArtist;
+import com.musicpedia.musicpediaapi.domain.spotify.artist.service.ArtistService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +17,9 @@ public class ArtistController {
     private final ArtistService artistService;
 
     @GetMapping("/{artistId}")
-    public ResponseEntity<SpotifyArtistInfo> getArtist(@PathVariable String artistId, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<SpotifyArtist> getArtist(@PathVariable String artistId, HttpServletRequest httpServletRequest) {
         long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
-        SpotifyArtistInfo artistInfo = artistService.getArtistInfo(memberId, artistId);
+        SpotifyArtist artistInfo = artistService.getArtistInfo(memberId, artistId);
         return ResponseEntity.ok(artistInfo);
     }
 }

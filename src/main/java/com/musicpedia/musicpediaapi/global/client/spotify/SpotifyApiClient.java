@@ -1,16 +1,19 @@
 package com.musicpedia.musicpediaapi.global.client.spotify;
 
-import com.musicpedia.musicpediaapi.domain.artist.dto.SpotifyArtistInfo;
-import com.musicpedia.musicpediaapi.domain.search.dto.SpotifySearchAlbumTrackArtistInfo;
-import com.musicpedia.musicpediaapi.domain.search.dto.SpotifySearchAlbumsInfo;
-import com.musicpedia.musicpediaapi.domain.search.dto.SpotifySearchArtistsInfo;
-import com.musicpedia.musicpediaapi.domain.search.dto.SpotifySearchTracksInfo;
+import com.musicpedia.musicpediaapi.domain.spotify.album.dto.SpotifyAlbumTrack;
+import com.musicpedia.musicpediaapi.domain.spotify.album.dto.SpotifyAlbumWithTracks;
+import com.musicpedia.musicpediaapi.domain.spotify.album.dto.SpotifyRequestTrack;
+import com.musicpedia.musicpediaapi.domain.spotify.artist.dto.SpotifyArtist;
+import com.musicpedia.musicpediaapi.domain.spotify.search.dto.SpotifySearchAlbumTrackArtist;
+import com.musicpedia.musicpediaapi.domain.spotify.track.dto.SpotifyTrack;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class SpotifyApiClient {
@@ -30,13 +33,59 @@ public class SpotifyApiClient {
         request = new HttpEntity<>(httpHeaders);
     }
 
-    public ResponseEntity<SpotifyArtistInfo> requestArtist(String accessToken, String artistId) {
-        String url = apiUrl + "/v1/artists/" + artistId;
+
+    // 앨범 조회
+    public SpotifyAlbumWithTracks requestAlbum(String accessToken, String albumId) {
+        String url = apiUrl + "/v1/albums/" + albumId;
         httpHeaders.set("Authorization", "Bearer " + accessToken);
-        return restTemplate.exchange(url, HttpMethod.GET, request, SpotifyArtistInfo.class);
+        SpotifyAlbumWithTracks spotifyAlbumWithTracks = restTemplate.exchange(url, HttpMethod.GET, request, SpotifyAlbumWithTracks.class).getBody();
+        Objects.requireNonNull(spotifyAlbumWithTracks).setTrackList(getAllTracks(accessToken, albumId));
+        return spotifyAlbumWithTracks;
     }
 
-    public ResponseEntity<SpotifySearchAlbumTrackArtistInfo> search(
+    // 앨범 조회 시, 앨범에 포함된 모든 곡들 불러오기
+    private List<SpotifyAlbumTrack> getAllTracks(String accessToken, String albumId) {
+        List<SpotifyAlbumTrack> allTracks = new ArrayList<>();
+        String url = apiUrl + "/v1/albums/" + albumId + "/tracks";
+        httpHeaders.set("Authorization", "Bearer " + accessToken);
+
+        int limit = 0;
+        while (url != null && limit < 20) {
+            // Spotify API 호출
+            SpotifyRequestTrack response = restTemplate.exchange(url, HttpMethod.GET, request, SpotifyRequestTrack.class).getBody();
+
+            // 응답에서 트랙 정보 추출
+            List<SpotifyAlbumTrack> tracks = Objects.requireNonNull(response).getItems();
+
+            // 전체 트랙 리스트에 추가
+            allTracks.addAll(tracks);
+
+            // 다음 페이지의 URL 가져오기 (pagination 처리)
+            url = response.getNext();
+
+            limit ++;
+        }
+
+        return allTracks;
+    }
+
+
+    // 아티스트 조회
+    public ResponseEntity<SpotifyArtist> requestArtist(String accessToken, String artistId) {
+        String url = apiUrl + "/v1/artists/" + artistId;
+        httpHeaders.set("Authorization", "Bearer " + accessToken);
+        return restTemplate.exchange(url, HttpMethod.GET, request, SpotifyArtist.class);
+    }
+
+    // 트랙 조회
+    public ResponseEntity<SpotifyTrack> requestTrack(String accessToken, String trackId) {
+        String url = apiUrl + "/v1/tracks/" + trackId;
+        httpHeaders.set("Authorization", "Bearer " + accessToken);
+        return restTemplate.exchange(url, HttpMethod.GET, request, SpotifyTrack.class);
+    }
+
+    // 검색
+    public ResponseEntity<SpotifySearchAlbumTrackArtist> search(
             String accessToken,
             String keyword,
             long offset,
@@ -49,6 +98,6 @@ public class SpotifyApiClient {
                 "&offset=" + offset +
                 "&limit=" + limit;
         httpHeaders.set("Authorization", "Bearer " + accessToken);
-        return restTemplate.exchange(url, HttpMethod.GET, request, SpotifySearchAlbumTrackArtistInfo.class);
+        return restTemplate.exchange(url, HttpMethod.GET, request, SpotifySearchAlbumTrackArtist.class);
     }
 }

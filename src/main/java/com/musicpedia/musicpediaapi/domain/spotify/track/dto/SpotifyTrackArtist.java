@@ -1,12 +1,11 @@
-// SpotifyArtistInfo
-package com.musicpedia.musicpediaapi.domain.artist.dto;
+package com.musicpedia.musicpediaapi.domain.spotify.track.dto;
 
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class SpotifyArtistInfo {
+public class SpotifyTrackArtist {
     private String id;
 
     private List<String> genres;
