@@ -1,9 +1,9 @@
 package com.musicpedia.musicpediaapi.domain.spotify.search.service;
 
-import com.musicpedia.musicpediaapi.domain.spotify.search.dto.SpotifySearchAlbumsInfo;
-import com.musicpedia.musicpediaapi.domain.spotify.search.dto.SpotifySearchArtistsInfo;
-import com.musicpedia.musicpediaapi.domain.spotify.search.dto.SpotifySearchTracksInfo;
-import com.musicpedia.musicpediaapi.domain.spotify.search.dto.SpotifySearchAlbumTrackArtistInfo;
+import com.musicpedia.musicpediaapi.domain.spotify.search.dto.SpotifySearchAlbum;
+import com.musicpedia.musicpediaapi.domain.spotify.search.dto.SpotifySearchArtist;
+import com.musicpedia.musicpediaapi.domain.spotify.search.dto.SpotifySearchTrack;
+import com.musicpedia.musicpediaapi.domain.spotify.search.dto.SpotifySearchAlbumTrackArtist;
 import com.musicpedia.musicpediaapi.global.client.spotify.SpotifyApiClient;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import com.musicpedia.musicpediaapi.domain.member.exception.MemberNotFoundException;
@@ -34,7 +34,7 @@ public class SearchService {
     private final List<String> artistType = new ArrayList<>(List.of("artist"));
     private final List<String> trackType = new ArrayList<>(List.of("track"));
 
-    public SpotifySearchAlbumTrackArtistInfo getAllSearchInfo(long memberId, String keyword, long offset, int limit) {
+    public SpotifySearchAlbumTrackArtist getAllSearchInfo(long memberId, String keyword, long offset, int limit) {
         Member member = validateByMemberId(memberId);
         accessToken = findOrCreateAccessToken(member);
 
@@ -51,7 +51,7 @@ public class SearchService {
         }
     }
 
-    public SpotifySearchAlbumsInfo getAlbumSearchInfo(long memberId, String keyword, long offset, int limit) {
+    public SpotifySearchAlbum getAlbumSearchInfo(long memberId, String keyword, long offset, int limit) {
         Member member = validateByMemberId(memberId);
         accessToken = findOrCreateAccessToken(member);
 
@@ -68,7 +68,7 @@ public class SearchService {
         }
     }
 
-    public SpotifySearchArtistsInfo getArtistSearchInfo(long memberId, String keyword, long offset, int limit) {
+    public SpotifySearchArtist getArtistSearchInfo(long memberId, String keyword, long offset, int limit) {
         Member member = validateByMemberId(memberId);
         accessToken = findOrCreateAccessToken(member);
 
@@ -85,7 +85,7 @@ public class SearchService {
         }
     }
 
-    public SpotifySearchTracksInfo getTrackSearchInfo(long memberId, String keyword, long offset, int limit) {
+    public SpotifySearchTrack getTrackSearchInfo(long memberId, String keyword, long offset, int limit) {
         Member member = validateByMemberId(memberId);
         accessToken = findOrCreateAccessToken(member);
 

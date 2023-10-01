@@ -1,13 +1,13 @@
 package com.musicpedia.musicpediaapi.domain.spotify.search.dto;
 
-import com.musicpedia.musicpediaapi.domain.spotify.album.dto.SpotifyAlbumInfo;
+import com.musicpedia.musicpediaapi.domain.spotify.album.dto.SpotifyAlbum;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class SpotifySearchAlbumsInfo {
-    private List<SpotifyAlbumInfo> items;
+public class SpotifySearchAlbum {
+    private List<SpotifyAlbum> items;
 
     private int limit;
 

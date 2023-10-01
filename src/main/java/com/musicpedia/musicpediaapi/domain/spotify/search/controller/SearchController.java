@@ -1,9 +1,9 @@
 package com.musicpedia.musicpediaapi.domain.spotify.search.controller;
 
-import com.musicpedia.musicpediaapi.domain.spotify.search.dto.SpotifySearchAlbumTrackArtistInfo;
-import com.musicpedia.musicpediaapi.domain.spotify.search.dto.SpotifySearchAlbumsInfo;
-import com.musicpedia.musicpediaapi.domain.spotify.search.dto.SpotifySearchArtistsInfo;
-import com.musicpedia.musicpediaapi.domain.spotify.search.dto.SpotifySearchTracksInfo;
+import com.musicpedia.musicpediaapi.domain.spotify.search.dto.SpotifySearchAlbumTrackArtist;
+import com.musicpedia.musicpediaapi.domain.spotify.search.dto.SpotifySearchAlbum;
+import com.musicpedia.musicpediaapi.domain.spotify.search.dto.SpotifySearchArtist;
+import com.musicpedia.musicpediaapi.domain.spotify.search.dto.SpotifySearchTrack;
 import com.musicpedia.musicpediaapi.domain.spotify.search.service.SearchService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -20,50 +20,50 @@ public class SearchController {
     private final SearchService searchService;
 
     @GetMapping
-    public ResponseEntity<SpotifySearchAlbumTrackArtistInfo> searchAll(
+    public ResponseEntity<SpotifySearchAlbumTrackArtist> searchAll(
             @RequestParam(name = "keyword") String keyword,
             @RequestParam(name = "offset") long offset,
             @RequestParam(name = "limit") int limit,
             HttpServletRequest httpServletRequest
     ) {
         long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
-        SpotifySearchAlbumTrackArtistInfo searchInfo = searchService.getAllSearchInfo(memberId, keyword, offset, limit);
+        SpotifySearchAlbumTrackArtist searchInfo = searchService.getAllSearchInfo(memberId, keyword, offset, limit);
         return ResponseEntity.ok(searchInfo);
     }
 
     @GetMapping("/albums")
-    public ResponseEntity<SpotifySearchAlbumsInfo> searchAlbums(
+    public ResponseEntity<SpotifySearchAlbum> searchAlbums(
             @RequestParam(name = "keyword") String keyword,
             @RequestParam(name = "offset") long offset,
             @RequestParam(name = "limit") int limit,
             HttpServletRequest httpServletRequest
     ) {
         long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
-        SpotifySearchAlbumsInfo searchInfo = searchService.getAlbumSearchInfo(memberId, keyword, offset, limit);
+        SpotifySearchAlbum searchInfo = searchService.getAlbumSearchInfo(memberId, keyword, offset, limit);
         return ResponseEntity.ok(searchInfo);
     }
 
     @GetMapping("/artists")
-    public ResponseEntity<SpotifySearchArtistsInfo> searchArtists(
+    public ResponseEntity<SpotifySearchArtist> searchArtists(
             @RequestParam(name = "keyword") String keyword,
             @RequestParam(name = "offset") long offset,
             @RequestParam(name = "limit") int limit,
             HttpServletRequest httpServletRequest
     ) {
         long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
-        SpotifySearchArtistsInfo searchInfo = searchService.getArtistSearchInfo(memberId, keyword, offset, limit);
+        SpotifySearchArtist searchInfo = searchService.getArtistSearchInfo(memberId, keyword, offset, limit);
         return ResponseEntity.ok(searchInfo);
     }
 
     @GetMapping("/tracks")
-    public ResponseEntity<SpotifySearchTracksInfo> searchTracks(
+    public ResponseEntity<SpotifySearchTrack> searchTracks(
             @RequestParam(name = "keyword") String keyword,
             @RequestParam(name = "offset") long offset,
             @RequestParam(name = "limit") int limit,
             HttpServletRequest httpServletRequest
     ) {
         long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
-        SpotifySearchTracksInfo searchInfo = searchService.getTrackSearchInfo(memberId, keyword, offset, limit);
+        SpotifySearchTrack searchInfo = searchService.getTrackSearchInfo(memberId, keyword, offset, limit);
         return ResponseEntity.ok(searchInfo);
     }
 }
