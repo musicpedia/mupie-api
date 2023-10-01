@@ -1,18 +1,17 @@
-package com.musicpedia.musicpediaapi.domain.album.dto;
+package com.musicpedia.musicpediaapi.domain.spotify.album.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.musicpedia.musicpediaapi.domain.artist.dto.SpotifyArtistInfo;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class SpotifyAlbumInfo {
+public class SpotifyAlbum {
     private String id;
 
-    private List<SpotifyArtistInfo.ArtistImage> images;
+    private List<AlbumImage> images;
 
     private String name;
 
