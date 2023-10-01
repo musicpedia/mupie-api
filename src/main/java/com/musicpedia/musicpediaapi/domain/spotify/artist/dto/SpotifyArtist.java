@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class SpotifyArtistInfo {
+public class SpotifyArtist {
     private String id;
 
     private List<String> genres;

@@ -1,6 +1,6 @@
 package com.musicpedia.musicpediaapi.domain.spotify.artist.service;
 
-import com.musicpedia.musicpediaapi.domain.spotify.artist.dto.SpotifyArtistInfo;
+import com.musicpedia.musicpediaapi.domain.spotify.artist.dto.SpotifyArtist;
 import com.musicpedia.musicpediaapi.global.client.spotify.SpotifyApiClient;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import com.musicpedia.musicpediaapi.domain.member.exception.MemberNotFoundException;
@@ -23,7 +23,7 @@ public class ArtistService {
 
     private String accessToken;
 
-    public SpotifyArtistInfo getArtistInfo(long memberId, String artistId) {
+    public SpotifyArtist getArtistInfo(long memberId, String artistId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberNotFoundException("해당하는 id의 회원을 찾을 수 없습니다."));
         accessToken = findOrCreateAccessToken(member);
