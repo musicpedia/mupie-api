@@ -1,6 +1,7 @@
 package com.musicpedia.musicpediaapi.domain.rating.entity;
 
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
+import com.musicpedia.musicpediaapi.domain.rating.dto.response.RatingDetail;
 import com.musicpedia.musicpediaapi.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -17,8 +18,9 @@ public class Rating extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
-    private String type;
+    private Type type;
 
     @Column(name = "spotify_id", nullable = false)
     private String spotifyId;
@@ -29,12 +31,24 @@ public class Rating extends BaseTimeEntity {
 
     @Builder
     public Rating(
-            String type,
+            Type type,
             String spotifyId,
             Member member
     ) {
         this.type = type;
         this.spotifyId = spotifyId;
         this.member = member;
+    }
+
+    public void updateMember(Member member) {
+        this.member = member;
+    }
+
+    public RatingDetail toRatingDetail() {
+        return RatingDetail.builder()
+                .id(this.id)
+                .type(this.type.toString())
+                .spotifyId(this.spotifyId)
+                .build();
     }
 }
