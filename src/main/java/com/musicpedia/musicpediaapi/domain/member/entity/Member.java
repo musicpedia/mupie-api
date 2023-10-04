@@ -1,9 +1,12 @@
 package com.musicpedia.musicpediaapi.domain.member.entity;
 
 import com.musicpedia.musicpediaapi.domain.member.dto.MemberInfo;
+import com.musicpedia.musicpediaapi.domain.rating.entity.Rating;
 import com.musicpedia.musicpediaapi.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,6 +34,9 @@ public class Member extends BaseTimeEntity {
 
     @Embedded
     private OAuthInfo oauthInfo;
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<Rating> ratings;
 
     @Builder
     public Member(

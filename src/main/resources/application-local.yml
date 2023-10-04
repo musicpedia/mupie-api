@@ -10,7 +10,7 @@ spring:
       path: /h2-console
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     properties:
       hibernate:
         show_sql: true
