@@ -1,7 +1,6 @@
 package com.musicpedia.musicpediaapi.domain.rating.entity;
 
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
-import com.musicpedia.musicpediaapi.domain.member.entity.OAuthInfo;
 import com.musicpedia.musicpediaapi.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
