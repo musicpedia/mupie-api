@@ -2,10 +2,10 @@ package com.musicpedia.musicpediaapi.domain.album.service;
 
 import com.musicpedia.musicpediaapi.domain.album.dto.SpotifyAlbumWithTracks;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
-import com.musicpedia.musicpediaapi.domain.member.exception.MemberNotFoundException;
 import com.musicpedia.musicpediaapi.domain.member.repository.MemberRepository;
 import com.musicpedia.musicpediaapi.global.client.spotify.SpotifyApiClient;
 import com.musicpedia.musicpediaapi.global.client.spotify.SpotifyTokenProvider;
+import jakarta.persistence.NoResultException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class AlbumService {
 
     public SpotifyAlbumWithTracks getAlbum(long memberId, String artistId) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberNotFoundException("해당하는 id의 회원을 찾을 수 없습니다."));
+                .orElseThrow(() -> new NoResultException("해당하는 id의 회원을 찾을 수 없습니다."));
         accessToken = findOrCreateAccessToken(member);
 
         try {

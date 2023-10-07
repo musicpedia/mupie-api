@@ -1,14 +1,14 @@
 package com.musicpedia.musicpediaapi.domain.search.service;
 
+import com.musicpedia.musicpediaapi.domain.member.entity.Member;
+import com.musicpedia.musicpediaapi.domain.member.repository.MemberRepository;
 import com.musicpedia.musicpediaapi.domain.search.dto.SpotifySearchAlbum;
+import com.musicpedia.musicpediaapi.domain.search.dto.SpotifySearchAlbumTrackArtist;
 import com.musicpedia.musicpediaapi.domain.search.dto.SpotifySearchArtist;
 import com.musicpedia.musicpediaapi.domain.search.dto.SpotifySearchTrack;
-import com.musicpedia.musicpediaapi.domain.search.dto.SpotifySearchAlbumTrackArtist;
 import com.musicpedia.musicpediaapi.global.client.spotify.SpotifyApiClient;
-import com.musicpedia.musicpediaapi.domain.member.entity.Member;
-import com.musicpedia.musicpediaapi.domain.member.exception.MemberNotFoundException;
-import com.musicpedia.musicpediaapi.domain.member.repository.MemberRepository;
 import com.musicpedia.musicpediaapi.global.client.spotify.SpotifyTokenProvider;
+import jakarta.persistence.NoResultException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -115,6 +115,6 @@ public class SearchService {
 
     private Member validateByMemberId(long memberId) {
         return memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberNotFoundException("해당하는 id의 회원을 찾을 수 없습니다."));
+                .orElseThrow(() -> new NoResultException("해당하는 id의 회원을 찾을 수 없습니다."));
     }
 }
