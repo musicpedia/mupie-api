@@ -5,13 +5,18 @@ import com.musicpedia.musicpediaapi.domain.rating.entity.Rating;
 import com.musicpedia.musicpediaapi.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "member")
+@SQLDelete(sql = "UPDATE MEMBER SET deleted=true where id=?")
+@Where(clause = "deleted is false")
 public class Member extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +36,9 @@ public class Member extends BaseTimeEntity {
 
     @Column(name = "spotify_access_token")
     private String spotifyAccessToken;
+
+    @Column(name = "deleted")
+    private boolean deleted = false;
 
     @Embedded
     private OAuthInfo oauthInfo;
