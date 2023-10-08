@@ -13,10 +13,13 @@ public class RatingCreateRequest {
 
     private String spotifyId;
 
+    private String score;
+
     public Rating toRating() {
         return Rating.builder()
                 .type(Type.valueOf(type))
                 .spotifyId(spotifyId)
+                .score(score)
                 .build();
     }
 }

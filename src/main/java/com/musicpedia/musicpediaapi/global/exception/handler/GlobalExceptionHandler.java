@@ -6,6 +6,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.persistence.NoResultException;
+import jakarta.persistence.NonUniqueResultException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -53,6 +54,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NoResultException.class)
     public ResponseEntity<String> handleNoResultException(NoResultException e) {
+        e.printStackTrace();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
+    @ExceptionHandler(NonUniqueResultException.class)
+    public ResponseEntity<String> handleNonUniqueResultException(NonUniqueResultException e) {
         e.printStackTrace();
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }

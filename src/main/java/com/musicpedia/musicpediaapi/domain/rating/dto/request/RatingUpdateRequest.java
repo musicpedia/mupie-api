@@ -1,17 +1,13 @@
-package com.musicpedia.musicpediaapi.domain.rating.dto.response;
+package com.musicpedia.musicpediaapi.domain.rating.dto.request;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Builder
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class RatingDetail {
-    private String type;
+public class RatingUpdateRequest {
+    private String spotifyId;
 
     private String score;
-
-    private String spotifyId;
 }
