@@ -58,7 +58,7 @@ public class Member extends BaseTimeEntity {
         this.spotifyAccessToken = accessToken;
     }
 
-    public MemberDetail toMemberInfo() {
+    public MemberDetail toMemberDetail() {
         return MemberDetail.builder()
                 .email(this.email)
                 .id(this.id)

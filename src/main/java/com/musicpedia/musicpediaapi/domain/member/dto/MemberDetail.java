@@ -18,4 +18,10 @@ public class MemberDetail {
     private String profileImage;
 
     private String description;
+
+    private long ratedAlbumCnt;
+
+    private long ratedTrackCnt;
+
+    private long favoriteArtistCnt;
 }

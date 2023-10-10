@@ -21,6 +21,6 @@ public class MemberController {
     @GetMapping()
     public ResponseEntity<MemberDetail> getMember(HttpServletRequest httpServletRequest) {
         long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
-        return ResponseEntity.status(HttpStatus.CREATED).body(memberService.getMemberInfo(memberId));
+        return ResponseEntity.status(HttpStatus.CREATED).body(memberService.getMemberDetail(memberId));
     }
 }

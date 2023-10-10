@@ -13,4 +13,6 @@ public interface RatingRepository extends JpaRepository<Rating, Long> {
     Optional<Rating> findBySpotifyIdAndMember(String spotifyId, Member member);
 
     Page<Rating> findAllByMemberAndType(Member member, Type type, Pageable pageable);
+
+    long countAllByMemberAndType(Member member, Type type);
 }
