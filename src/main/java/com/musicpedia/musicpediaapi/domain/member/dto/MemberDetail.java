@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 @Builder
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class MemberInfo {
+public class MemberDetail {
     private long id;
 
     private String email;

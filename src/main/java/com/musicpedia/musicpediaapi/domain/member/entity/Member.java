@@ -1,15 +1,11 @@
 package com.musicpedia.musicpediaapi.domain.member.entity;
 
-import com.musicpedia.musicpediaapi.domain.member.dto.MemberInfo;
-import com.musicpedia.musicpediaapi.domain.rating.entity.Rating;
+import com.musicpedia.musicpediaapi.domain.member.dto.MemberDetail;
 import com.musicpedia.musicpediaapi.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Getter
@@ -62,8 +58,8 @@ public class Member extends BaseTimeEntity {
         this.spotifyAccessToken = accessToken;
     }
 
-    public MemberInfo toMemberInfo() {
-        return MemberInfo.builder()
+    public MemberDetail toMemberInfo() {
+        return MemberDetail.builder()
                 .email(this.email)
                 .id(this.id)
                 .name(this.name)
