@@ -5,11 +5,15 @@ import com.musicpedia.musicpediaapi.domain.member.repository.MemberRepository;
 import com.musicpedia.musicpediaapi.domain.rating.dto.request.RatingCreateRequest;
 import com.musicpedia.musicpediaapi.domain.rating.dto.request.RatingUpdateRequest;
 import com.musicpedia.musicpediaapi.domain.rating.dto.response.RatingDetail;
+import com.musicpedia.musicpediaapi.domain.rating.dto.response.RatingPage;
 import com.musicpedia.musicpediaapi.domain.rating.entity.Rating;
+import com.musicpedia.musicpediaapi.domain.rating.entity.Type;
 import com.musicpedia.musicpediaapi.domain.rating.repository.RatingRepository;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.NonUniqueResultException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -50,5 +54,13 @@ public class RatingService {
         Rating rating = ratingRepository.findBySpotifyIdAndMember(spotifyId, member)
                 .orElseThrow(() -> new NoResultException("해당하는 평가 항목을 찾을 수 없습니다."));
         ratingRepository.delete(rating);
+    }
+
+    public RatingPage getRatings(long memberId, Type type, Pageable pageable) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new NoResultException("해당하는 id의 회원을 찾을 수 없습니다."));
+        Page<Rating> ratings = ratingRepository.findAllByMemberAndType(member, type, pageable);
+
+        return RatingPage.from(ratings);
     }
 }

@@ -3,9 +3,12 @@ package com.musicpedia.musicpediaapi.domain.rating.controller;
 import com.musicpedia.musicpediaapi.domain.rating.dto.request.RatingCreateRequest;
 import com.musicpedia.musicpediaapi.domain.rating.dto.request.RatingUpdateRequest;
 import com.musicpedia.musicpediaapi.domain.rating.dto.response.RatingDetail;
+import com.musicpedia.musicpediaapi.domain.rating.dto.response.RatingPage;
+import com.musicpedia.musicpediaapi.domain.rating.entity.Type;
 import com.musicpedia.musicpediaapi.domain.rating.service.RatingService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,5 +37,35 @@ public class RatingController {
         long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
         ratingService.deleteRating(memberId, spotifyId);
         return ResponseEntity.ok("평점 삭제 성공");
+    }
+
+    @GetMapping("/albums")
+    public ResponseEntity<RatingPage> getAlbumRatings(
+            Pageable pageable,
+            HttpServletRequest httpServletRequest
+    ) {
+        long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
+
+        return ResponseEntity.ok(ratingService.getRatings(memberId, Type.ALBUM, pageable));
+    }
+
+    @GetMapping("/artists")
+    public ResponseEntity<RatingPage> getFavoriteArtists(
+            Pageable pageable,
+            HttpServletRequest httpServletRequest
+    ) {
+        long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
+
+        return ResponseEntity.ok(ratingService.getRatings(memberId, Type.ARTIST, pageable));
+    }
+
+    @GetMapping("/tracks")
+    public ResponseEntity<RatingPage> getTrackRatings(
+            Pageable pageable,
+            HttpServletRequest httpServletRequest
+    ) {
+        long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
+
+        return ResponseEntity.ok(ratingService.getRatings(memberId, Type.TRACK, pageable));
     }
 }

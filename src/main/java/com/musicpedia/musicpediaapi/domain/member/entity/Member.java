@@ -43,9 +43,6 @@ public class Member extends BaseTimeEntity {
     @Embedded
     private OAuthInfo oauthInfo;
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
-    private List<Rating> ratings;
-
     @Builder
     public Member(
             String email,
