@@ -15,11 +15,20 @@ public class RatingCreateRequest {
 
     private String score;
 
+    private String name;
+
+    private String thumbnail;
+
+    private String releaseDate;
+
     public Rating toRating() {
         return Rating.builder()
                 .type(Type.valueOf(type))
                 .spotifyId(spotifyId)
                 .score(score)
+                .name(name)
+                .thumbnail(thumbnail)
+                .releaseDate(releaseDate)
                 .build();
     }
 }

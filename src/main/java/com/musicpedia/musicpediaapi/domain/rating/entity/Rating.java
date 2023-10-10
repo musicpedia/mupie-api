@@ -26,6 +26,15 @@ public class Rating extends BaseTimeEntity {
     @Column(name = "type", nullable = false)
     private Type type;
 
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Column(name = "thumbnail")
+    private String thumbnail;
+
+    @Column(name = "release_date")
+    private String releaseDate;
+
     @Column(name = "spotify_id", nullable = false)
     private String spotifyId;
 
@@ -49,11 +58,17 @@ public class Rating extends BaseTimeEntity {
             Type type,
             String spotifyId,
             String score,
+            String name,
+            String thumbnail,
+            String releaseDate,
             Member member
     ) {
         this.type = type;
         this.spotifyId = spotifyId;
         this.score = score;
+        this.name = name;
+        this.thumbnail = thumbnail;
+        this. releaseDate = releaseDate;
         this.member = member;
     }
 
@@ -70,6 +85,9 @@ public class Rating extends BaseTimeEntity {
                 .type(this.type.toString())
                 .score(this.score)
                 .spotifyId(this.spotifyId)
+                .name(this.name)
+                .thumbnail(this.thumbnail)
+                .releaseDate(this.releaseDate)
                 .build();
     }
 }

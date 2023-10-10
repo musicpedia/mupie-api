@@ -14,4 +14,10 @@ public class RatingDetail {
     private String score;
 
     private String spotifyId;
+
+    private String name;
+
+    private String thumbnail;
+
+    private String releaseDate;
 }
