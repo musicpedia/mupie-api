@@ -1,11 +1,11 @@
 package com.musicpedia.musicpediaapi.global.client.spotify;
 
-import com.musicpedia.musicpediaapi.domain.spotify.album.dto.SpotifyAlbumTrack;
-import com.musicpedia.musicpediaapi.domain.spotify.album.dto.SpotifyAlbumWithTracks;
-import com.musicpedia.musicpediaapi.domain.spotify.album.dto.SpotifyRequestTrack;
-import com.musicpedia.musicpediaapi.domain.spotify.artist.dto.SpotifyArtist;
-import com.musicpedia.musicpediaapi.domain.spotify.search.dto.SpotifySearchAlbumTrackArtist;
-import com.musicpedia.musicpediaapi.domain.spotify.track.dto.SpotifyTrack;
+import com.musicpedia.musicpediaapi.domain.album.dto.SpotifyAlbumTrack;
+import com.musicpedia.musicpediaapi.domain.album.dto.SpotifyAlbumWithTracks;
+import com.musicpedia.musicpediaapi.domain.album.dto.SpotifyRequestTrack;
+import com.musicpedia.musicpediaapi.domain.artist.dto.SpotifyArtist;
+import com.musicpedia.musicpediaapi.domain.search.dto.SpotifySearchAlbumTrackArtist;
+import com.musicpedia.musicpediaapi.domain.track.dto.SpotifyTrack;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;

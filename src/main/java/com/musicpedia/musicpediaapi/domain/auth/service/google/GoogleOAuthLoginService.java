@@ -3,7 +3,7 @@ package com.musicpedia.musicpediaapi.domain.auth.service.google;
 import com.musicpedia.musicpediaapi.domain.auth.dto.OAuthLoginParams;
 import com.musicpedia.musicpediaapi.domain.auth.entity.OAuthProvider;
 import com.musicpedia.musicpediaapi.domain.auth.helper.google.GoogleOAuthHelper;
-import com.musicpedia.musicpediaapi.domain.member.dto.MemberInfo;
+import com.musicpedia.musicpediaapi.domain.member.dto.MemberDetail;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import com.musicpedia.musicpediaapi.domain.member.entity.OAuthInfo;
 import com.musicpedia.musicpediaapi.domain.member.repository.MemberRepository;
@@ -35,28 +35,28 @@ public class GoogleOAuthLoginService {
                 .oid(oidcDecodePayload.getSub())
                 .build();
 
-        MemberInfo memberInfo = MemberInfo.builder()
+        MemberDetail memberDetail = MemberDetail.builder()
                 .email(oidcDecodePayload.getEmail())
                 .profileImage(oidcDecodePayload.getPicture())
                 .name(Optional.ofNullable(oidcDecodePayload.getName()).orElse(oidcDecodePayload.getNickname()))
                 .build();
 
-        Long memberId = findOrCreateMember(oauthInfo, memberInfo);
+        Long memberId = findOrCreateMember(oauthInfo, memberDetail);
 
         return generateAuthTokens(memberId);
     }
 
-    private Long findOrCreateMember(OAuthInfo oauthInfo, MemberInfo memberInfo) {
+    private Long findOrCreateMember(OAuthInfo oauthInfo, MemberDetail memberDetail) {
         return memberRepository.findByOauthInfo(oauthInfo)
                 .map(Member::getId)
-                .orElseGet(() -> newMember(oauthInfo, memberInfo));
+                .orElseGet(() -> newMember(oauthInfo, memberDetail));
     }
 
-    private Long newMember(OAuthInfo oauthInfo, MemberInfo memberInfo) {
+    private Long newMember(OAuthInfo oauthInfo, MemberDetail memberDetail) {
         Member member = Member.builder()
-                .email(memberInfo.getEmail())
-                .name(memberInfo.getName())
-                .profileImage(memberInfo.getProfileImage())
+                .email(memberDetail.getEmail())
+                .name(memberDetail.getName())
+                .profileImage(memberDetail.getProfileImage())
                 .oauthInfo(oauthInfo)
                 .build();
 

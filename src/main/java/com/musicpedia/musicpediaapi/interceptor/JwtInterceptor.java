@@ -1,5 +1,6 @@
 package com.musicpedia.musicpediaapi.interceptor;
 
+import com.musicpedia.musicpediaapi.global.exception.TokenNotFoundException;
 import com.musicpedia.musicpediaapi.global.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,7 +20,7 @@ public class JwtInterceptor implements HandlerInterceptor {
         }
         String bearerToken = request.getHeader("Authorization");
         if (bearerToken == null) {
-            throw new IllegalArgumentException("필수 헤더값이 없습니다.");
+            throw new TokenNotFoundException("필수 헤더값이 없습니다.");
         }
         String token = jwtUtil.resolveToken(bearerToken);
         Long memberId = jwtUtil.getMemberIdFromToken(token);

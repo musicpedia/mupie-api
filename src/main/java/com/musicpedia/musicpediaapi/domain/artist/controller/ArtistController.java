@@ -1,9 +1,9 @@
-package com.musicpedia.musicpediaapi.domain.member.controller;
+package com.musicpedia.musicpediaapi.domain.artist.controller;
 
-import com.musicpedia.musicpediaapi.domain.member.dto.MemberDetail;
-import com.musicpedia.musicpediaapi.domain.member.service.MemberService;
-import com.musicpedia.musicpediaapi.global.dto.AuthTokens;
+import com.musicpedia.musicpediaapi.domain.artist.dto.SpotifyArtist;
+import com.musicpedia.musicpediaapi.domain.artist.service.ArtistService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -11,24 +11,25 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "member")
+@Tag(name = "artist")
 @RestController
-@RequestMapping("/v1/member")
 @RequiredArgsConstructor
-public class MemberController {
-    private final MemberService memberService;
+@RequestMapping("/v1/artist")
+public class ArtistController {
+    private final ArtistService artistService;
 
-    @Operation(summary = "회원 정보 조회", description = "회원의 기본 정보, 평가 개수를 조회합니다.")
+    @Operation(summary = "아티스트 정보 조회", description = "Spotify에서 id에 해당하는 아티스트 정보를 조회합니다.")
+    @Parameter(name = "artistId", description = "spotify의 아티스트 id", example = "0TnOYISbd1XYRBk9myaseg", required = true)
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK",
-                    content = @Content(schema = @Schema(implementation = MemberDetail.class))),
+                    content = @Content(schema = @Schema(implementation = SpotifyArtist.class))),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST",
                     content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string"))),
             @ApiResponse(responseCode = "401", description = "UNAUTHORIZED",
@@ -38,9 +39,10 @@ public class MemberController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR",
                     content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string")))
     })
-    @GetMapping()
-    public ResponseEntity<MemberDetail> getMember(HttpServletRequest httpServletRequest) {
+    @GetMapping("/{artistId}")
+    public ResponseEntity<SpotifyArtist> getArtist(@PathVariable String artistId, HttpServletRequest httpServletRequest) {
         long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
-        return ResponseEntity.ok(memberService.getMemberDetail(memberId));
+        SpotifyArtist artistInfo = artistService.getArtistInfo(memberId, artistId);
+        return ResponseEntity.ok(artistInfo);
     }
 }
