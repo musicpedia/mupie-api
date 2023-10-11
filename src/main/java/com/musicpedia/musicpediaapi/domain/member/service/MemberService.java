@@ -1,5 +1,6 @@
 package com.musicpedia.musicpediaapi.domain.member.service;
 
+import com.musicpedia.musicpediaapi.domain.like.artist.repository.LikedArtistRepository;
 import com.musicpedia.musicpediaapi.domain.member.dto.MemberDetail;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import com.musicpedia.musicpediaapi.domain.member.repository.MemberRepository;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final RatingRepository ratingRepository;
+    private final LikedArtistRepository likedArtistRepository;
 
     public MemberDetail getMemberDetail(long memberId) {
         Member member = memberRepository.findById(memberId)
@@ -26,7 +28,7 @@ public class MemberService {
     private MemberDetail setRatingCntAndgetMemberDetail(Member member) {
         long albumCnt = ratingRepository.countAllByMemberAndType(member, Type.ALBUM);
         long trackCnt = ratingRepository.countAllByMemberAndType(member, Type.TRACK);
-        long artistCnt = ratingRepository.countAllByMemberAndType(member, Type.ARTIST);
+        long artistCnt = likedArtistRepository.countAllByMember(member);
 
         MemberDetail memberDetail = member.toMemberDetail();
         memberDetail.setRatedAlbumCnt(albumCnt);
