@@ -2,6 +2,7 @@ package com.musicpedia.musicpediaapi.global.exception.handler;
 
 import com.musicpedia.musicpediaapi.global.exception.ExpiredAccessTokenException;
 import com.musicpedia.musicpediaapi.global.exception.ExpiredRefreshTokenException;
+import com.musicpedia.musicpediaapi.global.exception.TokenNotFoundException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
@@ -46,6 +47,12 @@ public class GlobalExceptionHandler {
     }
 
     // 클라이언트 요청 정보 관련 에러
+    @ExceptionHandler(TokenNotFoundException.class)
+    public ResponseEntity<String> handleTokenNotFoundException(TokenNotFoundException e) {
+        e.printStackTrace();
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+    }
+
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException e) {
         e.printStackTrace();
