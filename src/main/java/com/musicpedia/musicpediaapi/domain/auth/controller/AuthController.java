@@ -7,7 +7,6 @@ import com.musicpedia.musicpediaapi.domain.auth.service.google.GoogleOAuthLoginS
 import com.musicpedia.musicpediaapi.domain.auth.service.kakao.KakaoOAuthLoginService;
 import com.musicpedia.musicpediaapi.global.dto.AuthTokens;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -31,7 +30,14 @@ public class AuthController {
     private final AppleOAuthLoginService appleOAuthLoginService;
     private final AuthService authService;
 
-    @Operation(summary = "카카오 로그인", description = "카카오의 Id Token으로 카카오 로그인을 진행합니다.")
+    @Operation(
+            summary = "카카오 로그인",
+            description = "카카오의 Id Token으로 카카오 로그인을 진행합니다.",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "카카오의 Id Token",
+                    required = true
+            )
+    )
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(schema = @Schema(implementation = AuthTokens.class))),
@@ -45,15 +51,18 @@ public class AuthController {
                     content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string")))
     })
     @PostMapping("/login/kakao")
-    public ResponseEntity<AuthTokens> loginKakao(
-            @RequestBody
-            @Parameter(description = "카카오의 Id Token", required = true)
-            OAuthLoginParams loginParams
-    ) {
+    public ResponseEntity<AuthTokens> loginKakao(@RequestBody OAuthLoginParams loginParams) {
         return ResponseEntity.ok(kakaoOAuthLoginService.login(loginParams));
     }
 
-    @Operation(summary = "구글 로그인", description = "구글의 Id Token으로 구글 로그인을 진행합니다.")
+    @Operation(
+            summary = "구글 로그인",
+            description = "구글의 Id Token으로 구글 로그인을 진행합니다.",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "구글의 Id Token",
+                    required = true
+            )
+    )
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(schema = @Schema(implementation = AuthTokens.class))),
@@ -67,14 +76,18 @@ public class AuthController {
                     content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string")))
     })
     @PostMapping("/login/google")
-    public ResponseEntity<AuthTokens> loginGoogle(
-            @RequestBody
-            @Parameter(description = "구글의 Id Token", required = true)
-            OAuthLoginParams loginParams) {
+    public ResponseEntity<AuthTokens> loginGoogle(@RequestBody OAuthLoginParams loginParams) {
         return ResponseEntity.ok(googleOAuthLoginService.login(loginParams));
     }
 
-    @Operation(summary = "애플 로그인", description = "애플의 Id Token으로 애플 로그인을 진행합니다.")
+    @Operation(
+            summary = "애플 로그인",
+            description = "애플의 Id Token으로 애플 로그인을 진행합니다.",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "애플의 Id Token",
+                    required = true
+            )
+    )
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(schema = @Schema(implementation = AuthTokens.class))),
@@ -88,14 +101,18 @@ public class AuthController {
                     content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string")))
     })
     @PostMapping("/login/apple")
-    public ResponseEntity<AuthTokens> loginApple(
-            @RequestBody
-            @Parameter(description = "애플의 Id Token", required = true)
-            OAuthLoginParams loginParams) {
+    public ResponseEntity<AuthTokens> loginApple(@RequestBody OAuthLoginParams loginParams) {
         return ResponseEntity.ok(appleOAuthLoginService.login(loginParams));
     }
 
-    @Operation(summary = "토큰 재발급", description = "Access Token과 Refresh Token을 검증하여 Token을 재발급합니다.")
+    @Operation(
+            summary = "토큰 재발급",
+            description = "Access Token과 Refresh Token을 검증하여 Token을 재발급합니다.",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "JWT 토큰(Access Token, Refresh Token)과 Grant Type",
+                    required = true
+            )
+    )
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(schema = @Schema(implementation = AuthTokens.class))),
@@ -109,11 +126,7 @@ public class AuthController {
                     content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string")))
     })
     @PostMapping("/reissue")
-    public ResponseEntity<AuthTokens> reissue(
-            @RequestBody
-            @Parameter(description = "JWT 토큰(Access Token, Refresh Token)과 Grant Type", required = true)
-            AuthTokens authTokens
-    ) {
+    public ResponseEntity<AuthTokens> reissue(@RequestBody AuthTokens authTokens) {
         return ResponseEntity.ok(authService.reissueTokens(authTokens));
     }
 }
