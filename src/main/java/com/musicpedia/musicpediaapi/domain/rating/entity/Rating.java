@@ -68,7 +68,7 @@ public class Rating extends BaseTimeEntity {
         this.score = score;
         this.name = name;
         this.thumbnail = thumbnail;
-        this. releaseDate = releaseDate;
+        this.releaseDate = releaseDate;
         this.member = member;
     }
 
@@ -82,7 +82,7 @@ public class Rating extends BaseTimeEntity {
 
     public RatingDetail toRatingDetail() {
         return RatingDetail.builder()
-                .type(this.type.toString())
+                .type(this.type)
                 .score(this.score)
                 .spotifyId(this.spotifyId)
                 .name(this.name)

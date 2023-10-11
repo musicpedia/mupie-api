@@ -3,6 +3,7 @@ package com.musicpedia.musicpediaapi.domain.rating.dto.response;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.musicpedia.musicpediaapi.domain.rating.entity.Rating;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.domain.Page;
@@ -15,12 +16,16 @@ import java.util.List;
 public class RatingPage {
     private List<RatingDetail> ratings;
 
+    @Schema(example = "13")
     private int totalPages;
 
+    @Schema(example = "183")
     private long totalCount;
 
+    @Schema(example = "2")
     private int page;
 
+    @Schema(example = "20")
     private int size;
 
     private boolean hasNext;

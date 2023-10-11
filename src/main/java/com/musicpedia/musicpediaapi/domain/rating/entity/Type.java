@@ -1,5 +1,11 @@
 package com.musicpedia.musicpediaapi.domain.rating.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public enum Type {
-    ALBUM, TRACK, ARTIST
+    @JsonProperty("album")
+    ALBUM,
+
+    @JsonProperty("track")
+    TRACK
 }

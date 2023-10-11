@@ -2,6 +2,7 @@ package com.musicpedia.musicpediaapi.domain.like.artist.entity;
 
 import com.musicpedia.musicpediaapi.domain.like.artist.dto.LikedArtistDetail;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
+import com.musicpedia.musicpediaapi.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -16,7 +17,7 @@ import org.hibernate.annotations.Where;
 @Table(name = "liked_artist")
 @SQLDelete(sql = "UPDATE LIKED_ARTIST SET deleted=true where id=?")
 @Where(clause = "deleted is false")
-public class LikedArtist {
+public class LikedArtist extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

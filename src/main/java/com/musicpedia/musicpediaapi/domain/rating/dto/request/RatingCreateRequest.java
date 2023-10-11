@@ -4,26 +4,33 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.musicpedia.musicpediaapi.domain.rating.entity.Rating;
 import com.musicpedia.musicpediaapi.domain.rating.entity.Type;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class RatingCreateRequest {
-    private String type;
+    @Schema(example = "album")
+    private Type type;
 
+    @Schema(example = "1tfAfSTJHXtmgkzDwBasOp")
     private String spotifyId;
 
+    @Schema(example = "4.5")
     private String score;
 
+    @Schema(example = "Austin")
     private String name;
 
+    @Schema(example = "https://i.scdn.co/image/ab67616d0000b2735f4acf9723395f91ce0a9b51")
     private String thumbnail;
 
+    @Schema(example = "2023-10-06")
     private String releaseDate;
 
     public Rating toRating() {
         return Rating.builder()
-                .type(Type.valueOf(type))
+                .type(type)
                 .spotifyId(spotifyId)
                 .score(score)
                 .name(name)
