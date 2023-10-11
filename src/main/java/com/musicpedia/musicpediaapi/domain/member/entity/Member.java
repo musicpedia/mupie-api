@@ -12,7 +12,7 @@ import org.hibernate.annotations.Where;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "member")
 @SQLDelete(sql = "UPDATE MEMBER SET deleted=true where id=?")
-@Where(clause = "deleted is false")
+@Where(clause = "deleted=false")
 public class Member extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

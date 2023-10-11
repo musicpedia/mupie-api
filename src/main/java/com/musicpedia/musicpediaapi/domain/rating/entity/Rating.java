@@ -16,7 +16,7 @@ import org.hibernate.annotations.Where;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "rating")
 @SQLDelete(sql = "UPDATE RATING SET deleted=true where id=?")
-@Where(clause = "deleted is false")
+@Where(clause = "deleted=false")
 public class Rating extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
