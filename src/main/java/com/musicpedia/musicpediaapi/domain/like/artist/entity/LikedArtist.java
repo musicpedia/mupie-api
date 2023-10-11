@@ -16,7 +16,7 @@ import org.hibernate.annotations.Where;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "liked_artist")
 @SQLDelete(sql = "UPDATE LIKED_ARTIST SET deleted=true where id=?")
-@Where(clause = "deleted is false")
+@Where(clause = "deleted=false")
 public class LikedArtist extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
