@@ -1,5 +1,6 @@
 package com.musicpedia.musicpediaapi.domain.track.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.util.List;
@@ -14,9 +15,11 @@ public class SpotifyTrackArtist {
 
     private String name;
 
+    @Schema(example = "artist")
     private String type;
 
-    private String popularity;
+    @Schema(example = "57")
+    private int popularity;
 
     @Data
     public static class ArtistImage {
