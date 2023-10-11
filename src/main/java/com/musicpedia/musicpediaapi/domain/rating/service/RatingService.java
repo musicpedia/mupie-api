@@ -15,15 +15,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class RatingService {
     private final RatingRepository ratingRepository;
     private final MemberRepository memberRepository;
 
+    @Transactional
     public RatingDetail saveRating(long memberId, RatingCreateRequest request) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoResultException("해당하는 id의 회원을 찾을 수 없습니다."));
@@ -38,6 +41,7 @@ public class RatingService {
         return ratingRepository.save(rating).toRatingDetail();
     }
 
+    @Transactional
     public void updateRating(long memberId, RatingUpdateRequest request) {
         String spotifyId = request.getSpotifyId();
         String score = request.getScore();
@@ -48,6 +52,7 @@ public class RatingService {
         rating.updateScore(score);
     }
 
+    @Transactional
     public void deleteRating(long memberId, String spotifyId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoResultException("해당하는 id의 회원을 찾을 수 없습니다."));
