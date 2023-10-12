@@ -59,7 +59,7 @@ public class LikedArtistController {
     @Parameter(name = "spotifyId", description = "좋아하는 아티스트의 spotify id", example = "0TnOYISbd1XYRBk9myaseg", required = true)
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK",
-                    content = @Content(schema = @Schema(implementation = LikedArtistDetail.class))),
+                    content = @Content(schema = @Schema(implementation = String.class))),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST",
                     content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string"))),
             @ApiResponse(responseCode = "401", description = "UNAUTHORIZED",
@@ -82,7 +82,7 @@ public class LikedArtistController {
     @Parameter(name = "sort", description = "정렬", example = "updatedAt,name,DESC")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK",
-                    content = @Content(schema = @Schema(implementation = RatingPage.class))),
+                    content = @Content(schema = @Schema(implementation = LikedArtistPage.class))),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST",
                     content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string"))),
             @ApiResponse(responseCode = "401", description = "UNAUTHORIZED",
