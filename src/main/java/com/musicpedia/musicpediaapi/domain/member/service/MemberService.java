@@ -22,10 +22,10 @@ public class MemberService {
     public MemberDetail getMemberDetail(long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoResultException("해당하는 id의 회원을 찾을 수 없습니다."));
-        return setRatingCntAndgetMemberDetail(member);
+        return setRatingCntAndGetMemberDetail(member);
     }
 
-    private MemberDetail setRatingCntAndgetMemberDetail(Member member) {
+    private MemberDetail setRatingCntAndGetMemberDetail(Member member) {
         long albumCnt = ratingRepository.countAllByMemberAndType(member, Type.ALBUM);
         long trackCnt = ratingRepository.countAllByMemberAndType(member, Type.TRACK);
         long artistCnt = likedArtistRepository.countAllByMember(member);
