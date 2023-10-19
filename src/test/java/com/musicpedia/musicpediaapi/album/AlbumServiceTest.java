@@ -8,6 +8,7 @@ import com.musicpedia.musicpediaapi.domain.member.entity.OAuthInfo;
 import com.musicpedia.musicpediaapi.domain.member.repository.MemberRepository;
 import com.musicpedia.musicpediaapi.global.client.spotify.SpotifyApiClient;
 import com.musicpedia.musicpediaapi.global.client.spotify.SpotifyTokenProvider;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -36,21 +37,21 @@ public class AlbumServiceTest {
     private AlbumService albumService;
 
     @Test
-    public void testGetAlbum() {
-        // Arrange
+    @DisplayName("[Service] 앨범 아이디로 앨범 정보 조회 - 성공")
+    public void 앨범_아이디로_앨범_정보_조회_성공() {
+        // given
         Member member = testUserBuilder(); // Member 객체를 초기화하고 필요한 값 설정
         String albumId = "1tfAfSTJHXtmgkzDwBasOp";
         SpotifyAlbumWithTracks spotifyAlbumWithTracks = new SpotifyAlbumWithTracks();
 
-        // 모의 객체 설정
         when(memberRepository.findById(anyLong())).thenReturn(Optional.of(member));
         when(spotifyTokenProvider.requestAccessToken()).thenReturn("accessToken");
         when(spotifyApiClient.requestAlbum(anyString(), anyString())).thenReturn(spotifyAlbumWithTracks);
 
-        // Act
+        // when
         SpotifyAlbumWithTracks result = albumService.getAlbum(1L, albumId);
 
-        // Assert
+        // then
         assertNotNull(result);
     }
 
