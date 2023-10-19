@@ -23,18 +23,18 @@ public class AlbumService {
 
     private String accessToken;
 
-    public SpotifyAlbumWithTracks getAlbum(long memberId, String artistId) {
+    public SpotifyAlbumWithTracks getAlbum(long memberId, String albumId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoResultException("해당하는 id의 회원을 찾을 수 없습니다."));
         accessToken = findOrCreateAccessToken(member);
 
         try {
-            return spotifyApiClient.requestAlbum(accessToken, artistId);
+            return spotifyApiClient.requestAlbum(accessToken, albumId);
         } catch (HttpClientErrorException.Unauthorized e) {
             accessToken = spotifyTokenProvider.requestAccessToken();
             member.refreshAccessToken(accessToken);
             memberRepository.save(member);
-            return spotifyApiClient.requestAlbum(accessToken, artistId);
+            return spotifyApiClient.requestAlbum(accessToken, albumId);
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new IllegalArgumentException("아티스트 정보 조회 실패");
