@@ -39,12 +39,12 @@ public class SearchService {
         accessToken = findOrCreateAccessToken(member);
 
         try {
-            return spotifyApiClient.search(accessToken, keyword, offset, limit, allTypes).getBody();
+            return spotifyApiClient.search(accessToken, keyword, offset, limit, allTypes);
         } catch (HttpClientErrorException.Unauthorized e) {
             accessToken = spotifyTokenProvider.requestAccessToken();
             member.refreshAccessToken(accessToken);
             memberRepository.save(member);
-            return spotifyApiClient.search(accessToken, keyword, offset, limit, allTypes).getBody();
+            return spotifyApiClient.search(accessToken, keyword, offset, limit, allTypes);
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new IllegalArgumentException("아티스트 정보 조회 실패");
@@ -56,12 +56,12 @@ public class SearchService {
         accessToken = findOrCreateAccessToken(member);
 
         try {
-            return Objects.requireNonNull(spotifyApiClient.search(accessToken, keyword, offset, limit, albumType).getBody()).getAlbums();
+            return Objects.requireNonNull(spotifyApiClient.search(accessToken, keyword, offset, limit, albumType)).getAlbums();
         } catch (HttpClientErrorException.Unauthorized e) {
             accessToken = spotifyTokenProvider.requestAccessToken();
             member.refreshAccessToken(accessToken);
             memberRepository.save(member);
-            return Objects.requireNonNull(spotifyApiClient.search(accessToken, keyword, offset, limit, albumType).getBody()).getAlbums();
+            return Objects.requireNonNull(spotifyApiClient.search(accessToken, keyword, offset, limit, albumType)).getAlbums();
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new IllegalArgumentException("아티스트 정보 조회 실패");
@@ -73,12 +73,12 @@ public class SearchService {
         accessToken = findOrCreateAccessToken(member);
 
         try {
-            return Objects.requireNonNull(spotifyApiClient.search(accessToken, keyword, offset, limit, artistType).getBody()).getArtists();
+            return Objects.requireNonNull(spotifyApiClient.search(accessToken, keyword, offset, limit, artistType)).getArtists();
         } catch (HttpClientErrorException.Unauthorized e) {
             accessToken = spotifyTokenProvider.requestAccessToken();
             member.refreshAccessToken(accessToken);
             memberRepository.save(member);
-            return Objects.requireNonNull(spotifyApiClient.search(accessToken, keyword, offset, limit, artistType).getBody()).getArtists();
+            return Objects.requireNonNull(spotifyApiClient.search(accessToken, keyword, offset, limit, artistType)).getArtists();
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new IllegalArgumentException("아티스트 정보 조회 실패");
@@ -90,12 +90,12 @@ public class SearchService {
         accessToken = findOrCreateAccessToken(member);
 
         try {
-            return Objects.requireNonNull(spotifyApiClient.search(accessToken, keyword, offset, limit, trackType).getBody()).getTracks();
+            return Objects.requireNonNull(spotifyApiClient.search(accessToken, keyword, offset, limit, trackType)).getTracks();
         } catch (HttpClientErrorException.Unauthorized e) {
             accessToken = spotifyTokenProvider.requestAccessToken();
             member.refreshAccessToken(accessToken);
             memberRepository.save(member);
-            return Objects.requireNonNull(spotifyApiClient.search(accessToken, keyword, offset, limit, trackType).getBody()).getTracks();
+            return Objects.requireNonNull(spotifyApiClient.search(accessToken, keyword, offset, limit, trackType)).getTracks();
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new IllegalArgumentException("아티스트 정보 조회 실패");

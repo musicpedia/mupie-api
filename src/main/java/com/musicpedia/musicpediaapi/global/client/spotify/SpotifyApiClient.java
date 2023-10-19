@@ -71,21 +71,21 @@ public class SpotifyApiClient {
 
 
     // 아티스트 조회
-    public ResponseEntity<SpotifyArtist> requestArtist(String accessToken, String artistId) {
+    public SpotifyArtist requestArtist(String accessToken, String artistId) {
         String url = apiUrl + "/v1/artists/" + artistId;
         httpHeaders.set("Authorization", "Bearer " + accessToken);
-        return restTemplate.exchange(url, HttpMethod.GET, request, SpotifyArtist.class);
+        return restTemplate.exchange(url, HttpMethod.GET, request, SpotifyArtist.class).getBody();
     }
 
     // 트랙 조회
-    public ResponseEntity<SpotifyTrack> requestTrack(String accessToken, String trackId) {
+    public SpotifyTrack requestTrack(String accessToken, String trackId) {
         String url = apiUrl + "/v1/tracks/" + trackId;
         httpHeaders.set("Authorization", "Bearer " + accessToken);
-        return restTemplate.exchange(url, HttpMethod.GET, request, SpotifyTrack.class);
+        return restTemplate.exchange(url, HttpMethod.GET, request, SpotifyTrack.class).getBody();
     }
 
     // 검색
-    public ResponseEntity<SpotifySearchAlbumTrackArtist> search(
+    public SpotifySearchAlbumTrackArtist search(
             String accessToken,
             String keyword,
             long offset,
@@ -98,6 +98,6 @@ public class SpotifyApiClient {
                 "&offset=" + offset +
                 "&limit=" + limit;
         httpHeaders.set("Authorization", "Bearer " + accessToken);
-        return restTemplate.exchange(url, HttpMethod.GET, request, SpotifySearchAlbumTrackArtist.class);
+        return restTemplate.exchange(url, HttpMethod.GET, request, SpotifySearchAlbumTrackArtist.class).getBody();
     }
 }

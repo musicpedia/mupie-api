@@ -29,12 +29,12 @@ public class ArtistService {
         accessToken = findOrCreateAccessToken(member);
 
         try {
-            return spotifyApiClient.requestArtist(accessToken, artistId).getBody();
+            return spotifyApiClient.requestArtist(accessToken, artistId);
         } catch (HttpClientErrorException.Unauthorized e) {
             accessToken = spotifyTokenProvider.requestAccessToken();
             member.refreshAccessToken(accessToken);
             memberRepository.save(member);
-            return spotifyApiClient.requestArtist(accessToken, artistId).getBody();
+            return spotifyApiClient.requestArtist(accessToken, artistId);
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new IllegalArgumentException("아티스트 정보 조회 실패");
