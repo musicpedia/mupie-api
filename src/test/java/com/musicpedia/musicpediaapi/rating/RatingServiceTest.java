@@ -122,17 +122,6 @@ public class RatingServiceTest {
                 .build();
     }
 
-    private Rating testTrackRatingBuilder() {
-        return Rating.builder()
-                .type(Type.TRACK)
-                .score("4.0")
-                .spotifyId("11dFghVXANMlKmJXsNCbNl")
-                .name("sunflower")
-                .thumbnail("https://i.scdn.co/image/ab67616d0000b2735f4acf9723395f91ce0a9b51")
-                .releaseDate("2023-10-06")
-                .build();
-    }
-
     private RatingCreateRequest testCreateRequest() {
         RatingCreateRequest ratingCreateRequest = new RatingCreateRequest();
         ratingCreateRequest.setSpotifyId("1tfAfSTJHXtmgkzDwBasOp");
