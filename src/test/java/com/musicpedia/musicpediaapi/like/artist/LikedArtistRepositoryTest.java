@@ -42,12 +42,7 @@ public class LikedArtistRepositoryTest {
     @DisplayName("[Repository] 좋아하는 아티스트 저장 - 성공")
     public void Repo_좋아하는_아티스트_저장_성공() {
         // given
-        LikedArtist likedArtist = LikedArtist.builder()
-                .name("뉴진스")
-                .spotifyId("0TnOYISbd1XYRBk9myaseg")
-                .thumbnail("new jeans thumbnail")
-                .member(member)
-                .build();
+        LikedArtist likedArtist = testLikedArtistBuilder();
 
         LikedArtist savedArtist = likedArtistRepository.save(likedArtist);
 
@@ -66,12 +61,7 @@ public class LikedArtistRepositoryTest {
         // given
         String artistId = "0TnOYISbd1XYRBk9myaseg";
 
-        LikedArtist likedArtist = LikedArtist.builder()
-                .name("뉴진스")
-                .spotifyId(artistId)
-                .thumbnail("new jeans thumbnail")
-                .member(member)
-                .build();
+        LikedArtist likedArtist = testLikedArtistBuilder();
 
         likedArtistRepository.save(likedArtist);
 
@@ -87,12 +77,7 @@ public class LikedArtistRepositoryTest {
     @DisplayName("[Repository] 좋아하는 아티스트 수 조회 - 성공")
     public void Repo_좋아하는_아티스트_수_조회_성공() {
         // given
-        LikedArtist likedArtist1 = LikedArtist.builder()
-                .name("뉴진스")
-                .spotifyId("0TnOYISbd1XYRBk9myaseg")
-                .thumbnail("new jeans thumbnail")
-                .member(member)
-                .build();
+        LikedArtist likedArtist1 = testLikedArtistBuilder();
 
         LikedArtist likedArtist2 = LikedArtist.builder()
                 .name("Ed Sheeran")
@@ -123,6 +108,15 @@ public class LikedArtistRepositoryTest {
                                 .oid("oauth id")
                                 .build()
                 )
+                .build();
+    }
+
+    private LikedArtist testLikedArtistBuilder() {
+        return LikedArtist.builder()
+                .name("뉴진스")
+                .spotifyId("0TnOYISbd1XYRBk9myaseg")
+                .thumbnail("new jeans thumbnail")
+                .member(member)
                 .build();
     }
 }
