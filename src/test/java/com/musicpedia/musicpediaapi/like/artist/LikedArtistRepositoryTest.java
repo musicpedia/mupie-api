@@ -5,7 +5,6 @@ import com.musicpedia.musicpediaapi.domain.like.artist.entity.LikedArtist;
 import com.musicpedia.musicpediaapi.domain.like.artist.repository.LikedArtistRepository;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import com.musicpedia.musicpediaapi.domain.member.entity.OAuthInfo;
-import com.musicpedia.musicpediaapi.domain.member.repository.MemberRepository;
 import jakarta.persistence.NoResultException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -82,6 +81,34 @@ public class LikedArtistRepositoryTest {
 
         // then
         Assertions.assertThat(foundArtist.getName()).isEqualTo("뉴진스");
+    }
+
+    @Test
+    @DisplayName("[Repository] 좋아하는 아티스트 수 조회 - 성공")
+    public void Repo_좋아하는_아티스트_수_조회_성공() {
+        // given
+        LikedArtist likedArtist1 = LikedArtist.builder()
+                .name("뉴진스")
+                .spotifyId("0TnOYISbd1XYRBk9myaseg")
+                .thumbnail("new jeans thumbnail")
+                .member(member)
+                .build();
+
+        LikedArtist likedArtist2 = LikedArtist.builder()
+                .name("Ed Sheeran")
+                .spotifyId("0FxQZABdc1AWRAQ9aosneq")
+                .thumbnail("Ed Sheeran thumbnail")
+                .member(member)
+                .build();
+
+        likedArtistRepository.save(likedArtist1);
+        likedArtistRepository.save(likedArtist2);
+
+        // when
+        long likedArtistCnt = likedArtistRepository.countAllByMember(member);
+
+        // then
+        Assertions.assertThat(likedArtistCnt).isEqualTo(2);
     }
 
     private Member testMemberBuilder() {
