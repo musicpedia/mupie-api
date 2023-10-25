@@ -1,6 +1,5 @@
 package com.musicpedia.musicpediaapi.like.artist;
 
-import com.musicpedia.musicpediaapi.domain.artist.dto.SpotifyArtist;
 import com.musicpedia.musicpediaapi.domain.auth.entity.OAuthProvider;
 import com.musicpedia.musicpediaapi.domain.like.artist.dto.LikedArtistDetail;
 import com.musicpedia.musicpediaapi.domain.like.artist.dto.request.LikedArtistCreateRequest;
@@ -21,7 +20,8 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class LikedArtistServiceTest {
@@ -39,7 +39,6 @@ public class LikedArtistServiceTest {
     public void 좋아하는_아티스트_저장_성공() {
         // given
         Member member = testMemberBuilder(); // Member 객체를 초기화하고 필요한 값 설정
-        SpotifyArtist spotifyArtist = new SpotifyArtist();
 
         when(memberRepository.findById(anyLong()))
                 .thenReturn(Optional.of(member));
@@ -47,10 +46,32 @@ public class LikedArtistServiceTest {
                 .thenReturn(Optional.of(testLikedArtistBuilder(member)));
 
         // when
-        LikedArtistDetail likedArtistDetail = likedArtistService.likeArtist(1, testCreateRequest());
+        LikedArtistDetail likedArtistDetail = likedArtistService.likeArtist(1L, testCreateRequest());
 
         // then
         assertThat(likedArtistDetail.getName()).isEqualTo("뉴진스");
+    }
+
+    @Test
+    @DisplayName("[Service] 좋아하는 아티스트 삭제 - 성공")
+    public void 좋아하는_아티스트_삭제_성공() {
+        // given
+        Member member = testMemberBuilder(); // Member 객체를 초기화하고 필요한 값 설정
+        LikedArtist likedArtist = testLikedArtistBuilder(member);
+
+        given(memberRepository.findById(anyLong()))
+                .willReturn(Optional.of(member));
+        given(likedArtistRepository.findBySpotifyIdAndMember(anyString(), any()))
+                .willReturn(Optional.of(likedArtist));
+        doNothing().when(likedArtistRepository).delete(likedArtist);
+
+        String artistId = likedArtist.getSpotifyId();
+
+        // when
+        likedArtistService.deleteArtist(1L, artistId);
+
+        // then
+        verify(likedArtistRepository, times(1)).delete(likedArtist);
     }
 
     private Member testMemberBuilder() {
