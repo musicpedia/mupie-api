@@ -45,7 +45,9 @@ public class RatingServiceTest {
         given(memberRepository.findById(anyLong()))
                 .willReturn(Optional.of(member));
         given(ratingRepository.findBySpotifyIdAndMember(anyString(), any()))
-                .willReturn(Optional.of(testAlbumRatingBuilder()));
+                .willReturn(Optional.empty());
+        given(ratingRepository.save(any()))
+                .willReturn(testAlbumRatingBuilder());
 
         // when
         RatingDetail ratingDetail = ratingService.saveRating(1L, testCreateRequest());
