@@ -40,6 +40,14 @@ public class LikedArtistService {
         return likedArtistRepository.save(likedArtist).toLikedArtistDetail();
     }
 
+    public boolean isMemberLike(long memberId, String spotifyId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new NoResultException("해당하는 id의 회원을 찾을 수 없습니다."));
+        Optional<LikedArtist> likedArtist = likedArtistRepository.findBySpotifyIdAndMember(spotifyId, member);
+
+        return likedArtist.isPresent();
+    }
+
     @Transactional
     public void deleteArtist(long memberId, String spotifyId) {
         Member member = memberRepository.findById(memberId)
@@ -48,7 +56,7 @@ public class LikedArtistService {
         likedArtist.ifPresent(likedArtistRepository::delete);
     }
 
-    public LikedArtistPage getLikedArtist(long memberId, Pageable pageable) {
+    public LikedArtistPage getLikedArtists(long memberId, Pageable pageable) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoResultException("해당하는 id의 회원을 찾을 수 없습니다."));
         Page<LikedArtist> likedArtists = likedArtistRepository.findAllByMember(member, pageable);

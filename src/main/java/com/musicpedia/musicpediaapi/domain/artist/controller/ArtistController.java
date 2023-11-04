@@ -1,7 +1,9 @@
 package com.musicpedia.musicpediaapi.domain.artist.controller;
 
+import com.musicpedia.musicpediaapi.domain.artist.dto.ArtistResponse;
 import com.musicpedia.musicpediaapi.domain.artist.dto.SpotifyArtist;
 import com.musicpedia.musicpediaapi.domain.artist.service.ArtistService;
+import com.musicpedia.musicpediaapi.domain.like.artist.service.LikedArtistService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/v1/artist")
 public class ArtistController {
     private final ArtistService artistService;
+    private final LikedArtistService likedArtistService;
 
     @Operation(summary = "아티스트 정보 조회", description = "Spotify에서 id에 해당하는 아티스트 정보를 조회합니다.")
     @Parameter(name = "artistId", description = "spotify의 아티스트 id", example = "0TnOYISbd1XYRBk9myaseg", required = true)
@@ -40,9 +43,15 @@ public class ArtistController {
                     content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string")))
     })
     @GetMapping("/{artistId}")
-    public ResponseEntity<SpotifyArtist> getArtist(@PathVariable String artistId, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<ArtistResponse> getArtist(@PathVariable String artistId, HttpServletRequest httpServletRequest) {
         long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
-        SpotifyArtist artistInfo = artistService.getArtistInfo(memberId, artistId);
-        return ResponseEntity.ok(artistInfo);
+        SpotifyArtist spotifyArtist = artistService.getArtistInfo(memberId, artistId);
+        boolean like = likedArtistService.isMemberLike(memberId, artistId);
+        ArtistResponse artistResponse = ArtistResponse.builder()
+                .spotifyArtist(spotifyArtist)
+                .like(like)
+                .build();
+
+        return ResponseEntity.ok(artistResponse);
     }
 }
