@@ -4,6 +4,7 @@ import com.musicpedia.musicpediaapi.domain.auth.entity.OAuthProvider;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import com.musicpedia.musicpediaapi.domain.member.entity.OAuthInfo;
 import com.musicpedia.musicpediaapi.domain.member.repository.MemberRepository;
+import com.musicpedia.musicpediaapi.domain.rating.dto.Score;
 import com.musicpedia.musicpediaapi.domain.rating.dto.request.RatingCreateRequest;
 import com.musicpedia.musicpediaapi.domain.rating.dto.request.RatingUpdateRequest;
 import com.musicpedia.musicpediaapi.domain.rating.dto.response.RatingDetail;
@@ -54,6 +55,78 @@ public class RatingServiceTest {
 
         // then
         assertThat(ratingDetail.getName()).isEqualTo("Austin");
+    }
+
+    @Test
+    @DisplayName("[Service] 평가가 있는 점수(별점, 평균) 조회 - 성공")
+    public void 평가가_있는_경우_조회_성공() {
+        // given
+        Member member = testMemberBuilder();
+        Rating rating = testAlbumRatingBuilder();
+        double averageScore = 3.2;
+
+        given(memberRepository.findById(anyLong()))
+                .willReturn(Optional.of(member));
+        given(ratingRepository.findBySpotifyIdAndMember(anyString(), any()))
+                .willReturn(Optional.of(rating));
+        given(ratingRepository.calculateAverageScoreBySpotifyId(anyString()))
+                .willReturn(averageScore);
+
+        // when
+        Score score = ratingService.getScore(1L, "1tfAfSTJHXtmgkzDwBasOp");
+        String ratingScore = score.getRatingScore();
+        String averageRatingScore = score.getAverageScore();
+
+        // then
+        assertThat(ratingScore).isEqualTo("4.5");
+        assertThat(averageRatingScore).isEqualTo("3.2");
+    }
+
+    @Test
+    @DisplayName("[Service] 평가가 없는 조회 - 성공")
+    public void 평가가_없는_경우_조회_성공() {
+        // given
+        Member member = testMemberBuilder();
+        double averageScore = 3.2;
+
+        given(memberRepository.findById(anyLong()))
+                .willReturn(Optional.of(member));
+        given(ratingRepository.findBySpotifyIdAndMember(anyString(), any()))
+                .willReturn(Optional.empty());
+        given(ratingRepository.calculateAverageScoreBySpotifyId(anyString()))
+                .willReturn(averageScore);
+
+        // when
+        Score score = ratingService.getScore(1L, "1tfAfSTJHXtmgkzDwBasOp");
+        String ratingScore = score.getRatingScore();
+        String averageRatingScore = score.getAverageScore();
+
+        // then
+        assertThat(ratingScore).isEqualTo("0");
+        assertThat(averageRatingScore).isEqualTo("3.2");
+    }
+
+    @Test
+    @DisplayName("[Service] 평균_점수가_없는_조회 - 성공")
+    public void 평균_점수가_없는_조회_성공() {
+        // given
+        Member member = testMemberBuilder();
+
+        given(memberRepository.findById(anyLong()))
+                .willReturn(Optional.of(member));
+        given(ratingRepository.findBySpotifyIdAndMember(anyString(), any()))
+                .willReturn(Optional.empty());
+        given(ratingRepository.calculateAverageScoreBySpotifyId(anyString()))
+                .willReturn(null);
+
+        // when
+        Score score = ratingService.getScore(1L, "1tfAfSTJHXtmgkzDwBasOp");
+        String ratingScore = score.getRatingScore();
+        String averageRatingScore = score.getAverageScore();
+
+        // then
+        assertThat(ratingScore).isEqualTo("0");
+        assertThat(averageRatingScore).isEqualTo("0");
     }
 
     @Test
