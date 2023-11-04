@@ -2,7 +2,7 @@ package com.musicpedia.musicpediaapi.domain.album.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.musicpedia.musicpediaapi.domain.rating.dto.RatingDto;
+import com.musicpedia.musicpediaapi.domain.rating.dto.Score;
 import lombok.Builder;
 import lombok.Data;
 
@@ -12,5 +12,5 @@ import lombok.Data;
 public class AlbumResponse {
     private SpotifyAlbumWithTracks album;
 
-    private RatingDto rating;
+    private Score score;
 }

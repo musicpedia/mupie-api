@@ -2,7 +2,7 @@ package com.musicpedia.musicpediaapi.domain.rating.service;
 
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import com.musicpedia.musicpediaapi.domain.member.repository.MemberRepository;
-import com.musicpedia.musicpediaapi.domain.rating.dto.RatingDto;
+import com.musicpedia.musicpediaapi.domain.rating.dto.Score;
 import com.musicpedia.musicpediaapi.domain.rating.dto.request.RatingCreateRequest;
 import com.musicpedia.musicpediaapi.domain.rating.dto.request.RatingUpdateRequest;
 import com.musicpedia.musicpediaapi.domain.rating.dto.response.RatingDetail;
@@ -42,11 +42,11 @@ public class RatingService {
         return ratingRepository.save(rating).toRatingDetail();
     }
 
-    public RatingDto getRating(long memberId, String spotifyId) {
+    public Score getScore(long memberId, String spotifyId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoResultException("해당하는 id의 회원을 찾을 수 없습니다."));
 
-        String score;
+        String ratingScore;
         String averageScore;
 
         Float calculatedAverageScore = ratingRepository.calculateAverageScoreBySpotifyId(spotifyId);
@@ -58,12 +58,12 @@ public class RatingService {
         Optional<Rating> foundRating = ratingRepository.findBySpotifyIdAndMember(spotifyId, member);
         if (foundRating.isPresent()) {
             Rating rating = foundRating.get();
-            score = rating.getScore();
+            ratingScore = rating.getScore();
         } else {
-            score = "0";
+            ratingScore = "0";
         }
-        return RatingDto.builder()
-                .score(score)
+        return Score.builder()
+                .ratingScore(ratingScore)
                 .averageScore(averageScore)
                 .build();
     }

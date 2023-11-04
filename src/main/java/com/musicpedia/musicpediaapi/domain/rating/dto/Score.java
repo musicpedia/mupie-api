@@ -8,8 +8,8 @@ import lombok.Data;
 @Data
 @Builder
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class RatingDto {
-    private String score;
+public class Score {
+    private String ratingScore;
 
     private String averageScore;
 }

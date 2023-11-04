@@ -3,7 +3,7 @@ package com.musicpedia.musicpediaapi.domain.album.controller;
 import com.musicpedia.musicpediaapi.domain.album.dto.AlbumResponse;
 import com.musicpedia.musicpediaapi.domain.album.dto.SpotifyAlbumWithTracks;
 import com.musicpedia.musicpediaapi.domain.album.service.AlbumService;
-import com.musicpedia.musicpediaapi.domain.rating.dto.RatingDto;
+import com.musicpedia.musicpediaapi.domain.rating.dto.Score;
 import com.musicpedia.musicpediaapi.domain.rating.service.RatingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -47,10 +47,10 @@ public class AlbumController {
     public ResponseEntity<AlbumResponse> getAlbum(@PathVariable String albumId, HttpServletRequest httpServletRequest) {
         long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
         SpotifyAlbumWithTracks albumInfo = albumService.getAlbum(memberId, albumId);
-        RatingDto rating = ratingService.getRating(memberId, albumId);
+        Score score = ratingService.getScore(memberId, albumId);
         AlbumResponse albumResponse = AlbumResponse.builder()
                 .album(albumInfo)
-                .rating(rating)
+                .score(score)
                 .build();
         return ResponseEntity.ok(albumResponse);
     }
