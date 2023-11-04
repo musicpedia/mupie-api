@@ -53,6 +53,43 @@ public class LikedArtistServiceTest {
     }
 
     @Test
+    @DisplayName("[Service] 좋아하는 아티스트가 아님을 확인 - 성공")
+    public void 좋아하는_아티스트가_아님을_확인_성공() {
+        // given
+        Member member = testMemberBuilder(); // Member 객체를 초기화하고 필요한 값 설정
+
+        given(memberRepository.findById(anyLong()))
+                .willReturn(Optional.of(member));
+        given(likedArtistRepository.findBySpotifyIdAndMember(anyString(), any()))
+                .willReturn(Optional.empty());
+
+        // when
+        boolean like = likedArtistService.isMemberLike(1L, "0TnOYISbd1XYRBk9myaseg");
+
+        // then
+        assertThat(like).isFalse();
+    }
+
+    @Test
+    @DisplayName("[Service] 좋아하는 아티스트임을 확인 - 성공")
+    public void 좋아하는_아티스트임을_확인_성공() {
+        // given
+        Member member = testMemberBuilder(); // Member 객체를 초기화하고 필요한 값 설정
+        LikedArtist likedArtist = testLikedArtistBuilder(member);
+
+        given(memberRepository.findById(anyLong()))
+                .willReturn(Optional.of(member));
+        given(likedArtistRepository.findBySpotifyIdAndMember(anyString(), any()))
+                .willReturn(Optional.of(likedArtist));
+
+        // when
+        boolean like = likedArtistService.isMemberLike(1L, "0TnOYISbd1XYRBk9myaseg");
+
+        // then
+        assertThat(like).isTrue();
+    }
+
+    @Test
     @DisplayName("[Service] 좋아하는 아티스트 삭제 - 성공")
     public void 좋아하는_아티스트_삭제_성공() {
         // given
