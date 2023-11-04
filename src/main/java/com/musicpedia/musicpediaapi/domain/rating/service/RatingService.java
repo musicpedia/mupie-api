@@ -49,7 +49,7 @@ public class RatingService {
         String ratingScore;
         String averageScore;
 
-        Float calculatedAverageScore = ratingRepository.calculateAverageScoreBySpotifyId(spotifyId);
+        Double calculatedAverageScore = ratingRepository.calculateAverageScoreBySpotifyId(spotifyId);
         if (calculatedAverageScore == null) {
             averageScore = "0";
         } else {

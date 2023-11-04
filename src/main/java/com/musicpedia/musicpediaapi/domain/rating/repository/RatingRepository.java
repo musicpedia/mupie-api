@@ -18,6 +18,6 @@ public interface RatingRepository extends JpaRepository<Rating, Long> {
 
     long countAllByMemberAndType(Member member, Type type);
 
-    @Query(value = "SELECT ROUND(AVG(CAST(r.score AS FLOAT)),1) FROM Rating r WHERE r.spotify_id = :spotify_id", nativeQuery = true)
-    Float calculateAverageScoreBySpotifyId(@Param("spotify_id") String spotifyId);
+    @Query(value = "SELECT ROUND(AVG(CAST(r.score AS DOUBLE)),1) FROM Rating r WHERE r.spotify_id = :spotify_id", nativeQuery = true)
+    Double calculateAverageScoreBySpotifyId(@Param("spotify_id") String spotifyId);
 }
