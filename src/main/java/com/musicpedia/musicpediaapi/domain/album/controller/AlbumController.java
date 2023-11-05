@@ -33,7 +33,7 @@ public class AlbumController {
     @Parameter(name = "albumId", description = "spotify의 앨범 id", example = "1tfAfSTJHXtmgkzDwBasOp", required = true)
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK",
-                    content = @Content(schema = @Schema(implementation = SpotifyAlbumWithTracks.class))),
+                    content = @Content(schema = @Schema(implementation = AlbumResponse.class))),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST",
                     content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string"))),
             @ApiResponse(responseCode = "401", description = "UNAUTHORIZED",
