@@ -33,7 +33,7 @@ public class TrackController {
     @Parameter(name = "trackId", description = "spotify의 트랙 id", example = "11dFghVXANMlKmJXsNCbNl", required = true)
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK",
-                    content = @Content(schema = @Schema(implementation = SpotifyTrack.class))),
+                    content = @Content(schema = @Schema(implementation = TrackResponse.class))),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST",
                     content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string"))),
             @ApiResponse(responseCode = "401", description = "UNAUTHORIZED",
