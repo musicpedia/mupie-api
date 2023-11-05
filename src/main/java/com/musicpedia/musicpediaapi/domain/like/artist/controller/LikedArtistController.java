@@ -4,7 +4,6 @@ import com.musicpedia.musicpediaapi.domain.like.artist.dto.LikedArtistDetail;
 import com.musicpedia.musicpediaapi.domain.like.artist.dto.LikedArtistPage;
 import com.musicpedia.musicpediaapi.domain.like.artist.dto.request.LikedArtistCreateRequest;
 import com.musicpedia.musicpediaapi.domain.like.artist.service.LikedArtistService;
-import com.musicpedia.musicpediaapi.domain.rating.dto.response.RatingPage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -99,6 +98,6 @@ public class LikedArtistController {
     ) {
         long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
 
-        return ResponseEntity.ok(likedArtistService.getLikedArtist(memberId, pageable));
+        return ResponseEntity.ok(likedArtistService.getLikedArtists(memberId, pageable));
     }
 }

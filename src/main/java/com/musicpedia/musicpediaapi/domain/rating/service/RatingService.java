@@ -2,6 +2,7 @@ package com.musicpedia.musicpediaapi.domain.rating.service;
 
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import com.musicpedia.musicpediaapi.domain.member.repository.MemberRepository;
+import com.musicpedia.musicpediaapi.domain.rating.dto.Score;
 import com.musicpedia.musicpediaapi.domain.rating.dto.request.RatingCreateRequest;
 import com.musicpedia.musicpediaapi.domain.rating.dto.request.RatingUpdateRequest;
 import com.musicpedia.musicpediaapi.domain.rating.dto.response.RatingDetail;
@@ -39,6 +40,32 @@ public class RatingService {
         rating.updateMember(member);
 
         return ratingRepository.save(rating).toRatingDetail();
+    }
+
+    public Score getScore(long memberId, String spotifyId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new NoResultException("해당하는 id의 회원을 찾을 수 없습니다."));
+
+        String ratingScore;
+        String averageScore;
+
+        Double calculatedAverageScore = ratingRepository.calculateAverageScoreBySpotifyId(spotifyId);
+        if (calculatedAverageScore == null) {
+            averageScore = "0";
+        } else {
+            averageScore = calculatedAverageScore.toString();
+        }
+        Optional<Rating> foundRating = ratingRepository.findBySpotifyIdAndMember(spotifyId, member);
+        if (foundRating.isPresent()) {
+            Rating rating = foundRating.get();
+            ratingScore = rating.getScore();
+        } else {
+            ratingScore = "0";
+        }
+        return Score.builder()
+                .ratingScore(ratingScore)
+                .averageScore(averageScore)
+                .build();
     }
 
     @Transactional
