@@ -23,21 +23,21 @@ public class TrackService {
 
     private String accessToken;
 
-    public SpotifyTrack getTrack(long memberId, String artistId) {
+    public SpotifyTrack getTrack(long memberId, String trackId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoResultException("해당하는 id의 회원을 찾을 수 없습니다."));
         accessToken = findOrCreateAccessToken(member);
 
         try {
-            return spotifyApiClient.requestTrack(accessToken, artistId);
+            return spotifyApiClient.requestTrack(accessToken, trackId);
         } catch (HttpClientErrorException.Unauthorized e) {
             accessToken = spotifyTokenProvider.requestAccessToken();
             member.refreshAccessToken(accessToken);
             memberRepository.save(member);
-            return spotifyApiClient.requestTrack(accessToken, artistId);
+            return spotifyApiClient.requestTrack(accessToken, trackId);
         } catch (Exception e) {
             log.error(e.getMessage());
-            throw new IllegalArgumentException("아티스트 정보 조회 실패");
+            throw new IllegalArgumentException("트랙 정보 조회 실패");
         }
     }
 
