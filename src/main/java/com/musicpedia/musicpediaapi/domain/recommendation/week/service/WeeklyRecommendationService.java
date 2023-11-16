@@ -1,10 +1,10 @@
 package com.musicpedia.musicpediaapi.domain.recommendation.week.service;
 
-import com.musicpedia.musicpediaapi.domain.rating.entity.Type;
-import com.musicpedia.musicpediaapi.domain.recommendation.week.dto.WeeklyRecommendationDetail;
 import com.musicpedia.musicpediaapi.domain.recommendation.week.dto.WeeklyRecommendationResponse;
 import com.musicpedia.musicpediaapi.domain.recommendation.week.entity.WeeklyRecommendation;
 import com.musicpedia.musicpediaapi.domain.recommendation.week.repository.WeeklyRecommendationRepository;
+import com.musicpedia.musicpediaapi.domain.track.dto.SpotifyTrack;
+import com.musicpedia.musicpediaapi.domain.track.service.TrackService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -19,13 +19,13 @@ import java.util.List;
 public class WeeklyRecommendationService {
     private final WeeklyRecommendationRepository weeklyRecommendationRepository;
 
+    private final TrackService trackService;
+
     private List<String> weeklyRecommendationTrackIds;
 
     @PostConstruct
     public void init() {
-        System.out.println("이 주의 추천 곡 id를 가져옵니다.");
         this.weeklyRecommendationTrackIds = findWeeklyRecommendationTrackIds();
-        System.out.println("id: " + weeklyRecommendationTrackIds.get(0));
     }
 
     @Scheduled(cron = "0 3 0 * * MON") // 매주 월요일 자정에 실행
@@ -33,10 +33,10 @@ public class WeeklyRecommendationService {
         this.weeklyRecommendationTrackIds = findWeeklyRecommendationTrackIds();
     }
 
-    public WeeklyRecommendationResponse getWeeklyRecommendation(Type type) {
-        List<WeeklyRecommendationDetail> weeklyRecommendations = weeklyRecommendationRepository.findAllByType(type)
+    public WeeklyRecommendationResponse getWeeklyRecommendation(long memberId) {
+        List<SpotifyTrack> weeklyRecommendations = weeklyRecommendationTrackIds
                 .stream()
-                .map(WeeklyRecommendation::toWeeklyRecommendationDetail)
+                .map(spotifyId -> trackService.getTrack(memberId, spotifyId))
                 .toList();
         int size = weeklyRecommendations.size();
 
@@ -47,7 +47,7 @@ public class WeeklyRecommendationService {
     }
 
     private List<String> findWeeklyRecommendationTrackIds() {
-        return weeklyRecommendationRepository.findAllByType(Type.TRACK)
+        return weeklyRecommendationRepository.findAll()
                 .stream()
                 .map(WeeklyRecommendation::getSpotifyId)
                 .toList();

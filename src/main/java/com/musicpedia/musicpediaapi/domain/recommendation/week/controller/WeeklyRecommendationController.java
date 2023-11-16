@@ -1,6 +1,5 @@
 package com.musicpedia.musicpediaapi.domain.recommendation.week.controller;
 
-import com.musicpedia.musicpediaapi.domain.rating.entity.Type;
 import com.musicpedia.musicpediaapi.domain.recommendation.week.dto.WeeklyRecommendationResponse;
 import com.musicpedia.musicpediaapi.domain.recommendation.week.service.WeeklyRecommendationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,6 +42,8 @@ public class WeeklyRecommendationController {
     ) {
         long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
 
-        return ResponseEntity.ok(weeklyRecommendationService.getWeeklyRecommendation(Type.TRACK));
+        WeeklyRecommendationResponse weeklyRecommendation = weeklyRecommendationService.getWeeklyRecommendation(memberId);
+
+        return ResponseEntity.ok(weeklyRecommendation);
     }
 }
