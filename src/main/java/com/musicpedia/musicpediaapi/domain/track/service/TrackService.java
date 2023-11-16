@@ -8,6 +8,7 @@ import com.musicpedia.musicpediaapi.global.client.spotify.SpotifyTokenProvider;
 import jakarta.persistence.NoResultException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -23,6 +24,7 @@ public class TrackService {
 
     private String accessToken;
 
+    @Cacheable(cacheManager = "weeklyRecommendationCacheManager", value = "weeklyRecommendation", key = "#trackId", condition = "@weeklyRecommendationService.getWeeklyRecommendationTrackIds().contains(#trackId)")
     public SpotifyTrack getTrack(long memberId, String trackId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoResultException("해당하는 id의 회원을 찾을 수 없습니다."));
