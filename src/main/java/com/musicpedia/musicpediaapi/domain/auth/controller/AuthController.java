@@ -129,4 +129,25 @@ public class AuthController {
     public ResponseEntity<AuthTokens> reissue(@RequestBody AuthTokens authTokens) {
         return ResponseEntity.ok(authService.reissueTokens(authTokens));
     }
+
+    @Operation(
+            summary = "게스트 로그인",
+            description = "게스트의 Access Token과 Refresh Token을 발급합니다."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK",
+                    content = @Content(schema = @Schema(implementation = AuthTokens.class))),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST",
+                    content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string"))),
+            @ApiResponse(responseCode = "401", description = "UNAUTHORIZED",
+                    content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string"))),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND",
+                    content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string"))),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR",
+                    content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string")))
+    })
+    @PostMapping("/login/guest")
+    public ResponseEntity<AuthTokens> loginGuest() {
+        return ResponseEntity.ok(authService.guestLogin());
+    }
 }

@@ -40,3 +40,6 @@ oauth:
     url:
       auth: https://accounts.spotify.com
       api: https://api.spotify.com
+
+guest:
+  member-id: ${GUEST_MEMBER_ID}
