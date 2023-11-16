@@ -1,6 +1,5 @@
 package com.musicpedia.musicpediaapi.recommendation.week;
 
-import com.musicpedia.musicpediaapi.domain.rating.entity.Type;
 import com.musicpedia.musicpediaapi.domain.recommendation.week.entity.WeeklyRecommendation;
 import com.musicpedia.musicpediaapi.domain.recommendation.week.repository.WeeklyRecommendationRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -26,15 +25,13 @@ public class WeeklyRecommendationRepositoryTest {
     @DisplayName("[Repository] 이 주의 추천 곡 조회 - 성공")
     public void 이_주의_추천_곡_조회_성공() {
         // given
-        Type type = Type.TRACK;
 
         // when
-        List<WeeklyRecommendation> weeklyRecommendations = weeklyRecommendationRepository.findAllByType(type);
-        WeeklyRecommendation weeklyRecommendation = weeklyRecommendations.get(0);
+        List<WeeklyRecommendation> weeklyRecommendations = weeklyRecommendationRepository.findAll();
 
         // then
-        assertThat(weeklyRecommendation.getType())
-                .isEqualTo(Type.TRACK);
+        assertThat(weeklyRecommendations.size())
+                .isEqualTo(5);
     }
 
 }
