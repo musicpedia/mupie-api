@@ -4,7 +4,6 @@ import com.musicpedia.musicpediaapi.domain.auth.entity.OAuthProvider;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import com.musicpedia.musicpediaapi.domain.member.entity.OAuthInfo;
 import com.musicpedia.musicpediaapi.domain.member.repository.MemberRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
@@ -24,18 +25,7 @@ public class MemberRepositoryTest {
     @DisplayName("[Repository] 아이디로 회원 조회 - 성공")
     public void Repo_아이디로_회원_조회_성공() {
         // given
-        Member member = Member.builder()
-                .description("검정치마 좋아합니다.")
-                .email("mupie@gmail.com")
-                .name("김뮤피")
-                .profileImage("this is profile image")
-                .oauthInfo(
-                        OAuthInfo.builder()
-                                .provider(OAuthProvider.GOOGLE)
-                                .oid("oauth id")
-                                .build()
-                )
-                .build();
+        Member member = testMemberBuilder();
         Member savedMember = memberRepository.save(member);
 
         // when
@@ -46,25 +36,14 @@ public class MemberRepositoryTest {
                         .build());
 
         // then
-        Assertions.assertThat(foundMember.getName()).isEqualTo("김뮤피");
+        assertThat(foundMember.getName()).isEqualTo("김뮤피");
     }
 
     @Test
     @DisplayName("[Repository] OAuth 정보로 회원 조회 - 성공")
     public void Repo_OAuth_정보로_회원_조회_성공() {
         // given
-        Member member = Member.builder()
-                .description("검정치마 좋아합니다.")
-                .email("mupie@gmail.com")
-                .name("김뮤피")
-                .profileImage("this is profile image")
-                .oauthInfo(
-                        OAuthInfo.builder()
-                                .provider(OAuthProvider.GOOGLE)
-                                .oid("googleoauthid")
-                                .build()
-                )
-                .build();
+        Member member = testMemberBuilder();
         memberRepository.save(member);
 
         // when
@@ -79,6 +58,21 @@ public class MemberRepositoryTest {
                         .build());
 
         // then
-        Assertions.assertThat(foundMember.getName()).isEqualTo("김뮤피");
+        assertThat(foundMember.getName()).isEqualTo("김뮤피");
+    }
+
+    private static Member testMemberBuilder() {
+        return Member.builder()
+                .description("검정치마 좋아합니다.")
+                .email("mupie@gmail.com")
+                .name("김뮤피")
+                .profileImage("this is profile image")
+                .oauthInfo(
+                        OAuthInfo.builder()
+                                .provider(OAuthProvider.GOOGLE)
+                                .oid("oauth id")
+                                .build()
+                )
+                .build();
     }
 }
