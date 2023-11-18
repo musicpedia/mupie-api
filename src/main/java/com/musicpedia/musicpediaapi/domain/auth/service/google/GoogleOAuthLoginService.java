@@ -3,7 +3,7 @@ package com.musicpedia.musicpediaapi.domain.auth.service.google;
 import com.musicpedia.musicpediaapi.domain.auth.dto.OAuthLoginParams;
 import com.musicpedia.musicpediaapi.domain.auth.entity.OAuthProvider;
 import com.musicpedia.musicpediaapi.domain.auth.helper.google.GoogleOAuthHelper;
-import com.musicpedia.musicpediaapi.domain.member.dto.MemberDetail;
+import com.musicpedia.musicpediaapi.domain.member.dto.response.MemberDetail;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import com.musicpedia.musicpediaapi.domain.member.entity.OAuthInfo;
 import com.musicpedia.musicpediaapi.domain.member.repository.MemberRepository;

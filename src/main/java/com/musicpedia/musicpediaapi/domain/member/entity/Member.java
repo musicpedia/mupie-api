@@ -1,6 +1,7 @@
 package com.musicpedia.musicpediaapi.domain.member.entity;
 
-import com.musicpedia.musicpediaapi.domain.member.dto.MemberDetail;
+import com.musicpedia.musicpediaapi.domain.member.dto.request.MemberUpdateRequest;
+import com.musicpedia.musicpediaapi.domain.member.dto.response.MemberDetail;
 import com.musicpedia.musicpediaapi.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -66,5 +67,11 @@ public class Member extends BaseTimeEntity {
                 .description(this.description)
                 .profileImage(this.profileImage)
                 .build();
+    }
+
+    public void updateMember(MemberUpdateRequest request) {
+        this.name = request.getName();
+        this.profileImage = request.getProfileImage();
+        this.description = request.getDescription();
     }
 }

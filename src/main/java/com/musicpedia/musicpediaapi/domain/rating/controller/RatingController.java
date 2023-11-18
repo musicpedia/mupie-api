@@ -1,6 +1,5 @@
 package com.musicpedia.musicpediaapi.domain.rating.controller;
 
-import com.musicpedia.musicpediaapi.domain.member.dto.MemberDetail;
 import com.musicpedia.musicpediaapi.domain.rating.dto.request.RatingCreateRequest;
 import com.musicpedia.musicpediaapi.domain.rating.dto.request.RatingUpdateRequest;
 import com.musicpedia.musicpediaapi.domain.rating.dto.response.RatingDetail;
