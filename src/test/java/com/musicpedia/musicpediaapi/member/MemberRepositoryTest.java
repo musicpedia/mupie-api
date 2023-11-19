@@ -10,7 +10,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -59,6 +63,25 @@ public class MemberRepositoryTest {
 
         // then
         assertThat(foundMember.getName()).isEqualTo("김뮤피");
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    @DisplayName("[Repository] 회원 탈퇴 테스트 - 성공")
+    public void Repo_회원_탈퇴_테스트_성공() {
+        // Given
+        Member member = testMemberBuilder();
+        Member savedMember = memberRepository.save(member);
+        Long id = savedMember.getId();
+
+        // When
+        memberRepository.delete(savedMember);
+        Optional<Member> foundMember = memberRepository.findById(id);
+
+        // Then
+        assertThat(foundMember)
+                .isEqualTo(Optional.empty());
     }
 
     private static Member testMemberBuilder() {
