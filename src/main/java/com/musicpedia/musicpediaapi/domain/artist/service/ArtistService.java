@@ -41,6 +41,12 @@ public class ArtistService {
         }
     }
 
+//    public SpotifyArtist getArtistTopSongs(long memberId, String artistId) {
+//        Member member = memberRepository.findById(memberId)
+//                .orElseThrow(() -> new NoResultException("해당하는 id의 회원을 찾을 수 없습니다."));
+//        // 아티스트 top5 평
+//    }
+
     private String findOrCreateAccessToken(Member member) {
         Optional<String> spotifyAccessToken = Optional.ofNullable(member.getSpotifyAccessToken());
 

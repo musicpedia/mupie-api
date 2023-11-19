@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -77,7 +78,7 @@ public class RatingController {
                     content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string")))
     })
     @PutMapping()
-    public ResponseEntity<String> updateRating(@RequestBody RatingUpdateRequest request, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<String> updateRating(@RequestBody @Valid RatingUpdateRequest request, HttpServletRequest httpServletRequest) {
         long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
         ratingService.updateRating(memberId, request);
         return ResponseEntity.ok("평점 수정 성공");
