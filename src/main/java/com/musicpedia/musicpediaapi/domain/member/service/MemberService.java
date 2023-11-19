@@ -45,4 +45,11 @@ public class MemberService {
                 .orElseThrow(() -> new NoResultException("해당하는 id의 회원을 찾을 수 없습니다."));
         member.updateMember(request);
     }
+
+    @Transactional
+    public void deleteMember(long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new NoResultException("해당하는 id의 회원을 찾을 수 없습니다."));
+        memberRepository.delete(member);
+    }
 }

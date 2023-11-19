@@ -14,10 +14,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "member")
 @RestController
@@ -45,7 +42,14 @@ public class MemberController {
         return ResponseEntity.ok(memberService.getMemberDetail(memberId));
     }
 
-    @Operation(summary = "회원 정보 조회", description = "회원의 프로필 정보를 수정합니다.")
+    @Operation(
+            summary = "회원 정보 수정",
+            description = "회원의 프로필 정보를 수정합니다.",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "회원 프로필 정보",
+                    required = true
+            )
+    )
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string"))),
@@ -58,10 +62,30 @@ public class MemberController {
             @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR",
                     content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string")))
     })
-    @GetMapping()
+    @PutMapping()
     public ResponseEntity<String> updateMember(@RequestBody @Valid MemberUpdateRequest request, HttpServletRequest httpServletRequest) {
         long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
         memberService.updateMember(memberId, request);
         return ResponseEntity.ok("회원 정보 수정 성공");
+    }
+
+    @Operation(summary = "회원 탈퇴", description = "회원 탈퇴를 진행합니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK",
+                    content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string"))),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST",
+                    content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string"))),
+            @ApiResponse(responseCode = "401", description = "UNAUTHORIZED",
+                    content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string"))),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND",
+                    content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string"))),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR",
+                    content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string")))
+    })
+    @DeleteMapping()
+    public ResponseEntity<String> deleteMember(HttpServletRequest httpServletRequest) {
+        long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
+        memberService.deleteMember(memberId);
+        return ResponseEntity.ok("회원 탈퇴 성공");
     }
 }
