@@ -2,7 +2,8 @@ package com.musicpedia.musicpediaapi.member;
 
 import com.musicpedia.musicpediaapi.domain.auth.entity.OAuthProvider;
 import com.musicpedia.musicpediaapi.domain.like.artist.repository.LikedArtistRepository;
-import com.musicpedia.musicpediaapi.domain.member.dto.MemberDetail;
+import com.musicpedia.musicpediaapi.domain.member.dto.request.MemberUpdateRequest;
+import com.musicpedia.musicpediaapi.domain.member.dto.response.MemberDetail;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import com.musicpedia.musicpediaapi.domain.member.entity.OAuthInfo;
 import com.musicpedia.musicpediaapi.domain.member.repository.MemberRepository;
@@ -19,6 +20,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.lang.reflect.Field;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 
@@ -53,10 +55,58 @@ public class MemberServiceTest {
         MemberDetail memberDetail = memberService.getMemberDetail(1L);
 
         // then
-        Assertions.assertThat(memberDetail.getName()).isEqualTo("김뮤피");
+        assertThat(memberDetail.getName()).isEqualTo("김뮤피");
     }
 
-    private Member testUserBuilder() {
+    @Test
+    @DisplayName("[Service] 회원 이름 수정 - 성공")
+    public void 회원_이름_수정_성공() {
+        // given
+        Member member = testUserBuilder();
+        given(memberRepository.findById(anyLong()))
+                .willReturn(Optional.of(member));
+        MemberUpdateRequest request = testNameUpdateRequest();
+
+        // when
+        memberService.updateMember(1L, request);
+
+        // then
+        assertThat(member.getName()).isEqualTo("곽의준");
+    }
+
+    @Test
+    @DisplayName("[Service] 회원 프로필 이미지 수정 - 성공")
+    public void 회원_프로필_이미지_수정_성공() {
+        // given
+        Member member = testUserBuilder();
+        given(memberRepository.findById(anyLong()))
+                .willReturn(Optional.of(member));
+        MemberUpdateRequest request = testProfileImageUpdateRequest();
+
+        // when
+        memberService.updateMember(1L, request);
+
+        // then
+        assertThat(member.getProfileImage()).isEqualTo("this is new profile image");
+    }
+
+    @Test
+    @DisplayName("[Service] 회원 상태 메시지 수정 - 성공")
+    public void 회원_상태_메시지_수정_성공() {
+        // given
+        Member member = testUserBuilder();
+        given(memberRepository.findById(anyLong()))
+                .willReturn(Optional.of(member));
+        MemberUpdateRequest request = testDescriptionUpdateRequest();
+
+        // when
+        memberService.updateMember(1L, request);
+
+        // then
+        assertThat(member.getDescription()).isEqualTo("뉴진스 사랑해");
+    }
+
+    private static Member testUserBuilder() {
         return Member.builder()
                 .description("검정치마 좋아합니다.")
                 .email("mupie@gmail.com")
@@ -69,5 +119,32 @@ public class MemberServiceTest {
                                 .build()
                 )
                 .build();
+    }
+
+    private static MemberUpdateRequest testNameUpdateRequest() {
+        MemberUpdateRequest request = new MemberUpdateRequest();
+        request.setName("곽의준");
+        request.setProfileImage("this is profile image");
+        request.setDescription("검정치마 좋아합니다.");
+
+        return request;
+    }
+
+    private static MemberUpdateRequest testProfileImageUpdateRequest() {
+        MemberUpdateRequest request = new MemberUpdateRequest();
+        request.setName("김뮤피");
+        request.setProfileImage("this is new profile image");
+        request.setDescription("검정치마 좋아합니다.");
+
+        return request;
+    }
+
+    private static MemberUpdateRequest testDescriptionUpdateRequest() {
+        MemberUpdateRequest request = new MemberUpdateRequest();
+        request.setName("김뮤피");
+        request.setProfileImage("this is profile image");
+        request.setDescription("뉴진스 사랑해");
+
+        return request;
     }
 }

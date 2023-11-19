@@ -1,7 +1,8 @@
 package com.musicpedia.musicpediaapi.domain.member.service;
 
 import com.musicpedia.musicpediaapi.domain.like.artist.repository.LikedArtistRepository;
-import com.musicpedia.musicpediaapi.domain.member.dto.MemberDetail;
+import com.musicpedia.musicpediaapi.domain.member.dto.request.MemberUpdateRequest;
+import com.musicpedia.musicpediaapi.domain.member.dto.response.MemberDetail;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import com.musicpedia.musicpediaapi.domain.member.repository.MemberRepository;
 import com.musicpedia.musicpediaapi.domain.rating.entity.Type;
@@ -36,5 +37,19 @@ public class MemberService {
         memberDetail.setFavoriteArtistCnt(artistCnt);
 
         return memberDetail;
+    }
+
+    @Transactional
+    public void updateMember(long memberId, MemberUpdateRequest request) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new NoResultException("해당하는 id의 회원을 찾을 수 없습니다."));
+        member.updateMember(request);
+    }
+
+    @Transactional
+    public void deleteMember(long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new NoResultException("해당하는 id의 회원을 찾을 수 없습니다."));
+        memberRepository.delete(member);
     }
 }
