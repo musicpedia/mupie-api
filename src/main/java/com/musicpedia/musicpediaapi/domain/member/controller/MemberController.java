@@ -46,7 +46,7 @@ public class MemberController {
             summary = "회원 정보 수정",
             description = "회원의 프로필 정보를 수정합니다.",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "회원 프로필 정보",
+                    description = "회원 프로필 정보 (이름, 프로필 이미지, 설명(상태 메시지)), 이름을 제외한 필드는 nullable합니다.",
                     required = true
             )
     )
