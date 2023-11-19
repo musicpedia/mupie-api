@@ -38,7 +38,7 @@ public class Rating extends BaseTimeEntity {
     @Column(name = "spotify_id", nullable = false)
     private String spotifyId;
 
-    @Column(name = "score")
+    @Column(name = "score", nullable = false)
     private String score;
 
     @ManyToOne
