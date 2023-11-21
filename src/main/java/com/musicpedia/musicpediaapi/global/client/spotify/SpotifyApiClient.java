@@ -4,10 +4,14 @@ import com.musicpedia.musicpediaapi.domain.album.dto.SpotifyAlbumTrack;
 import com.musicpedia.musicpediaapi.domain.album.dto.SpotifyAlbumWithTracks;
 import com.musicpedia.musicpediaapi.domain.album.dto.SpotifyRequestTrack;
 import com.musicpedia.musicpediaapi.domain.artist.dto.SpotifyArtist;
+import com.musicpedia.musicpediaapi.domain.search.dto.SpotifySearchAlbum;
 import com.musicpedia.musicpediaapi.domain.search.dto.SpotifySearchAlbumTrackArtist;
 import com.musicpedia.musicpediaapi.domain.track.dto.SpotifyTrack;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -75,6 +79,25 @@ public class SpotifyApiClient {
         String url = apiUrl + "/v1/artists/" + artistId;
         httpHeaders.set("Authorization", "Bearer " + accessToken);
         return restTemplate.exchange(url, HttpMethod.GET, request, SpotifyArtist.class).getBody();
+    }
+
+    // 아티스트 앨범 조회
+    public SpotifySearchAlbum requestArtistAlbums(
+            String accessToken,
+            String artistId,
+            List<String> albumTypes,
+            long offset,
+            int limit
+    ) {
+        String url = apiUrl
+                + "/v1/artists/"
+                + artistId +
+                "/albums" +
+                "?include_groups=" + String.join(",", albumTypes) +
+                "&limit=" + limit +
+                "&offset=" + offset;
+        httpHeaders.set("Authorization", "Bearer " + accessToken);
+        return restTemplate.exchange(url, HttpMethod.GET, request, SpotifySearchAlbum.class).getBody();
     }
 
     // 트랙 조회

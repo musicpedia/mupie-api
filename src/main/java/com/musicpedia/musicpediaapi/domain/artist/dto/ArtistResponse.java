@@ -2,6 +2,7 @@ package com.musicpedia.musicpediaapi.domain.artist.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.musicpedia.musicpediaapi.domain.search.dto.SpotifySearchAlbum;
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,6 +11,11 @@ import lombok.Data;
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ArtistResponse {
     private SpotifyArtist spotifyArtist;
+
+    private SpotifySearchAlbum spotifyArtistAlbums;
+    private SpotifySearchAlbum spotifyArtistSingles;
+    private SpotifySearchAlbum spotifyArtistCompilations;
+    private SpotifySearchAlbum spotifyArtistAppearsOn;
 
     private boolean like;
 }
