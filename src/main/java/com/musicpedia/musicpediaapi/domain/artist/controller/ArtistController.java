@@ -1,6 +1,7 @@
 package com.musicpedia.musicpediaapi.domain.artist.controller;
 
 import com.musicpedia.musicpediaapi.domain.artist.dto.ArtistResponse;
+import com.musicpedia.musicpediaapi.domain.artist.dto.RelatedArtists;
 import com.musicpedia.musicpediaapi.domain.artist.dto.SpotifyArtist;
 import com.musicpedia.musicpediaapi.domain.artist.service.ArtistService;
 import com.musicpedia.musicpediaapi.domain.like.artist.service.LikedArtistService;
@@ -173,5 +174,31 @@ public class ArtistController {
         SpotifySearchAlbum artistAppearsOn = artistService.getArtistAppearsOn(memberId, artistId, offset, limit);
 
         return ResponseEntity.ok(artistAppearsOn);
+    }
+
+    @Operation(summary = "관련 아티스트 조회", description = "아티스트와 관련된 아티스트를 조회합니다.")
+    @Parameter(name = "offset", description = "현재 조회한 결과 위치(0부터 시작)", example = "0")
+    @Parameter(name = "limit", description = "조회 결과 개수(최대 50)", example = "20")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK",
+                    content = @Content(schema = @Schema(implementation = SpotifyArtist.class))),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST",
+                    content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string"))),
+            @ApiResponse(responseCode = "401", description = "UNAUTHORIZED",
+                    content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string"))),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND",
+                    content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string"))),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR",
+                    content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string")))
+    })
+    @GetMapping("/{artistId}/related-artists")
+    public ResponseEntity<RelatedArtists> getRelatedArtists(
+            @PathVariable String artistId,
+            HttpServletRequest httpServletRequest
+    ) {
+        long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
+        RelatedArtists relatedArtists = artistService.getRelatedArtists(memberId, artistId);
+
+        return ResponseEntity.ok(relatedArtists);
     }
 }

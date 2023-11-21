@@ -1,5 +1,6 @@
 package com.musicpedia.musicpediaapi.domain.artist.service;
 
+import com.musicpedia.musicpediaapi.domain.artist.dto.RelatedArtists;
 import com.musicpedia.musicpediaapi.domain.artist.dto.SpotifyArtist;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import com.musicpedia.musicpediaapi.domain.member.repository.MemberRepository;
@@ -114,6 +115,24 @@ public class ArtistService {
             member.refreshAccessToken(accessToken);
             memberRepository.save(member);
             return spotifyApiClient.requestArtistAlbums(accessToken, artistId, APPEARS_ON, offset, limit);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new IllegalArgumentException("아티스트 앨범 정보 조회 실패");
+        }
+    }
+
+    public RelatedArtists getRelatedArtists(long memberId, String artistId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new NoResultException("해당하는 id의 회원을 찾을 수 없습니다."));
+        accessToken = findOrCreateAccessToken(member);
+
+        try {
+            return spotifyApiClient.requestRelatedArtists(accessToken, artistId);
+        } catch (HttpClientErrorException.Unauthorized e) {
+            accessToken = spotifyTokenProvider.requestAccessToken();
+            member.refreshAccessToken(accessToken);
+            memberRepository.save(member);
+            return spotifyApiClient.requestRelatedArtists(accessToken, artistId);
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new IllegalArgumentException("아티스트 앨범 정보 조회 실패");

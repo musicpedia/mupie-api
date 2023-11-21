@@ -3,6 +3,7 @@ package com.musicpedia.musicpediaapi.global.client.spotify;
 import com.musicpedia.musicpediaapi.domain.album.dto.SpotifyAlbumTrack;
 import com.musicpedia.musicpediaapi.domain.album.dto.SpotifyAlbumWithTracks;
 import com.musicpedia.musicpediaapi.domain.album.dto.SpotifyRequestTrack;
+import com.musicpedia.musicpediaapi.domain.artist.dto.RelatedArtists;
 import com.musicpedia.musicpediaapi.domain.artist.dto.SpotifyArtist;
 import com.musicpedia.musicpediaapi.domain.search.dto.SpotifySearchAlbum;
 import com.musicpedia.musicpediaapi.domain.search.dto.SpotifySearchAlbumTrackArtist;
@@ -98,6 +99,16 @@ public class SpotifyApiClient {
                 "&offset=" + offset;
         httpHeaders.set("Authorization", "Bearer " + accessToken);
         return restTemplate.exchange(url, HttpMethod.GET, request, SpotifySearchAlbum.class).getBody();
+    }
+
+    // 관련 아티스트 조회
+    public RelatedArtists requestRelatedArtists(String accessToken, String artistId) {
+        String url = apiUrl
+                + "/v1/artists/"
+                + artistId +
+                "/related-artists";
+        httpHeaders.set("Authorization", "Bearer " + accessToken);
+        return restTemplate.exchange(url, HttpMethod.GET, request, RelatedArtists.class).getBody();
     }
 
     // 트랙 조회
