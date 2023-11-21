@@ -2,3 +2,4 @@
 .gradle
 build
 .env
+src/main/resources/db
