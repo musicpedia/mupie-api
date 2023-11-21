@@ -40,6 +40,11 @@ public class Member extends BaseTimeEntity {
     @Embedded
     private OAuthInfo oauthInfo;
 
+    @PreRemove
+    public void deleteMember() {
+        this.deleted = true;
+    }
+
     @Builder
     public Member(
             String email,

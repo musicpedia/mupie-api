@@ -38,6 +38,11 @@ public class LikedArtist extends BaseTimeEntity {
     @Column(name = "deleted")
     private boolean deleted = false;
 
+    @PreRemove
+    public void deleteLikedArtist() {
+        this.deleted = true;
+    }
+
     @Builder
     public LikedArtist(
             String name,
