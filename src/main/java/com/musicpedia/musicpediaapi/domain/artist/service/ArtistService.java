@@ -17,6 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 public class ArtistService {
+    private static final int TOP_SONGS_LIMIT = 5;
     private final SpotifyApiClient spotifyApiClient;
     private final SpotifyTokenProvider spotifyTokenProvider;
     private final MemberRepository memberRepository;
@@ -44,7 +45,7 @@ public class ArtistService {
 //    public SpotifyArtist getArtistTopSongs(long memberId, String artistId) {
 //        Member member = memberRepository.findById(memberId)
 //                .orElseThrow(() -> new NoResultException("해당하는 id의 회원을 찾을 수 없습니다."));
-//        // 아티스트 top5 평가
+//
 //    }
 
     private String findOrCreateAccessToken(Member member) {

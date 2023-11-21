@@ -41,6 +41,9 @@ public class Rating extends BaseTimeEntity {
     @Column(name = "score", nullable = false)
     private String score;
 
+    @Column(name = "spotify_artist_id")
+    private String spotifyArtistId;
+
     @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
