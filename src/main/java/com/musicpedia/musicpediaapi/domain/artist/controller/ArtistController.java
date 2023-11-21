@@ -181,7 +181,7 @@ public class ArtistController {
     @Parameter(name = "limit", description = "조회 결과 개수(최대 50)", example = "20")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK",
-                    content = @Content(schema = @Schema(implementation = SpotifyArtist.class))),
+                    content = @Content(schema = @Schema(implementation = RelatedArtists.class))),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST",
                     content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string"))),
             @ApiResponse(responseCode = "401", description = "UNAUTHORIZED",
