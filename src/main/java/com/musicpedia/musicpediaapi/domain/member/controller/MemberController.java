@@ -1,7 +1,9 @@
 package com.musicpedia.musicpediaapi.domain.member.controller;
 
 import com.musicpedia.musicpediaapi.domain.member.dto.request.MemberUpdateRequest;
+import com.musicpedia.musicpediaapi.domain.member.dto.request.PresignedUrlRequest;
 import com.musicpedia.musicpediaapi.domain.member.dto.response.MemberDetail;
+import com.musicpedia.musicpediaapi.domain.member.dto.response.PresignedUrlResponse;
 import com.musicpedia.musicpediaapi.domain.member.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -87,5 +89,32 @@ public class MemberController {
         long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
         memberService.deleteMember(memberId);
         return ResponseEntity.ok("회원 탈퇴 성공");
+    }
+
+    @Operation(
+            summary = "presigned-url 발급",
+            description = "이미지 저장을 위한 presigned-url을 발급합니다.",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "카테고리와 업로드 할 파일 이름",
+                    required = true
+            )
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK",
+                    content = @Content(schema = @Schema(implementation = PresignedUrlResponse.class))),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST",
+                    content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string"))),
+            @ApiResponse(responseCode = "401", description = "UNAUTHORIZED",
+                    content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string"))),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND",
+                    content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string"))),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR",
+                    content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string")))
+    })
+    @PostMapping("/presigned-url")
+    public ResponseEntity<PresignedUrlResponse> getPresignedUrl(@RequestBody @Valid PresignedUrlRequest request, HttpServletRequest httpServletRequest) {
+        long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
+
+        return ResponseEntity.ok(memberService.generatePresignedUrl(memberId, request));
     }
 }

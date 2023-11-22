@@ -2,11 +2,14 @@ package com.musicpedia.musicpediaapi.domain.member.service;
 
 import com.musicpedia.musicpediaapi.domain.like.artist.repository.LikedArtistRepository;
 import com.musicpedia.musicpediaapi.domain.member.dto.request.MemberUpdateRequest;
+import com.musicpedia.musicpediaapi.domain.member.dto.request.PresignedUrlRequest;
 import com.musicpedia.musicpediaapi.domain.member.dto.response.MemberDetail;
+import com.musicpedia.musicpediaapi.domain.member.dto.response.PresignedUrlResponse;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import com.musicpedia.musicpediaapi.domain.member.repository.MemberRepository;
 import com.musicpedia.musicpediaapi.domain.rating.entity.Type;
 import com.musicpedia.musicpediaapi.domain.rating.repository.RatingRepository;
+import com.musicpedia.musicpediaapi.global.client.aws.S3Client;
 import jakarta.persistence.NoResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final RatingRepository ratingRepository;
     private final LikedArtistRepository likedArtistRepository;
+    private final S3Client s3Client;
 
     public MemberDetail getMemberDetail(long memberId) {
         Member member = memberRepository.findById(memberId)
@@ -51,5 +55,17 @@ public class MemberService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoResultException("해당하는 id의 회원을 찾을 수 없습니다."));
         memberRepository.delete(member);
+    }
+
+    public PresignedUrlResponse generatePresignedUrl(long memberId, PresignedUrlRequest request) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new NoResultException("해당하는 id의 회원을 찾을 수 없습니다."));
+        String category = request.getCategory();
+        String fileName = request.getFileName();
+        String preSignedUrl = s3Client.getPreSignedUrl(category, fileName);
+
+        return PresignedUrlResponse.builder()
+                .presignedUrl(preSignedUrl)
+                .build();
     }
 }
