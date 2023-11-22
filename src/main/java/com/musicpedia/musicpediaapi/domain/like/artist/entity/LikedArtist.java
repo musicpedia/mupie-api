@@ -31,7 +31,7 @@ public class LikedArtist extends BaseTimeEntity {
     @Column(name = "spotify_id", nullable = false)
     private String spotifyId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 

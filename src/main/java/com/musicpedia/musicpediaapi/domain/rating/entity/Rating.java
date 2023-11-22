@@ -15,8 +15,8 @@ import org.hibernate.annotations.Where;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "rating")
-@SQLDelete(sql = "UPDATE rating SET deleted=true where id=?")
 @Where(clause = "deleted=false")
+@SQLDelete(sql = "UPDATE rating SET deleted=true where id=?")
 public class Rating extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,17 +44,12 @@ public class Rating extends BaseTimeEntity {
     @Column(name = "spotify_artist_id")
     private String spotifyArtistId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
     @Column(name = "deleted")
     private boolean deleted = false;
-
-    @PreRemove
-    public void deleteRating() {
-        this.deleted = true;
-    }
 
     @Builder
     public Rating(

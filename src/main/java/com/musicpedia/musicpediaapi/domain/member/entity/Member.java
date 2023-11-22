@@ -1,12 +1,17 @@
 package com.musicpedia.musicpediaapi.domain.member.entity;
 
+import com.musicpedia.musicpediaapi.domain.like.artist.entity.LikedArtist;
 import com.musicpedia.musicpediaapi.domain.member.dto.request.MemberUpdateRequest;
 import com.musicpedia.musicpediaapi.domain.member.dto.response.MemberDetail;
+import com.musicpedia.musicpediaapi.domain.rating.entity.Rating;
 import com.musicpedia.musicpediaapi.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -39,6 +44,12 @@ public class Member extends BaseTimeEntity {
 
     @Embedded
     private OAuthInfo oauthInfo;
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Rating> ratings = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<LikedArtist> likedArtists = new ArrayList<>();
 
     @PreRemove
     public void deleteMember() {
