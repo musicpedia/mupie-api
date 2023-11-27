@@ -5,25 +5,21 @@ import com.musicpedia.musicpediaapi.domain.auth.helper.OAuthHelper;
 import com.musicpedia.musicpediaapi.domain.auth.helper.OAuthOIDCHelper;
 import com.musicpedia.musicpediaapi.global.dto.OIDCDecodePayload;
 import com.musicpedia.musicpediaapi.global.dto.OIDCPublicKeysResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
 public class GoogleOAuthHelper extends OAuthHelper {
     private final OAuthOIDCHelper oauthOIDCHelper;
-    private final GoogleOAuthClient googleOAuthClient;
-
     @Value("${oauth.google.url.auth}")
     private String iss;
 
     @Value("${oauth.google.client-id}")
     private String aud;
 
-    @Override
-    protected OIDCPublicKeysResponse getOIDCOpenKeys() {
-        return googleOAuthClient.getOIDCOpenKeys();
+    public GoogleOAuthHelper(GoogleOAuthClient googleOAuthClient, OAuthOIDCHelper oauthOIDCHelper) {
+        super(googleOAuthClient);
+        this.oauthOIDCHelper = oauthOIDCHelper;
     }
 
     @Override

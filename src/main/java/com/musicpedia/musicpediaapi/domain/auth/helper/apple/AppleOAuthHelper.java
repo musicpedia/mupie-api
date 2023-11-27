@@ -5,15 +5,12 @@ import com.musicpedia.musicpediaapi.domain.auth.helper.OAuthHelper;
 import com.musicpedia.musicpediaapi.domain.auth.helper.OAuthOIDCHelper;
 import com.musicpedia.musicpediaapi.global.dto.OIDCDecodePayload;
 import com.musicpedia.musicpediaapi.global.dto.OIDCPublicKeysResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
 public class AppleOAuthHelper extends OAuthHelper {
     private final OAuthOIDCHelper oauthOIDCHelper;
-    private final AppleOAuthClient appleOAuthClient;
 
     @Value("${oauth.apple.url.auth}")
     private String iss;
@@ -21,9 +18,9 @@ public class AppleOAuthHelper extends OAuthHelper {
     @Value("${oauth.apple.client-id}")
     private String aud;
 
-    @Override
-    protected OIDCPublicKeysResponse getOIDCOpenKeys() {
-        return appleOAuthClient.getOIDCOpenKeys();
+    public AppleOAuthHelper(AppleOAuthClient appleOAuthClient, OAuthOIDCHelper oauthOIDCHelper) {
+        super(appleOAuthClient);
+        this.oauthOIDCHelper = oauthOIDCHelper;
     }
 
     @Override
