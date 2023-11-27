@@ -1,6 +1,7 @@
 package com.musicpedia.musicpediaapi.domain.auth.helper.kakao;
 
 import com.musicpedia.musicpediaapi.domain.auth.client.KakaoOAuthClient;
+import com.musicpedia.musicpediaapi.domain.auth.helper.OAuthHelper;
 import com.musicpedia.musicpediaapi.domain.auth.helper.OAuthOIDCHelper;
 import com.musicpedia.musicpediaapi.global.dto.OIDCDecodePayload;
 import com.musicpedia.musicpediaapi.global.dto.OIDCPublicKeysResponse;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class KakaoOAuthHelper {
+public class KakaoOAuthHelper extends OAuthHelper {
     private final OAuthOIDCHelper oauthOIDCHelper;
     private final KakaoOAuthClient kakaoOAuthClient;
 
@@ -20,14 +21,13 @@ public class KakaoOAuthHelper {
     @Value("${oauth.kakao.client-id}")
     private String aud;
 
-    public OIDCDecodePayload getOIDCDecodePayload(String token) {
-        // key 찾기
-        OIDCPublicKeysResponse oidcPublicKeysResponse = kakaoOAuthClient.getKakaoOIDCOpenKeys();
+    @Override
+    protected OIDCPublicKeysResponse getOIDCOpenKeys() {
+        return kakaoOAuthClient.getOIDCOpenKeys();
+    }
 
-        return oauthOIDCHelper.getPayloadFromIdToken(
-                token,
-                iss,
-                aud,
-                oidcPublicKeysResponse);
+    @Override
+    protected OIDCDecodePayload getPayloadFromIdToken(String token, OIDCPublicKeysResponse oidcPublicKeysResponse) {
+        return oauthOIDCHelper.getPayloadFromIdToken(token, iss, aud, oidcPublicKeysResponse);
     }
 }
