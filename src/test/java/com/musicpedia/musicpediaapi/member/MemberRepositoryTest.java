@@ -93,7 +93,7 @@ public class MemberRepositoryTest {
                 .oauthInfo(
                         OAuthInfo.builder()
                                 .provider(OAuthProvider.GOOGLE)
-                                .oid("oauth id")
+                                .oid("googleoauthid")
                                 .build()
                 )
                 .build();
