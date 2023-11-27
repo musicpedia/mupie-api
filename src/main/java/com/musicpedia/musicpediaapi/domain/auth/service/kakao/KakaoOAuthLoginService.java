@@ -1,69 +1,41 @@
 package com.musicpedia.musicpediaapi.domain.auth.service.kakao;
 
-import com.musicpedia.musicpediaapi.domain.auth.dto.OAuthLoginParams;
-import com.musicpedia.musicpediaapi.domain.member.entity.OAuthInfo;
 import com.musicpedia.musicpediaapi.domain.auth.entity.OAuthProvider;
+import com.musicpedia.musicpediaapi.domain.auth.helper.kakao.KakaoOAuthHelper;
+import com.musicpedia.musicpediaapi.domain.auth.service.OAuthLoginService;
 import com.musicpedia.musicpediaapi.domain.member.dto.response.MemberDetail;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
+import com.musicpedia.musicpediaapi.domain.member.entity.OAuthInfo;
 import com.musicpedia.musicpediaapi.domain.member.repository.MemberRepository;
-import com.musicpedia.musicpediaapi.global.dto.AuthTokens;
-import com.musicpedia.musicpediaapi.global.dto.OIDCDecodePayload;
-import com.musicpedia.musicpediaapi.domain.auth.helper.kakao.KakaoOAuthHelper;
 import com.musicpedia.musicpediaapi.global.util.JwtUtil;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@RequiredArgsConstructor
 @Transactional
-public class KakaoOAuthLoginService {
-    private final KakaoOAuthHelper kakaoOAuthHelper;
+public class KakaoOAuthLoginService extends OAuthLoginService {
     private final MemberRepository memberRepository;
-    private final JwtUtil jwtUtil;
-
-    private static final String GRANT_TYPE = "Bearer";
-
-    public AuthTokens login(OAuthLoginParams oAuthLoginParams) {
-        String idToken = oAuthLoginParams.getIdToken();
-        OIDCDecodePayload oidcDecodePayload = kakaoOAuthHelper.getOIDCDecodePayload(idToken);
-
-        OAuthInfo oauthInfo = OAuthInfo.builder()
-                .provider(OAuthProvider.KAKAO)
-                .oid(oidcDecodePayload.getSub())
-                .build();
-
-        MemberDetail memberDetail = MemberDetail.builder()
-                .email(oidcDecodePayload.getEmail())
-                .profileImage(oidcDecodePayload.getPicture())
-                .name(oidcDecodePayload.getNickname())
-                .build();
-
-        Long memberId = findOrCreateMember(oauthInfo, memberDetail);
-
-        return generateAuthTokens(memberId);
+    public KakaoOAuthLoginService(KakaoOAuthHelper kakaoOAuthHelper, JwtUtil jwtUtil, MemberRepository memberRepository) {
+        super(kakaoOAuthHelper, jwtUtil, OAuthProvider.KAKAO);
+        this.memberRepository = memberRepository;
     }
 
-    private Long findOrCreateMember(OAuthInfo oauthInfo, MemberDetail memberDetail) {
-        return memberRepository.findByOauthInfo(oauthInfo)
+    @Override
+    protected Long findOrCreateMember(OAuthInfo oAuthInfo, MemberDetail memberDetail) {
+        return memberRepository.findByOauthInfo(oAuthInfo)
                 .map(Member::getId)
-                .orElseGet(() -> newMember(oauthInfo, memberDetail));
+                .orElseGet(() -> newMember(oAuthInfo, memberDetail));
     }
 
-    private Long newMember(OAuthInfo oauthInfo, MemberDetail memberDetail) {
+    @Override
+    protected Long newMember(OAuthInfo oAuthInfo, MemberDetail memberDetail) {
         Member member = Member.builder()
                 .email(memberDetail.getEmail())
                 .name(memberDetail.getName())
                 .profileImage(memberDetail.getProfileImage())
-                .oauthInfo(oauthInfo)
+                .oauthInfo(oAuthInfo)
                 .build();
 
         return memberRepository.save(member).getId();
-    }
-
-    private AuthTokens generateAuthTokens(Long memberId) {
-        String accessToken = jwtUtil.generateAccessToken(memberId);
-        String refreshToken = jwtUtil.generateRefreshToken(memberId);
-        return AuthTokens.of(accessToken, refreshToken, GRANT_TYPE);
     }
 }

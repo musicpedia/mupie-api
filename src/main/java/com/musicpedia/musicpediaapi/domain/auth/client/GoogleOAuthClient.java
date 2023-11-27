@@ -11,11 +11,12 @@ import org.springframework.web.client.RestTemplate;
 
 @Component
 @RequiredArgsConstructor
-public class GoogleOAuthClient {
+public class GoogleOAuthClient implements OAuthClient{
     private final RestTemplate restTemplate;
 
+    @Override
     @Cacheable(cacheNames = "GoogleOIDC", cacheManager = "oidcCacheManager")
-    public OIDCPublicKeysResponse getGoogleOIDCOpenKeys() {
+    public OIDCPublicKeysResponse getOIDCOpenKeys() {
         ResponseEntity<OIDCPublicKeysResponse> responseEntity = restTemplate.exchange(
                 "https://www.googleapis.com/oauth2/v3/certs",
                 HttpMethod.GET,
