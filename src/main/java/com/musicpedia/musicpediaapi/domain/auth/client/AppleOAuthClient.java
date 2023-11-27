@@ -11,11 +11,12 @@ import org.springframework.web.client.RestTemplate;
 
 @Component
 @RequiredArgsConstructor
-public class AppleOAuthClient {
+public class AppleOAuthClient implements OAuthClient{
     private final RestTemplate restTemplate;
 
+    @Override
     @Cacheable(cacheNames = "AppleOIDC", cacheManager = "oidcCacheManager")
-    public OIDCPublicKeysResponse getAppleOIDCOpenKeys() {
+    public OIDCPublicKeysResponse getOIDCOpenKeys() {
         ResponseEntity<OIDCPublicKeysResponse> responseEntity = restTemplate.exchange(
                 "https://appleid.apple.com/auth/keys",
                 HttpMethod.GET,
