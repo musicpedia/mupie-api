@@ -21,14 +21,13 @@ public class AppleOAuthLoginService extends OAuthLoginService {
     }
 
     @Override
-    protected Long findOrCreateMember(OAuthInfo oAuthInfo, MemberDetail memberDetail) {
+    protected Member findOrCreateMember(OAuthInfo oAuthInfo, MemberDetail memberDetail) {
         return memberRepository.findByOauthInfo(oAuthInfo)
-                .map(Member::getId)
-                .orElseGet(() -> newMember(oAuthInfo, memberDetail));
+                .orElseGet(() -> createMember(oAuthInfo, memberDetail));
     }
 
     @Override
-    protected Long newMember(OAuthInfo oAuthInfo, MemberDetail memberDetail) {
+    protected Member createMember(OAuthInfo oAuthInfo, MemberDetail memberDetail) {
         Member member = Member.builder()
                 .email(memberDetail.getEmail())
                 .name("apple_"+ memberDetail.getEmail().substring(0, memberDetail.getEmail().indexOf('@')))
@@ -36,6 +35,6 @@ public class AppleOAuthLoginService extends OAuthLoginService {
                 .oauthInfo(oAuthInfo)
                 .build();
 
-        return memberRepository.save(member).getId();
+        return memberRepository.save(member);
     }
 }

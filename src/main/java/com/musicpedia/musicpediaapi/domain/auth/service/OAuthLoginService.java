@@ -4,6 +4,7 @@ import com.musicpedia.musicpediaapi.domain.auth.dto.OAuthLoginParams;
 import com.musicpedia.musicpediaapi.domain.auth.entity.OAuthProvider;
 import com.musicpedia.musicpediaapi.domain.auth.helper.OAuthHelper;
 import com.musicpedia.musicpediaapi.domain.member.dto.response.MemberDetail;
+import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import com.musicpedia.musicpediaapi.domain.member.entity.OAuthInfo;
 import com.musicpedia.musicpediaapi.global.dto.AuthTokens;
 import com.musicpedia.musicpediaapi.global.dto.OIDCDecodePayload;
@@ -29,7 +30,9 @@ public abstract class OAuthLoginService {
 
         MemberDetail memberDetail = createMemberDetail(oidcDecodePayload);
 
-        Long memberId = findOrCreateMember(oauthInfo, memberDetail);
+        Member member = findOrCreateMember(oauthInfo, memberDetail);
+
+        Long memberId = member.getId();
 
         return generateAuthTokens(memberId);
     }
@@ -53,9 +56,9 @@ public abstract class OAuthLoginService {
                 .build();
     }
 
-    protected abstract Long findOrCreateMember(OAuthInfo oAuthInfo, MemberDetail memberDetail);
+    protected abstract Member findOrCreateMember(OAuthInfo oAuthInfo, MemberDetail memberDetail);
 
-    protected abstract Long newMember(OAuthInfo oAuthInfo, MemberDetail memberDetail);
+    protected abstract Member createMember(OAuthInfo oAuthInfo, MemberDetail memberDetail);
 
     private AuthTokens generateAuthTokens(Long memberId) {
         String accessToken = jwtUtil.generateAccessToken(memberId);
