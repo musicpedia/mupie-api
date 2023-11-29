@@ -83,6 +83,7 @@ public class Rating extends BaseTimeEntity {
                 .type(this.type)
                 .score(this.score)
                 .spotifyId(this.spotifyId)
+                .spotifyArtistId(this.spotifyArtistId)
                 .name(this.name)
                 .thumbnail(this.thumbnail)
                 .releaseDate(this.releaseDate)

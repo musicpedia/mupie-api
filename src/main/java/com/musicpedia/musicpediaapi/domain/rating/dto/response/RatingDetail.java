@@ -20,6 +20,9 @@ public class RatingDetail {
     @Schema(example = "1tfAfSTJHXtmgkzDwBasOp")
     private String spotifyId;
 
+    @Schema(example = "1tfAfSTJHXtmgkzDwBasOp")
+    private String spotifyArtistId;
+
     @Schema(example = "Austin")
     private String name;
 

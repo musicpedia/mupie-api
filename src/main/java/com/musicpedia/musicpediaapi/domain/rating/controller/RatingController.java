@@ -52,7 +52,7 @@ public class RatingController {
                     content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string")))
     })
     @PostMapping()
-    public ResponseEntity<RatingDetail> saveRating(@RequestBody RatingCreateRequest request, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<RatingDetail> saveRating(@RequestBody @Valid RatingCreateRequest request, HttpServletRequest httpServletRequest) {
         long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
         return ResponseEntity.status(HttpStatus.CREATED).body(ratingService.saveRating(memberId, request));
     }
