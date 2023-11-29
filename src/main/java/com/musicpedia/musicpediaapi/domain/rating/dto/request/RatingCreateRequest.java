@@ -12,7 +12,6 @@ import lombok.Data;
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class RatingCreateRequest {
     @Schema(example = "album")
-    @NotBlank
     private Type type;
 
     @Schema(example = "1tfAfSTJHXtmgkzDwBasOp")
