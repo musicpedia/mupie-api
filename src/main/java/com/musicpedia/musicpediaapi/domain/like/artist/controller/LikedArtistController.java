@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -49,7 +50,7 @@ public class LikedArtistController {
                     content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string")))
     })
     @PostMapping()
-    public ResponseEntity<LikedArtistDetail> likeArtist(@RequestBody LikedArtistCreateRequest request, HttpServletRequest httpServletRequest) {
+    public ResponseEntity<LikedArtistDetail> likeArtist(@RequestBody @Valid LikedArtistCreateRequest request, HttpServletRequest httpServletRequest) {
         long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
         return ResponseEntity.status(HttpStatus.CREATED).body(likedArtistService.likeArtist(memberId, request));
     }
