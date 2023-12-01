@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -51,7 +52,7 @@ public class AuthController {
                     content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string")))
     })
     @PostMapping("/login/kakao")
-    public ResponseEntity<AuthTokens> loginKakao(@RequestBody OAuthLoginParams loginParams) {
+    public ResponseEntity<AuthTokens> loginKakao(@RequestBody @Valid OAuthLoginParams loginParams) {
         return ResponseEntity.ok(kakaoOAuthLoginService.login(loginParams));
     }
 
@@ -76,7 +77,7 @@ public class AuthController {
                     content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string")))
     })
     @PostMapping("/login/google")
-    public ResponseEntity<AuthTokens> loginGoogle(@RequestBody OAuthLoginParams loginParams) {
+    public ResponseEntity<AuthTokens> loginGoogle(@RequestBody @Valid OAuthLoginParams loginParams) {
         return ResponseEntity.ok(googleOAuthLoginService.login(loginParams));
     }
 
@@ -101,7 +102,7 @@ public class AuthController {
                     content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string")))
     })
     @PostMapping("/login/apple")
-    public ResponseEntity<AuthTokens> loginApple(@RequestBody OAuthLoginParams loginParams) {
+    public ResponseEntity<AuthTokens> loginApple(@RequestBody @Valid OAuthLoginParams loginParams) {
         return ResponseEntity.ok(appleOAuthLoginService.login(loginParams));
     }
 
@@ -126,7 +127,7 @@ public class AuthController {
                     content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string")))
     })
     @PostMapping("/reissue")
-    public ResponseEntity<AuthTokens> reissue(@RequestBody AuthTokens authTokens) {
+    public ResponseEntity<AuthTokens> reissue(@RequestBody @Valid AuthTokens authTokens) {
         return ResponseEntity.ok(authService.reissueTokens(authTokens));
     }
 
