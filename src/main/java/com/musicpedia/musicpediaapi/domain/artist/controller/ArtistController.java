@@ -51,6 +51,8 @@ public class ArtistController {
         SpotifySearchAlbum artistSingles = artistService.getArtistSingles(memberId, artistId, DEFAULT_OFFSET, DEFAULT_LIMIT);
         SpotifySearchAlbum artistCompilations = artistService.getArtistCompilations(memberId, artistId, DEFAULT_OFFSET, DEFAULT_LIMIT);
         SpotifySearchAlbum artistAppearsOn = artistService.getArtistAppearsOn(memberId, artistId, DEFAULT_OFFSET, DEFAULT_LIMIT);
+        RelatedArtists relatedArtists = artistService.getRelatedArtists(memberId, artistId);
+
         boolean like = likedArtistService.isMemberLike(memberId, artistId);
         ArtistResponse artistResponse = ArtistResponse.builder()
                 .spotifyArtist(spotifyArtist)
@@ -58,6 +60,7 @@ public class ArtistController {
                 .spotifyArtistSingles(artistSingles)
                 .spotifyArtistCompilations(artistCompilations)
                 .spotifyArtistAppearsOn(artistAppearsOn)
+                .relatedArtists(relatedArtists)
                 .like(like)
                 .build();
 

@@ -11,11 +11,11 @@ import lombok.Data;
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ArtistResponse {
     private SpotifyArtist spotifyArtist;
-
     private SpotifySearchAlbum spotifyArtistAlbums;
     private SpotifySearchAlbum spotifyArtistSingles;
     private SpotifySearchAlbum spotifyArtistCompilations;
     private SpotifySearchAlbum spotifyArtistAppearsOn;
+    private RelatedArtists relatedArtists;
 
     private boolean like;
 }
