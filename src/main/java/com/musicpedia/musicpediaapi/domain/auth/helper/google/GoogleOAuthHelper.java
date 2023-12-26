@@ -8,14 +8,16 @@ import com.musicpedia.musicpediaapi.global.dto.OIDCPublicKeysResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class GoogleOAuthHelper extends OAuthHelper {
     private final OAuthOIDCHelper oauthOIDCHelper;
     @Value("${oauth.google.url.auth}")
     private String iss;
 
-    @Value("${oauth.google.client-id}")
-    private String aud;
+    @Value("${oauth.google.client-ids}")
+    private List<String> audiences;
 
     public GoogleOAuthHelper(GoogleOAuthClient googleOAuthClient, OAuthOIDCHelper oauthOIDCHelper) {
         super(googleOAuthClient);
@@ -24,6 +26,6 @@ public class GoogleOAuthHelper extends OAuthHelper {
 
     @Override
     protected OIDCDecodePayload getPayloadFromIdToken(String token, OIDCPublicKeysResponse oidcPublicKeysResponse) {
-        return oauthOIDCHelper.getPayloadFromIdToken(token, iss, aud, oidcPublicKeysResponse);
+        return oauthOIDCHelper.getPayloadFromIdToken(token, iss, audiences, oidcPublicKeysResponse);
     }
 }

@@ -9,6 +9,8 @@ import com.musicpedia.musicpediaapi.global.dto.OIDCPublicKeysResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class KakaoOAuthHelper extends OAuthHelper {
     private final OAuthOIDCHelper oauthOIDCHelper;
@@ -16,8 +18,8 @@ public class KakaoOAuthHelper extends OAuthHelper {
     @Value("${oauth.kakao.url.auth}")
     private String iss;
 
-    @Value("${oauth.kakao.client-id}")
-    private String aud;
+    @Value("${oauth.kakao.client-ids}")
+    private List<String> audiences;
 
     public KakaoOAuthHelper(KakaoOAuthClient kakaoOAuthClient, OAuthOIDCHelper oauthOIDCHelper) {
         super(kakaoOAuthClient);
@@ -26,6 +28,6 @@ public class KakaoOAuthHelper extends OAuthHelper {
 
     @Override
     protected OIDCDecodePayload getPayloadFromIdToken(String token, OIDCPublicKeysResponse oidcPublicKeysResponse) {
-        return oauthOIDCHelper.getPayloadFromIdToken(token, iss, aud, oidcPublicKeysResponse);
+        return oauthOIDCHelper.getPayloadFromIdToken(token, iss, audiences, oidcPublicKeysResponse);
     }
 }

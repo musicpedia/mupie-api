@@ -8,6 +8,8 @@ import com.musicpedia.musicpediaapi.global.dto.OIDCPublicKeysResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class AppleOAuthHelper extends OAuthHelper {
     private final OAuthOIDCHelper oauthOIDCHelper;
@@ -15,8 +17,8 @@ public class AppleOAuthHelper extends OAuthHelper {
     @Value("${oauth.apple.url.auth}")
     private String iss;
 
-    @Value("${oauth.apple.client-id}")
-    private String aud;
+    @Value("${oauth.apple.client-ids}")
+    private List<String> audiences;
 
     public AppleOAuthHelper(AppleOAuthClient appleOAuthClient, OAuthOIDCHelper oauthOIDCHelper) {
         super(appleOAuthClient);
@@ -25,6 +27,6 @@ public class AppleOAuthHelper extends OAuthHelper {
 
     @Override
     protected OIDCDecodePayload getPayloadFromIdToken(String token, OIDCPublicKeysResponse oidcPublicKeysResponse) {
-        return oauthOIDCHelper.getPayloadFromIdToken(token, iss, aud, oidcPublicKeysResponse);
+        return oauthOIDCHelper.getPayloadFromIdToken(token, iss, audiences, oidcPublicKeysResponse);
     }
 }
