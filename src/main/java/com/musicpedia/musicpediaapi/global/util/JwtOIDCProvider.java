@@ -13,23 +13,32 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.RSAPublicKeySpec;
 import java.util.Base64;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Component
 public class JwtOIDCProvider {
     private static final String KID = "kid";
 
-    public String getKidFromUnsignedTokenHeader(String token, String iss, String aud) {
-        return (String) getUnsignedTokenClaims(token, iss, aud).getHeader().get(KID);
+    public String getKidFromUnsignedTokenHeader(String token, String iss, List<String> audiences) {
+        return (String) getUnsignedTokenClaims(token, iss, audiences).getHeader().get(KID);
     }
 
-    private Jwt<Header, Claims> getUnsignedTokenClaims(String token, String iss, String aud) {
+    private Jwt<Header, Claims> getUnsignedTokenClaims(String token, String iss, List<String> audiences) {
         try {
-            return Jwts.parserBuilder()
-                    .requireAudience(aud)
+            Jwt<Header, Claims> claimsJwt = Jwts.parserBuilder()
                     .requireIssuer(iss)
                     .build()
                     .parseClaimsJwt(getUnsignedToken(token));
+
+            Claims claims = claimsJwt.getBody();
+
+            String audience = claims.getAudience();
+
+            if (audiences.contains(audience)) {
+                return claimsJwt;
+            }
+            throw new IllegalArgumentException("잘못된 Audience 입니다.");
         } catch (ExpiredJwtException e) {
             throw new IllegalArgumentException("만료된 Id Token 입니다.");
         } catch (Exception e) {
