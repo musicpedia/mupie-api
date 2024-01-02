@@ -3,6 +3,7 @@ package com.musicpedia.musicpediaapi.config;
 import com.musicpedia.musicpediaapi.global.util.JwtUtil;
 import com.musicpedia.musicpediaapi.interceptor.JwtInterceptor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -12,6 +13,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
     private final JwtUtil jwtUtil;
+
+    @Value("${guest.member-id}")
+    private long guestId;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -24,7 +28,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new JwtInterceptor(jwtUtil))
+        registry.addInterceptor(new JwtInterceptor(jwtUtil, guestId))
                 .addPathPatterns("/v1/**")
                 .excludePathPatterns("/v1/auth/**");
     }
