@@ -37,19 +37,15 @@ public class WeeklyRecommendationService {
     }
 
     public WeeklyRecommendationResponse getWeeklyRecommendation(long memberId) {
-        List<WeeklyRecommendationTrack> weeklyRecommendationTracks = weeklyRecommendationTrackIds
+        List<SpotifyTrack> weeklyRecommendations = weeklyRecommendationTrackIds
                 .stream()
-                .map(spotifyId -> WeeklyRecommendationTrack.builder()
-                        .spotifyTrack(trackService.getTrack(memberId, spotifyId))
-                        .score(ratingService.getScore(memberId, spotifyId))
-                        .build()
-                )
+                .map(spotifyId -> trackService.getTrack(memberId, spotifyId))
                 .toList();
 
-        int size = weeklyRecommendationTracks.size();
+        int size = weeklyRecommendations.size();
 
         return WeeklyRecommendationResponse.builder()
-                .weeklyRecommendationTracks(weeklyRecommendationTracks)
+                .weeklyRecommendations(weeklyRecommendations)
                 .size(size)
                 .build();
     }
