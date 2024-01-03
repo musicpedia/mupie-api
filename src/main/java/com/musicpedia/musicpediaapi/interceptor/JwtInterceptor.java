@@ -31,7 +31,10 @@ public class JwtInterceptor implements HandlerInterceptor {
         String token = jwtUtil.resolveToken(bearerToken);
         Long memberId = jwtUtil.getMemberIdFromToken(token);
 
-        guestRequestCheck(request, memberId);
+        String requestURI = request.getRequestURI();
+        String requestMethod = request.getMethod();
+
+        guestRequestCheck(requestURI, requestMethod, memberId);
 
         // 추출한 멤버 ID를 요청 속성(attribute)에 저장하여 컨트롤러에서 사용할 수 있도록 함
         request.setAttribute("memberId", memberId);
@@ -39,20 +42,24 @@ public class JwtInterceptor implements HandlerInterceptor {
         return true;
     }
 
-    private void guestRequestCheck(HttpServletRequest request, Long memberId) throws AccessDeniedException {
+    private void guestRequestCheck(String requestURI, String requestMethod, Long memberId) throws AccessDeniedException {
         List<String> accessibleURIList = List.of(
                 "/v1/search",
                 "/v1/artist",
                 "/v1/album",
                 "/v1/track",
-                "/v1/weekly-recommendation"
+                "/v1/weekly-recommendation",
+                "/v1/member"
         );
 
         if (!memberId.equals(guestId)) {
             return;
         }
 
-        String requestURI = request.getRequestURI();
+        if (!requestMethod.equalsIgnoreCase("GET")) {
+            throw new AccessDeniedException("접근 권한이 없습니다.");
+        }
+
         if (requestURI.startsWith("/v1/artist/like")) {
             throw new AccessDeniedException("접근 권한이 없습니다.");
         }
