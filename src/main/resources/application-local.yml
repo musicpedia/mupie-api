@@ -67,3 +67,6 @@ oauth:
 
 guest:
   member-id: ${GUEST_MEMBER_ID}
+
+client:
+  minimum-compatible-version: ${MINIMUM_COMPATIBLE_VERSION}

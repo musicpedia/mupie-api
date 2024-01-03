@@ -15,6 +15,9 @@ public class AuthService {
     @Value("${guest.member-id}")
     private long guestId;
 
+    @Value("${client.minimum-compatible-version}")
+    private String version;
+
     public AuthTokens reissueTokens(AuthTokens authTokens) {
         String refreshToken = authTokens.getRefreshToken();
 
@@ -26,5 +29,9 @@ public class AuthService {
 
     public AuthTokens guestLogin() {
         return AuthTokens.of(jwtUtil.generateAccessToken(guestId), jwtUtil.generateRefreshToken(guestId), GRANT_TYPE);
+    }
+
+    public String getMinimumCompatibleVersion() {
+        return version;
     }
 }

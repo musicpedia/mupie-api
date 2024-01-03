@@ -16,10 +16,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "auth")
 @RestController
@@ -150,5 +147,10 @@ public class AuthController {
     @PostMapping("/login/guest")
     public ResponseEntity<AuthTokens> loginGuest() {
         return ResponseEntity.ok(authService.guestLogin());
+    }
+
+    @GetMapping("/version")
+    public ResponseEntity<String> getAppVersion() {
+        return ResponseEntity.ok(authService.getMinimumCompatibleVersion());
     }
 }
