@@ -5,7 +5,6 @@ import com.musicpedia.musicpediaapi.domain.recommendation.week.dto.WeeklyRecomme
 import com.musicpedia.musicpediaapi.domain.recommendation.week.dto.WeeklyRecommendationTrack;
 import com.musicpedia.musicpediaapi.domain.recommendation.week.entity.WeeklyRecommendation;
 import com.musicpedia.musicpediaapi.domain.recommendation.week.repository.WeeklyRecommendationRepository;
-import com.musicpedia.musicpediaapi.domain.track.dto.SpotifyTrack;
 import com.musicpedia.musicpediaapi.domain.track.service.TrackService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -37,15 +36,19 @@ public class WeeklyRecommendationService {
     }
 
     public WeeklyRecommendationResponse getWeeklyRecommendation(long memberId) {
-        List<SpotifyTrack> weeklyRecommendations = weeklyRecommendationTrackIds
+        List<WeeklyRecommendationTrack> weeklyRecommendationTracks = weeklyRecommendationTrackIds
                 .stream()
-                .map(spotifyId -> trackService.getTrack(memberId, spotifyId))
+                .map(spotifyId -> WeeklyRecommendationTrack.builder()
+                        .spotifyTrack(trackService.getTrack(memberId, spotifyId))
+                        .score(ratingService.getScore(memberId, spotifyId))
+                        .build()
+                )
                 .toList();
 
-        int size = weeklyRecommendations.size();
+        int size = weeklyRecommendationTracks.size();
 
         return WeeklyRecommendationResponse.builder()
-                .weeklyRecommendations(weeklyRecommendations)
+                .weeklyRecommendationTracks(weeklyRecommendationTracks)
                 .size(size)
                 .build();
     }

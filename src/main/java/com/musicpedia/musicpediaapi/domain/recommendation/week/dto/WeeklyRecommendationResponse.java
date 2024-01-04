@@ -12,7 +12,7 @@ import java.util.List;
 @Builder
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class WeeklyRecommendationResponse {
-    private List<SpotifyTrack> weeklyRecommendations;
+    private List<WeeklyRecommendationTrack> weeklyRecommendationTracks;
 
     private int size;
 }
