@@ -2,6 +2,8 @@ package com.musicpedia.musicpediaapi.domain.rating.service;
 
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import com.musicpedia.musicpediaapi.domain.member.repository.MemberRepository;
+import com.musicpedia.musicpediaapi.domain.rating.dto.AverageScoreDTO;
+import com.musicpedia.musicpediaapi.domain.rating.dto.RatingScoreDTO;
 import com.musicpedia.musicpediaapi.domain.rating.dto.Score;
 import com.musicpedia.musicpediaapi.domain.rating.dto.request.RatingCreateRequest;
 import com.musicpedia.musicpediaapi.domain.rating.dto.request.RatingUpdateRequest;
@@ -18,6 +20,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -66,6 +71,40 @@ public class RatingService {
                 .ratingScore(ratingScore)
                 .averageScore(averageScore)
                 .build();
+    }
+
+    public Map<String, Score> getScores(long memberId, List<String> spotifyIds) {
+        Map<String, String> averageScores = getAverageScores(spotifyIds);
+        Map<String, String> ratingScores = getRatingScores(memberId, spotifyIds);
+
+        return getScores(spotifyIds, averageScores, ratingScores);
+    }
+
+    private Map<String, String> getAverageScores(List<String> spotifyIds) {
+        Map<String, String> averageScores = new HashMap<>();
+        spotifyIds.forEach(spotifyId -> averageScores.put(spotifyId, "0"));
+
+        List<AverageScoreDTO> foundAverageScores = ratingRepository.calculateAverageScoresBySpotifyIds(spotifyIds);
+        foundAverageScores.forEach(foundAverageScore -> averageScores.put(foundAverageScore.getSpotifyId(), foundAverageScore.getAverageScore().toString()));
+
+        return averageScores;
+    }
+
+    private Map<String, String> getRatingScores(long memberId, List<String> spotifyIds) {
+        Map<String, String> ratingScores = new HashMap<>();
+        spotifyIds.forEach(spotifyId -> ratingScores.put(spotifyId, "0"));
+
+        List<RatingScoreDTO> foundRatingScores = ratingRepository.calculateRatingScoresBySpotifyIds(memberId, spotifyIds);
+        foundRatingScores.forEach(foundRatingScore -> ratingScores.put(foundRatingScore.getSpotifyId(), foundRatingScore.getRatingScore()));
+
+        return ratingScores;
+    }
+
+    private Map<String, Score> getScores(List<String> spotifyIds, Map<String, String> averageScores, Map<String, String> ratingScores) {
+        Map<String, Score> scores = new HashMap<>();
+        spotifyIds.forEach(spotifyId -> scores.put(spotifyId, Score.builder().averageScore(averageScores.get(spotifyId)).ratingScore(ratingScores.get(spotifyId)).build()));
+
+        return scores;
     }
 
     @Transactional
