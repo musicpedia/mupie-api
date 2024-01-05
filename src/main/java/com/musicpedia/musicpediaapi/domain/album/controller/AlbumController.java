@@ -1,7 +1,7 @@
 package com.musicpedia.musicpediaapi.domain.album.controller;
 
 import com.musicpedia.musicpediaapi.domain.album.dto.AlbumResponse;
-import com.musicpedia.musicpediaapi.domain.album.dto.SpotifyAlbumWithTracks;
+import com.musicpedia.musicpediaapi.domain.album.dto.AlbumWithTracks;
 import com.musicpedia.musicpediaapi.domain.album.service.AlbumService;
 import com.musicpedia.musicpediaapi.domain.rating.dto.Score;
 import com.musicpedia.musicpediaapi.domain.rating.service.RatingService;
@@ -46,7 +46,7 @@ public class AlbumController {
     @GetMapping("/{albumId}")
     public ResponseEntity<AlbumResponse> getAlbum(@PathVariable String albumId, HttpServletRequest httpServletRequest) {
         long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
-        SpotifyAlbumWithTracks albumInfo = albumService.getAlbum(memberId, albumId);
+        AlbumWithTracks albumInfo = albumService.getAlbum(memberId, albumId);
         Score score = ratingService.getScore(memberId, albumId);
         AlbumResponse albumResponse = AlbumResponse.builder()
                 .album(albumInfo)

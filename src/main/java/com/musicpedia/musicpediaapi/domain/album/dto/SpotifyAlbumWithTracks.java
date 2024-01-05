@@ -31,21 +31,19 @@ public class SpotifyAlbumWithTracks {
 
     private List<SpotifyAlbumTrack> trackList;
 
-    @Data
-    public static class AlbumImage {
-        private Long height;
-
-        private String url;
-
-        private Long width;
-    }
-
-    @Data
-    public static class AlbumArtist {
-        private String id;
-
-        private String name;
-
-        private String type;
+    public AlbumWithTracks toAlbumWithTracks(List<AlbumTrack> albumTracks) {
+        return AlbumWithTracks.builder()
+                .id(id)
+                .images(images)
+                .name(name)
+                .type(type)
+                .albumType(albumType)
+                .artists(artists)
+                .releaseDate(releaseDate)
+                .releaseDatePrecision(releaseDatePrecision)
+                .totalTracks(totalTracks)
+                .popularity(popularity)
+                .trackList(albumTracks)
+                .build();
     }
 }

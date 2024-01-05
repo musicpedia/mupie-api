@@ -9,8 +9,8 @@ import lombok.Data;
 @Data
 @Builder
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class AlbumResponse {
-    private AlbumWithTracks album;
+public class AlbumTrack {
+    private SpotifyAlbumTrack albumTrack;
 
     private Score score;
 }
