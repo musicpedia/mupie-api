@@ -1,6 +1,7 @@
 package com.musicpedia.musicpediaapi.domain.comment.comment.entity;
 
 
+import com.musicpedia.musicpediaapi.domain.comment.comment.dto.response.CommentDetail;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import com.musicpedia.musicpediaapi.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
@@ -29,7 +30,7 @@ public class Comment extends BaseTimeEntity {
     private String spotifyId;
 
     @Column(name = "like_cnt", nullable = false)
-    private Long likeCount;
+    private long likeCount = 0;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
@@ -47,5 +48,21 @@ public class Comment extends BaseTimeEntity {
         this.content = content;
         this.spotifyId = spotifyId;
         this.member = member;
+    }
+
+    public void updateMember(Member member) {
+        this.member = member;
+    }
+
+    public CommentDetail toCommentDetail(CommentDetail.Writer writer, long likeCount, boolean isModified, String createdAt) {
+        return CommentDetail.builder()
+                .id(id)
+                .content(content)
+                .spotifyId(spotifyId)
+                .writer(writer)
+                .likeCount(likeCount)
+                .isModified(isModified)
+                .createdAt(createdAt)
+                .build();
     }
 }
