@@ -60,7 +60,7 @@ public class RatingService {
                 .build();
     }
 
-    private String getRatingScore(String spotifyId, Member member) {
+    public String getRatingScore(String spotifyId, Member member) {
         Optional<Rating> foundRating = ratingRepository.findBySpotifyIdAndMember(spotifyId, member);
         if (foundRating.isPresent()) {
             Rating rating = foundRating.get();
@@ -70,7 +70,7 @@ public class RatingService {
         return "0";
     }
 
-    private String getAverageScore(String spotifyId) {
+    public String getAverageScore(String spotifyId) {
         Double calculatedAverageScore = ratingRepository.calculateAverageScoreBySpotifyId(spotifyId);
         if (calculatedAverageScore == null) {
             return "0";
