@@ -1,4 +1,4 @@
-package com.musicpedia.musicpediaapi.like.artist;
+package com.musicpedia.musicpediaapi.artist.liked_artist;
 
 import com.musicpedia.musicpediaapi.domain.auth.entity.OAuthProvider;
 import com.musicpedia.musicpediaapi.domain.artist.liked_artist.dto.LikedArtistDetail;

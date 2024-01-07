@@ -1,4 +1,4 @@
-package com.musicpedia.musicpediaapi.artist;
+package com.musicpedia.musicpediaapi.artist.artist;
 
 import com.musicpedia.musicpediaapi.domain.artist.artist.dto.SpotifyArtist;
 import com.musicpedia.musicpediaapi.domain.artist.artist.service.ArtistService;
