@@ -1,10 +1,10 @@
-package com.musicpedia.musicpediaapi.domain.like.artist.service;
+package com.musicpedia.musicpediaapi.domain.artist.liked_artist.service;
 
-import com.musicpedia.musicpediaapi.domain.like.artist.dto.LikedArtistDetail;
-import com.musicpedia.musicpediaapi.domain.like.artist.dto.LikedArtistPage;
-import com.musicpedia.musicpediaapi.domain.like.artist.dto.request.LikedArtistCreateRequest;
-import com.musicpedia.musicpediaapi.domain.like.artist.entity.LikedArtist;
-import com.musicpedia.musicpediaapi.domain.like.artist.repository.LikedArtistRepository;
+import com.musicpedia.musicpediaapi.domain.artist.liked_artist.dto.LikedArtistDetail;
+import com.musicpedia.musicpediaapi.domain.artist.liked_artist.dto.LikedArtistPage;
+import com.musicpedia.musicpediaapi.domain.artist.liked_artist.entity.LikedArtist;
+import com.musicpedia.musicpediaapi.domain.artist.liked_artist.dto.request.LikedArtistCreateRequest;
+import com.musicpedia.musicpediaapi.domain.artist.liked_artist.repository.LikedArtistRepository;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import com.musicpedia.musicpediaapi.domain.member.repository.MemberRepository;
 import jakarta.persistence.NoResultException;

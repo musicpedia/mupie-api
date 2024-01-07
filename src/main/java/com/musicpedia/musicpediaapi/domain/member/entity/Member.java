@@ -1,6 +1,6 @@
 package com.musicpedia.musicpediaapi.domain.member.entity;
 
-import com.musicpedia.musicpediaapi.domain.like.artist.entity.LikedArtist;
+import com.musicpedia.musicpediaapi.domain.artist.liked_artist.entity.LikedArtist;
 import com.musicpedia.musicpediaapi.domain.member.dto.request.MemberUpdateRequest;
 import com.musicpedia.musicpediaapi.domain.member.dto.response.MemberDetail;
 import com.musicpedia.musicpediaapi.domain.rating.entity.Rating;

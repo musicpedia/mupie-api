@@ -1,7 +1,7 @@
 package com.musicpedia.musicpediaapi.member;
 
 import com.musicpedia.musicpediaapi.domain.auth.entity.OAuthProvider;
-import com.musicpedia.musicpediaapi.domain.like.artist.repository.LikedArtistRepository;
+import com.musicpedia.musicpediaapi.domain.artist.liked_artist.repository.LikedArtistRepository;
 import com.musicpedia.musicpediaapi.domain.member.dto.request.MemberUpdateRequest;
 import com.musicpedia.musicpediaapi.domain.member.dto.response.MemberDetail;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
@@ -9,7 +9,6 @@ import com.musicpedia.musicpediaapi.domain.member.entity.OAuthInfo;
 import com.musicpedia.musicpediaapi.domain.member.repository.MemberRepository;
 import com.musicpedia.musicpediaapi.domain.member.service.MemberService;
 import com.musicpedia.musicpediaapi.domain.rating.repository.RatingRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

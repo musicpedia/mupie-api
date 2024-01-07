@@ -1,4 +1,4 @@
-package com.musicpedia.musicpediaapi.domain.like.artist.dto;
+package com.musicpedia.musicpediaapi.domain.artist.liked_artist.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

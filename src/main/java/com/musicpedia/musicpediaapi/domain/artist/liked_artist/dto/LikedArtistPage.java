@@ -1,11 +1,8 @@
-package com.musicpedia.musicpediaapi.domain.like.artist.dto;
+package com.musicpedia.musicpediaapi.domain.artist.liked_artist.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.musicpedia.musicpediaapi.domain.like.artist.entity.LikedArtist;
-import com.musicpedia.musicpediaapi.domain.rating.dto.response.RatingDetail;
-import com.musicpedia.musicpediaapi.domain.rating.dto.response.RatingPage;
-import com.musicpedia.musicpediaapi.domain.rating.entity.Rating;
+import com.musicpedia.musicpediaapi.domain.artist.liked_artist.entity.LikedArtist;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;

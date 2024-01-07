@@ -1,6 +1,6 @@
-package com.musicpedia.musicpediaapi.domain.like.artist.entity;
+package com.musicpedia.musicpediaapi.domain.artist.liked_artist.entity;
 
-import com.musicpedia.musicpediaapi.domain.like.artist.dto.LikedArtistDetail;
+import com.musicpedia.musicpediaapi.domain.artist.liked_artist.dto.LikedArtistDetail;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import com.musicpedia.musicpediaapi.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;

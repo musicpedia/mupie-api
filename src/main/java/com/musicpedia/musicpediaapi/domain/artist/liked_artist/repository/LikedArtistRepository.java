@@ -1,12 +1,11 @@
-package com.musicpedia.musicpediaapi.domain.like.artist.repository;
+package com.musicpedia.musicpediaapi.domain.artist.liked_artist.repository;
 
-import com.musicpedia.musicpediaapi.domain.like.artist.entity.LikedArtist;
+import com.musicpedia.musicpediaapi.domain.artist.liked_artist.entity.LikedArtist;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 

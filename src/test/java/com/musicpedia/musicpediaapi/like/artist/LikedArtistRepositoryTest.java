@@ -1,8 +1,8 @@
 package com.musicpedia.musicpediaapi.like.artist;
 
 import com.musicpedia.musicpediaapi.domain.auth.entity.OAuthProvider;
-import com.musicpedia.musicpediaapi.domain.like.artist.entity.LikedArtist;
-import com.musicpedia.musicpediaapi.domain.like.artist.repository.LikedArtistRepository;
+import com.musicpedia.musicpediaapi.domain.artist.liked_artist.entity.LikedArtist;
+import com.musicpedia.musicpediaapi.domain.artist.liked_artist.repository.LikedArtistRepository;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import com.musicpedia.musicpediaapi.domain.member.entity.OAuthInfo;
 import jakarta.persistence.NoResultException;

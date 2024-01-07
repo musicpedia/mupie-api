@@ -1,10 +1,10 @@
-package com.musicpedia.musicpediaapi.domain.artist.controller;
+package com.musicpedia.musicpediaapi.domain.artist.artist.controller;
 
-import com.musicpedia.musicpediaapi.domain.artist.dto.ArtistResponse;
-import com.musicpedia.musicpediaapi.domain.artist.dto.RelatedArtists;
-import com.musicpedia.musicpediaapi.domain.artist.dto.SpotifyArtist;
-import com.musicpedia.musicpediaapi.domain.artist.service.ArtistService;
-import com.musicpedia.musicpediaapi.domain.like.artist.service.LikedArtistService;
+import com.musicpedia.musicpediaapi.domain.artist.artist.dto.RelatedArtists;
+import com.musicpedia.musicpediaapi.domain.artist.artist.dto.SpotifyArtist;
+import com.musicpedia.musicpediaapi.domain.artist.artist.service.ArtistService;
+import com.musicpedia.musicpediaapi.domain.artist.artist.dto.ArtistResponse;
+import com.musicpedia.musicpediaapi.domain.artist.liked_artist.service.LikedArtistService;
 import com.musicpedia.musicpediaapi.domain.search.dto.SpotifySearchAlbum;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

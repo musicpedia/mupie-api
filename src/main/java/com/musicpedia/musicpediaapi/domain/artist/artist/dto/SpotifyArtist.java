@@ -1,5 +1,5 @@
 // SpotifyArtistInfo
-package com.musicpedia.musicpediaapi.domain.artist.dto;
+package com.musicpedia.musicpediaapi.domain.artist.artist.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

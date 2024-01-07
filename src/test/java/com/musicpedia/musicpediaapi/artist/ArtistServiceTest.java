@@ -1,7 +1,7 @@
 package com.musicpedia.musicpediaapi.artist;
 
-import com.musicpedia.musicpediaapi.domain.artist.dto.SpotifyArtist;
-import com.musicpedia.musicpediaapi.domain.artist.service.ArtistService;
+import com.musicpedia.musicpediaapi.domain.artist.artist.dto.SpotifyArtist;
+import com.musicpedia.musicpediaapi.domain.artist.artist.service.ArtistService;
 import com.musicpedia.musicpediaapi.domain.auth.entity.OAuthProvider;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import com.musicpedia.musicpediaapi.domain.member.entity.OAuthInfo;

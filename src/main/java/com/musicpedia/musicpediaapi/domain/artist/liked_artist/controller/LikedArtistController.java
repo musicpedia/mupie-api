@@ -1,9 +1,9 @@
-package com.musicpedia.musicpediaapi.domain.like.artist.controller;
+package com.musicpedia.musicpediaapi.domain.artist.liked_artist.controller;
 
-import com.musicpedia.musicpediaapi.domain.like.artist.dto.LikedArtistDetail;
-import com.musicpedia.musicpediaapi.domain.like.artist.dto.LikedArtistPage;
-import com.musicpedia.musicpediaapi.domain.like.artist.dto.request.LikedArtistCreateRequest;
-import com.musicpedia.musicpediaapi.domain.like.artist.service.LikedArtistService;
+import com.musicpedia.musicpediaapi.domain.artist.liked_artist.dto.LikedArtistDetail;
+import com.musicpedia.musicpediaapi.domain.artist.liked_artist.dto.LikedArtistPage;
+import com.musicpedia.musicpediaapi.domain.artist.liked_artist.service.LikedArtistService;
+import com.musicpedia.musicpediaapi.domain.artist.liked_artist.dto.request.LikedArtistCreateRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

@@ -1,7 +1,7 @@
-package com.musicpedia.musicpediaapi.domain.artist.service;
+package com.musicpedia.musicpediaapi.domain.artist.artist.service;
 
-import com.musicpedia.musicpediaapi.domain.artist.dto.RelatedArtists;
-import com.musicpedia.musicpediaapi.domain.artist.dto.SpotifyArtist;
+import com.musicpedia.musicpediaapi.domain.artist.artist.dto.RelatedArtists;
+import com.musicpedia.musicpediaapi.domain.artist.artist.dto.SpotifyArtist;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import com.musicpedia.musicpediaapi.domain.member.repository.MemberRepository;
 import com.musicpedia.musicpediaapi.domain.search.dto.SpotifySearchAlbum;
