@@ -51,26 +51,32 @@ public class RatingService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoResultException("해당하는 id의 회원을 찾을 수 없습니다."));
 
-        String ratingScore;
-        String averageScore;
+        String averageScore = getAverageScore(spotifyId);
+        String ratingScore = getRatingScore(spotifyId, member);
 
-        Double calculatedAverageScore = ratingRepository.calculateAverageScoreBySpotifyId(spotifyId);
-        if (calculatedAverageScore == null) {
-            averageScore = "0";
-        } else {
-            averageScore = calculatedAverageScore.toString();
-        }
-        Optional<Rating> foundRating = ratingRepository.findBySpotifyIdAndMember(spotifyId, member);
-        if (foundRating.isPresent()) {
-            Rating rating = foundRating.get();
-            ratingScore = rating.getScore();
-        } else {
-            ratingScore = "0";
-        }
         return Score.builder()
                 .ratingScore(ratingScore)
                 .averageScore(averageScore)
                 .build();
+    }
+
+    private String getRatingScore(String spotifyId, Member member) {
+        Optional<Rating> foundRating = ratingRepository.findBySpotifyIdAndMember(spotifyId, member);
+        if (foundRating.isPresent()) {
+            Rating rating = foundRating.get();
+            return rating.getScore();
+        }
+
+        return "0";
+    }
+
+    private String getAverageScore(String spotifyId) {
+        Double calculatedAverageScore = ratingRepository.calculateAverageScoreBySpotifyId(spotifyId);
+        if (calculatedAverageScore == null) {
+            return "0";
+        }
+
+        return calculatedAverageScore.toString();
     }
 
     public Map<String, Score> getScores(long memberId, List<String> spotifyIds) {
