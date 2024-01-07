@@ -1,5 +1,6 @@
 package com.musicpedia.musicpediaapi.album;
 
+import com.musicpedia.musicpediaapi.domain.album.dto.AlbumWithTracks;
 import com.musicpedia.musicpediaapi.domain.album.dto.SpotifyAlbumWithTracks;
 import com.musicpedia.musicpediaapi.domain.album.service.AlbumService;
 import com.musicpedia.musicpediaapi.domain.auth.entity.OAuthProvider;
@@ -49,7 +50,7 @@ public class AlbumServiceTest {
         when(spotifyApiClient.requestAlbum(anyString(), anyString())).thenReturn(spotifyAlbumWithTracks);
 
         // when
-        SpotifyAlbumWithTracks result = albumService.getAlbum(1L, albumId);
+        AlbumWithTracks result = albumService.getAlbum(1L, albumId);
 
         // then
         assertNotNull(result);
