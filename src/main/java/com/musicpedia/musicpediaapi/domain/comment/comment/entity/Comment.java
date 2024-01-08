@@ -29,6 +29,9 @@ public class Comment extends BaseTimeEntity {
     @Column(name = "spotify_id", nullable = false)
     private String spotifyId;
 
+    @Column(name = "score", nullable = false)
+    private String score = "0";
+
     @Column(name = "like_cnt", nullable = false)
     private long likeCount = 0;
 
@@ -54,15 +57,26 @@ public class Comment extends BaseTimeEntity {
         this.member = member;
     }
 
-    public CommentDetail toCommentDetail(CommentDetail.Writer writer, long likeCount, boolean isModified, String createdAt) {
+    public void updateScore(String score) {
+        this.score = score;
+    }
+
+    public CommentDetail toCommentDetail() {
+        CommentDetail.Writer writer = CommentDetail.Writer.builder()
+                .id(member.getId())
+                .name(member.getName())
+                .profileImage(member.getProfileImage())
+                .score(score)
+                .build();
+
         return CommentDetail.builder()
                 .id(id)
                 .content(content)
                 .spotifyId(spotifyId)
                 .writer(writer)
                 .likeCount(likeCount)
-                .isModified(isModified)
-                .createdAt(createdAt)
+                .isModified(!createdAt.isEqual(updatedAt))
+                .createdAt(createdAt.toString())
                 .build();
     }
 }

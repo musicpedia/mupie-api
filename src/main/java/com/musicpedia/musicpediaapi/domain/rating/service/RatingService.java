@@ -1,5 +1,7 @@
 package com.musicpedia.musicpediaapi.domain.rating.service;
 
+import com.musicpedia.musicpediaapi.domain.comment.comment.entity.Comment;
+import com.musicpedia.musicpediaapi.domain.comment.comment.repository.CommentRepository;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import com.musicpedia.musicpediaapi.domain.member.repository.MemberRepository;
 import com.musicpedia.musicpediaapi.domain.rating.dto.AverageScoreDTO;
@@ -31,6 +33,8 @@ import java.util.Optional;
 public class RatingService {
     private final RatingRepository ratingRepository;
     private final MemberRepository memberRepository;
+
+    private final CommentRepository commentRepository;
 
     @Transactional
     public RatingDetail saveRating(long memberId, RatingCreateRequest request) {
@@ -122,6 +126,9 @@ public class RatingService {
         Rating rating = ratingRepository.findBySpotifyIdAndMember(spotifyId, member)
                 .orElseThrow(() -> new NoResultException("해당하는 평가 항목을 찾을 수 없습니다."));
         rating.updateScore(score);
+
+        List<Comment> comments = commentRepository.findAllBySpotifyIdAndMember(spotifyId, member);
+        comments.forEach(comment -> comment.updateScore(score));
     }
 
     @Transactional
@@ -131,6 +138,9 @@ public class RatingService {
         Rating rating = ratingRepository.findBySpotifyIdAndMember(spotifyId, member)
                 .orElseThrow(() -> new NoResultException("해당하는 평가 항목을 찾을 수 없습니다."));
         ratingRepository.delete(rating);
+
+        List<Comment> comments = commentRepository.findAllBySpotifyIdAndMember(spotifyId, member);
+        comments.forEach(comment -> comment.updateScore("0"));
     }
 
     public RatingPage getRatings(long memberId, Type type, Pageable pageable) {
