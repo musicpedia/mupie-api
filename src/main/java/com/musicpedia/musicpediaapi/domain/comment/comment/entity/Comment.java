@@ -32,6 +32,9 @@ public class Comment extends BaseTimeEntity {
     @Column(name = "score", nullable = false)
     private String score = "0";
 
+    @Column(name = "is_modified")
+    private boolean isModified = false;
+
     @Column(name = "like_cnt", nullable = false)
     private long likeCount = 0;
 
@@ -77,8 +80,8 @@ public class Comment extends BaseTimeEntity {
                 .spotifyId(spotifyId)
                 .writer(writer)
                 .likeCount(likeCount)
-                .isModified(!createdAt.isEqual(updatedAt))
-                .createdAt(createdAt.toString())
+                .isModified(isModified)
+                .createdAt(createdAt)
                 .build();
     }
 }
