@@ -1,6 +1,7 @@
 package com.musicpedia.musicpediaapi.domain.comment.comment.controller;
 
 import com.musicpedia.musicpediaapi.domain.comment.comment.dto.request.CommentCreateRequest;
+import com.musicpedia.musicpediaapi.domain.comment.comment.dto.request.CommentUpdateRequest;
 import com.musicpedia.musicpediaapi.domain.comment.comment.dto.response.CommentDetail;
 import com.musicpedia.musicpediaapi.domain.comment.comment.dto.response.CommentPage;
 import com.musicpedia.musicpediaapi.domain.comment.comment.service.CommentService;
@@ -52,6 +53,7 @@ public class CommentController {
     @PostMapping()
     public ResponseEntity<CommentDetail> saveComment(@RequestBody @Valid CommentCreateRequest request, HttpServletRequest httpServletRequest) {
         long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
+
         return ResponseEntity.status(HttpStatus.CREATED).body(commentService.saveComment(memberId, request));
     }
 
@@ -80,5 +82,33 @@ public class CommentController {
         long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
 
         return ResponseEntity.ok(commentService.getComments(memberId, spotifyId, pageable));
+    }
+
+    @Operation(
+            summary = "코멘트 수정",
+            description = "코멘트 id에 해당하는 항목의 코멘트를 수정합니다.",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "코멘트 id, spotify id, 수정한 코멘트 내용",
+                    required = true
+            )
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK",
+                    content = @Content(schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST",
+                    content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string"))),
+            @ApiResponse(responseCode = "401", description = "UNAUTHORIZED",
+                    content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string"))),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND",
+                    content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string"))),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR",
+                    content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string")))
+    })
+    @PutMapping()
+    public ResponseEntity<String> updateComment(@RequestBody @Valid CommentUpdateRequest request, HttpServletRequest httpServletRequest) {
+        long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
+        commentService.updateComment(memberId, request);
+
+        return ResponseEntity.ok("코멘트 수정 성공");
     }
 }

@@ -66,6 +66,10 @@ public class Comment extends BaseTimeEntity {
         this.score = score;
     }
 
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
     public CommentDetail toCommentDetail() {
         CommentDetail.Writer writer = CommentDetail.Writer.builder()
                 .id(member.getId())

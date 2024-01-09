@@ -9,8 +9,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
+    Optional<Comment> findByIdAndSpotifyIdAndMember(Long id, String spotifyId, Member member);
+
     @Query("SELECT c FROM Comment c JOIN FETCH c.member WHERE c.spotifyId = :spotifyId")
     Page<Comment> findAllBySpotifyId(@Param("spotifyId") String spotifyId, Pageable pageable);
 

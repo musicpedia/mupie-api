@@ -1,13 +1,13 @@
 package com.musicpedia.musicpediaapi.domain.comment.comment.service;
 
 import com.musicpedia.musicpediaapi.domain.comment.comment.dto.request.CommentCreateRequest;
+import com.musicpedia.musicpediaapi.domain.comment.comment.dto.request.CommentUpdateRequest;
 import com.musicpedia.musicpediaapi.domain.comment.comment.dto.response.CommentDetail;
 import com.musicpedia.musicpediaapi.domain.comment.comment.dto.response.CommentPage;
 import com.musicpedia.musicpediaapi.domain.comment.comment.entity.Comment;
 import com.musicpedia.musicpediaapi.domain.comment.comment.repository.CommentRepository;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import com.musicpedia.musicpediaapi.domain.member.repository.MemberRepository;
-import com.musicpedia.musicpediaapi.domain.rating.service.RatingService;
 import jakarta.persistence.NoResultException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -41,5 +41,17 @@ public class CommentService {
         Page<Comment> comments = commentRepository.findAllBySpotifyId(spotifyId, pageable);
 
         return CommentPage.from(comments);
+    }
+
+    @Transactional
+    public void updateComment(long memberId, CommentUpdateRequest request) {
+        Long commentId = request.getCommentId();
+        String spotifyId = request.getSpotifyId();
+        String content = request.getContent();
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new NoResultException("해당하는 id의 회원을 찾을 수 없습니다."));
+        Comment comment = commentRepository.findByIdAndSpotifyIdAndMember(commentId, spotifyId, member)
+                .orElseThrow(() -> new NoResultException("해당하는 코멘트를 찾을 수 없습니다."));
+        comment.updateContent(content);
     }
 }
