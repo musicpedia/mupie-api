@@ -50,6 +50,7 @@ public class CommentRepositoryTest {
         Comment comment = Comment.builder()
                 .content("저장 테스트:이번 앨범 좋네요")
                 .spotifyId("albumspotifyid")
+                .score("4.5")
                 .member(member)
                 .build();
         Comment savedComment = commentRepository.save(comment);
