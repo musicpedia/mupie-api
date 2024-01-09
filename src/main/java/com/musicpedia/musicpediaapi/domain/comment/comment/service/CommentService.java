@@ -47,9 +47,9 @@ public class CommentService {
     public void updateComment(long memberId, CommentUpdateRequest request) {
         Long commentId = request.getCommentId();
         String content = request.getContent();
-        memberRepository.findById(memberId)
+        Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoResultException("해당하는 id의 회원을 찾을 수 없습니다."));
-        Comment comment = commentRepository.findById(commentId)
+        Comment comment = commentRepository.findByIdAndMember(commentId, member)
                 .orElseThrow(() -> new NoResultException("해당하는 코멘트를 찾을 수 없습니다."));
         comment.updateContent(content);
     }
