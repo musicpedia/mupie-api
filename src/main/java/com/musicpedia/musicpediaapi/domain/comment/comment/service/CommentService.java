@@ -46,12 +46,20 @@ public class CommentService {
     @Transactional
     public void updateComment(long memberId, CommentUpdateRequest request) {
         Long commentId = request.getCommentId();
-        String spotifyId = request.getSpotifyId();
         String content = request.getContent();
-        Member member = memberRepository.findById(memberId)
+        memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoResultException("해당하는 id의 회원을 찾을 수 없습니다."));
-        Comment comment = commentRepository.findByIdAndSpotifyIdAndMember(commentId, spotifyId, member)
+        Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new NoResultException("해당하는 코멘트를 찾을 수 없습니다."));
         comment.updateContent(content);
+    }
+
+    @Transactional
+    public void deleteComment(long memberId, long commentId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new NoResultException("해당하는 id의 회원을 찾을 수 없습니다."));
+        Comment comment = commentRepository.findByIdAndMember(commentId, member)
+                .orElseThrow(() -> new NoResultException("해당하는 코멘트를 찾을 수 없습니다."));
+        commentRepository.delete(comment);
     }
 }

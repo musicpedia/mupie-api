@@ -111,4 +111,26 @@ public class CommentController {
 
         return ResponseEntity.ok("코멘트 수정 성공");
     }
+
+    @Operation(summary = "comment id에 해당하는 코멘트 삭제", description = "comment id에 해당하는 코멘트를 삭제합니다.")
+    @Parameter(name = "commentId", description = "삭제할 코멘트의 id", example = "12", required = true)
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK",
+                    content = @Content(schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST",
+                    content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string"))),
+            @ApiResponse(responseCode = "401", description = "UNAUTHORIZED",
+                    content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string"))),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND",
+                    content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string"))),
+            @ApiResponse(responseCode = "500", description = "INTERNAL SERVER ERROR",
+                    content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, schema = @Schema(type = "string")))
+    })
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<String> deleteRating(@PathVariable("commentId") Long commentId, HttpServletRequest httpServletRequest) {
+        long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
+        commentService.deleteComment(memberId, commentId);
+
+        return ResponseEntity.ok("평점 삭제 성공");
+    }
 }
