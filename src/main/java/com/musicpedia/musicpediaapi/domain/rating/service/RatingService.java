@@ -2,6 +2,8 @@ package com.musicpedia.musicpediaapi.domain.rating.service;
 
 import com.musicpedia.musicpediaapi.domain.comment.comment.entity.Comment;
 import com.musicpedia.musicpediaapi.domain.comment.comment.repository.CommentRepository;
+import com.musicpedia.musicpediaapi.domain.comment.reply_comment.entity.ReplyComment;
+import com.musicpedia.musicpediaapi.domain.comment.reply_comment.repository.ReplyCommentRepository;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import com.musicpedia.musicpediaapi.domain.member.repository.MemberRepository;
 import com.musicpedia.musicpediaapi.domain.rating.dto.AverageScoreDTO;
@@ -35,6 +37,7 @@ public class RatingService {
     private final MemberRepository memberRepository;
 
     private final CommentRepository commentRepository;
+    private final ReplyCommentRepository replyCommentRepository;
 
     @Transactional
     public RatingDetail saveRating(long memberId, RatingCreateRequest request) {
@@ -129,6 +132,9 @@ public class RatingService {
 
         List<Comment> comments = commentRepository.findAllBySpotifyIdAndMember(spotifyId, member);
         comments.forEach(comment -> comment.updateScore(score));
+
+        List<ReplyComment> replyComments = replyCommentRepository.findAllBySpotifyIdAndMember(spotifyId, member);
+        replyComments.forEach(replyComment -> replyComment.updateScore(score));
     }
 
     @Transactional
@@ -141,6 +147,9 @@ public class RatingService {
 
         List<Comment> comments = commentRepository.findAllBySpotifyIdAndMember(spotifyId, member);
         comments.forEach(comment -> comment.updateScore("0"));
+
+        List<ReplyComment> replyComments = replyCommentRepository.findAllBySpotifyIdAndMember(spotifyId, member);
+        replyComments.forEach(replyComment -> replyComment.updateScore("0"));
     }
 
     public RatingPage getRatings(long memberId, Type type, Pageable pageable) {

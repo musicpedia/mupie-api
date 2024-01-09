@@ -1,6 +1,8 @@
 package com.musicpedia.musicpediaapi.domain.comment.reply_comment.entity;
 
+import com.musicpedia.musicpediaapi.domain.comment.comment.dto.response.CommentDetail;
 import com.musicpedia.musicpediaapi.domain.comment.comment.entity.Comment;
+import com.musicpedia.musicpediaapi.domain.comment.reply_comment.dto.response.ReplyCommentDetail;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import com.musicpedia.musicpediaapi.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
@@ -28,6 +30,9 @@ public class ReplyComment extends BaseTimeEntity {
     @Column(name = "spotify_id", nullable = false)
     private String spotifyId;
 
+    @Column(name = "score", nullable = false)
+    private String score = "0";
+
     @Column(name = "is_modified")
     private boolean isModified = false;
 
@@ -50,12 +55,45 @@ public class ReplyComment extends BaseTimeEntity {
     public ReplyComment(
             String content,
             String spotifyId,
+            String score,
             Comment comment,
             Member member
     ) {
         this.content = content;
         this.spotifyId = spotifyId;
+        this.score = score;
         this.comment = comment;
         this.member = member;
+    }
+
+    public void updateComment(Comment comment) {
+        this.comment = comment;
+    }
+
+    public void updateMember(Member member) {
+        this.member = member;
+    }
+
+    public void updateScore(String score) {
+        this.score = score;
+    }
+
+    public ReplyCommentDetail toReplyCommentDetail() {
+        ReplyCommentDetail.Writer writer = ReplyCommentDetail.Writer.builder()
+                .id(member.getId())
+                .name(member.getName())
+                .score(score)
+                .profileImage(member.getProfileImage())
+                .build();
+
+        return ReplyCommentDetail.builder()
+                .id(id)
+                .content(content)
+                .spotifyId(spotifyId)
+                .writer(writer)
+                .likeCount(likeCount)
+                .isModified(isModified)
+                .createdAt(createdAt)
+                .build();
     }
 }
