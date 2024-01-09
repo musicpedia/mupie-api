@@ -28,6 +28,12 @@ public class ReplyComment extends BaseTimeEntity {
     @Column(name = "spotify_id", nullable = false)
     private String spotifyId;
 
+    @Column(name = "is_modified")
+    private boolean isModified = false;
+
+    @Column(name = "like_cnt", nullable = false)
+    private long likeCount = 0;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
