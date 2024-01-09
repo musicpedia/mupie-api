@@ -1,6 +1,5 @@
 package com.musicpedia.musicpediaapi.domain.comment.reply_comment.entity;
 
-import com.musicpedia.musicpediaapi.domain.comment.comment.dto.response.CommentDetail;
 import com.musicpedia.musicpediaapi.domain.comment.comment.entity.Comment;
 import com.musicpedia.musicpediaapi.domain.comment.reply_comment.dto.response.ReplyCommentDetail;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
@@ -76,6 +75,14 @@ public class ReplyComment extends BaseTimeEntity {
 
     public void updateScore(String score) {
         this.score = score;
+    }
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
+    public void updateModified() {
+        this.isModified = true;
     }
 
     public ReplyCommentDetail toReplyCommentDetail() {

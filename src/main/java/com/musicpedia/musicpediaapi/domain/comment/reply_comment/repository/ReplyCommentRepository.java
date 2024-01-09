@@ -10,10 +10,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ReplyCommentRepository extends JpaRepository<ReplyComment, Long> {
     List<ReplyComment> findAllBySpotifyIdAndMember(String spotifyId, Member member);
 
     @Query("SELECT rc FROM ReplyComment rc JOIN FETCH rc.member WHERE rc.comment = :comment")
     Page<ReplyComment> findAllByComment(@Param("comment") Comment comment, Pageable pageable);
+
+    Optional<ReplyComment> findByIdAndMember(long replyCommentId, Member member);
 }

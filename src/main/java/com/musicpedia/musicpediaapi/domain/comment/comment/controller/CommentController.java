@@ -131,6 +131,6 @@ public class CommentController {
         long memberId = Long.parseLong(httpServletRequest.getAttribute("memberId").toString());
         commentService.deleteComment(memberId, commentId);
 
-        return ResponseEntity.ok("평점 삭제 성공");
+        return ResponseEntity.ok("코멘트 삭제 성공");
     }
 }

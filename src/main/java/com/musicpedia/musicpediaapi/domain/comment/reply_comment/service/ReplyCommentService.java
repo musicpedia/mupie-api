@@ -1,12 +1,9 @@
 package com.musicpedia.musicpediaapi.domain.comment.reply_comment.service;
 
-import com.musicpedia.musicpediaapi.domain.comment.comment.dto.request.CommentCreateRequest;
-import com.musicpedia.musicpediaapi.domain.comment.comment.dto.request.CommentUpdateRequest;
-import com.musicpedia.musicpediaapi.domain.comment.comment.dto.response.CommentDetail;
-import com.musicpedia.musicpediaapi.domain.comment.comment.dto.response.CommentPage;
 import com.musicpedia.musicpediaapi.domain.comment.comment.entity.Comment;
 import com.musicpedia.musicpediaapi.domain.comment.comment.repository.CommentRepository;
 import com.musicpedia.musicpediaapi.domain.comment.reply_comment.dto.request.ReplyCommentCreateRequest;
+import com.musicpedia.musicpediaapi.domain.comment.reply_comment.dto.request.ReplyCommentUpdateRequest;
 import com.musicpedia.musicpediaapi.domain.comment.reply_comment.dto.response.ReplyCommentDetail;
 import com.musicpedia.musicpediaapi.domain.comment.reply_comment.dto.response.ReplyCommentPage;
 import com.musicpedia.musicpediaapi.domain.comment.reply_comment.entity.ReplyComment;
@@ -55,5 +52,28 @@ public class ReplyCommentService {
         Page<ReplyComment> replyComments = replyCommentRepository.findAllByComment(comment, pageable);
 
         return ReplyCommentPage.from(replyComments);
+    }
+
+    @Transactional
+    public void updateReplyComment(long memberId, ReplyCommentUpdateRequest request) {
+        Long replyCommentId = request.getReplyCommentId();
+        String content = request.getContent();
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new NoResultException("해당하는 id의 회원을 찾을 수 없습니다."));
+        ReplyComment replyComment = replyCommentRepository.findByIdAndMember(replyCommentId, member)
+                .orElseThrow(() -> new NoResultException("해당하는 id의 코멘트 답변을 찾을 수 없습니다."));
+
+        replyComment.updateContent(content);
+        replyComment.updateModified();
+    }
+
+    @Transactional
+    public void deleteReplyComment(long memberId, long replyCommentId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new NoResultException("해당하는 id의 회원을 찾을 수 없습니다."));
+        ReplyComment replyComment = replyCommentRepository.findByIdAndMember(replyCommentId, member)
+                .orElseThrow(() -> new NoResultException("해당하는 id의 코멘트 답변을 찾을 수 없습니다."));
+
+        replyCommentRepository.delete(replyComment);
     }
 }

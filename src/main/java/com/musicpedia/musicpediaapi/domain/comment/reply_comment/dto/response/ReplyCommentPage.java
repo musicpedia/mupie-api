@@ -2,7 +2,6 @@ package com.musicpedia.musicpediaapi.domain.comment.reply_comment.dto.response;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.musicpedia.musicpediaapi.domain.comment.comment.entity.Comment;
 import com.musicpedia.musicpediaapi.domain.comment.reply_comment.entity.ReplyComment;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
@@ -15,7 +14,7 @@ import java.util.List;
 @Builder
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ReplyCommentPage {
-    private List<ReplyCommentDetail> comments;
+    private List<ReplyCommentDetail> replyComments;
 
     @Schema(example = "13")
     private int totalPages;
@@ -43,7 +42,7 @@ public class ReplyCommentPage {
                 .toList();
 
         return ReplyCommentPage.builder()
-                .comments(replyCommentDetails)
+                .replyComments(replyCommentDetails)
                 .totalPages(replyComments.getTotalPages())
                 .totalCount(replyComments.getTotalElements())
                 .page(replyComments.getNumber())

@@ -52,6 +52,7 @@ public class CommentService {
         Comment comment = commentRepository.findByIdAndMember(commentId, member)
                 .orElseThrow(() -> new NoResultException("해당하는 코멘트를 찾을 수 없습니다."));
         comment.updateContent(content);
+        comment.updateModified();
     }
 
     @Transactional

@@ -12,7 +12,7 @@ import lombok.Data;
 public class ReplyCommentUpdateRequest {
     @Schema(example = "14")
     @NotNull
-    private Long commentId;
+    private Long replyCommentId;
 
     @Schema(example = "이번 앨범 나쁘지 않네요")
     @NotBlank

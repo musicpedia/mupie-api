@@ -1,6 +1,8 @@
 package com.musicpedia.musicpediaapi.rating;
 
 import com.musicpedia.musicpediaapi.domain.auth.entity.OAuthProvider;
+import com.musicpedia.musicpediaapi.domain.comment.comment.repository.CommentRepository;
+import com.musicpedia.musicpediaapi.domain.comment.reply_comment.repository.ReplyCommentRepository;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
 import com.musicpedia.musicpediaapi.domain.member.entity.OAuthInfo;
 import com.musicpedia.musicpediaapi.domain.member.repository.MemberRepository;
@@ -19,6 +21,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,6 +37,10 @@ public class RatingServiceTest {
 
     @Mock
     private MemberRepository memberRepository;
+    @Mock
+    private CommentRepository commentRepository;
+    @Mock
+    private ReplyCommentRepository replyCommentRepository;
 
     @InjectMocks
     private RatingService ratingService;
@@ -141,6 +149,10 @@ public class RatingServiceTest {
                 .willReturn(Optional.of(member));
         given(ratingRepository.findBySpotifyIdAndMember(anyString(), any()))
                 .willReturn(Optional.of(rating));
+        given(commentRepository.findAllBySpotifyIdAndMember(anyString(), any()))
+                .willReturn(Collections.emptyList());
+        given(replyCommentRepository.findAllBySpotifyIdAndMember(anyString(), any()))
+                .willReturn(Collections.emptyList());
 
         // when
         ratingService.updateRating(1L, request);
@@ -161,6 +173,10 @@ public class RatingServiceTest {
         given(ratingRepository.findBySpotifyIdAndMember(anyString(), any()))
                 .willReturn(Optional.of(rating));
         doNothing().when(ratingRepository).delete(rating);
+        given(commentRepository.findAllBySpotifyIdAndMember(anyString(), any()))
+                .willReturn(Collections.emptyList());
+        given(replyCommentRepository.findAllBySpotifyIdAndMember(anyString(), any()))
+                .willReturn(Collections.emptyList());
 
         String spotifyId = rating.getSpotifyId();
 
