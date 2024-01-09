@@ -2,6 +2,7 @@ package com.musicpedia.musicpediaapi.comment.comment;
 
 import com.musicpedia.musicpediaapi.domain.auth.entity.OAuthProvider;
 import com.musicpedia.musicpediaapi.domain.comment.comment.dto.request.CommentCreateRequest;
+import com.musicpedia.musicpediaapi.domain.comment.comment.dto.request.CommentUpdateRequest;
 import com.musicpedia.musicpediaapi.domain.comment.comment.dto.response.CommentDetail;
 import com.musicpedia.musicpediaapi.domain.comment.comment.dto.response.CommentPage;
 import com.musicpedia.musicpediaapi.domain.comment.comment.entity.Comment;
@@ -58,13 +59,16 @@ public class CommentServiceTest {
     @DisplayName("[Service] 코멘트 저장 - 성공")
     public void 코멘트_저장_성공() {
         //given
+        long memberId = 1L;
+        CommentCreateRequest commentCreateRequest = testCreateRequest();
+
         given(memberRepository.findById(anyLong()))
                 .willReturn(Optional.of(member));
         given(commentRepository.save(any()))
                 .willReturn(testCommentBuilder());
 
         // when
-        CommentDetail commentDetail = commentService.saveComment(1L, testCreateRequest());
+        CommentDetail commentDetail = commentService.saveComment(memberId, commentCreateRequest);
 
         // then
         assertThat(commentDetail.getContent()).isEqualTo("저장 테스트: 이번 앨범 좋네요");
@@ -78,17 +82,40 @@ public class CommentServiceTest {
         String spotifyId = "1tfAfSTJHXtmgkzDwBasOp";
         Pageable pageable = Pageable.unpaged(); // For simplicity, you might want to use a real Pageable
 
-        given(memberRepository.findById(anyLong())).willReturn(Optional.of(member));
+        given(memberRepository.findById(anyLong()))
+                .willReturn(Optional.of(member));
 
         Page<Comment> comments = testCommentPageBuilder();
-        given(commentRepository.findAllBySpotifyId(anyString(), any(Pageable.class))).willReturn(comments);
+        given(commentRepository.findAllBySpotifyId(anyString(), any(Pageable.class)))
+                .willReturn(comments);
 
         // when
         CommentPage commentPage = commentService.getComments(memberId, spotifyId, pageable);
 
-        // Then
+        // then
         assertThat(commentPage).isNotNull();
         assertThat(commentPage.getTotalCount()).isEqualTo(commentPage.getComments().size());
+    }
+
+    @Test
+    @DisplayName("[Service] 코멘트 수정 - 성공")
+    public void 코멘트_수정_성공() {
+        // given
+        long memberId = 1L;
+        Comment comment = testCommentBuilder();
+        CommentUpdateRequest commentUpdateRequest = testUpdateRequest();
+
+        given(memberRepository.findById(anyLong()))
+                .willReturn(Optional.of(member));
+        given(commentRepository.findByIdAndSpotifyIdAndMember(anyLong(), anyString(), any()))
+                .willReturn(Optional.of(comment));
+
+        // when
+        commentService.updateComment(memberId, commentUpdateRequest);
+
+        // then
+        assertThat(comment.getContent())
+                .isEqualTo("수정 테스트: 이번 앨범 나쁘진 않네요");
     }
 
     private Member testMemberBuilder() {
@@ -110,8 +137,19 @@ public class CommentServiceTest {
         CommentCreateRequest commentCreateRequest = new CommentCreateRequest();
         commentCreateRequest.setContent("저장 테스트: 이번 앨범 좋네요");
         commentCreateRequest.setSpotifyId("1tfAfSTJHXtmgkzDwBasOp");
+        commentCreateRequest.setScore("4.5");
 
         return commentCreateRequest;
+    }
+
+    private CommentUpdateRequest testUpdateRequest() {
+        CommentUpdateRequest commentUpdateRequest = new CommentUpdateRequest();
+        commentUpdateRequest.setCommentId(1L);
+        commentUpdateRequest.setContent("수정 테스트: 이번 앨범 나쁘진 않네요");
+        commentUpdateRequest.setSpotifyId("1tfAfSTJHXtmgkzDwBasOp");
+        commentUpdateRequest.setScore("4.5");
+
+        return commentUpdateRequest;
     }
 
     private Comment testCommentBuilder() {
