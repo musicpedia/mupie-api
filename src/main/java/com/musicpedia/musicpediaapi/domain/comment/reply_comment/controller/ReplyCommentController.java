@@ -32,7 +32,7 @@ public class ReplyCommentController {
 
     @Operation(
             summary = "코멘트 답변 저장",
-            description = "코멘트 id에 해당하는 코메트에 코멘트 답변을 작성합니다.",
+            description = "코멘트 id에 해당하는 코멘트에 코멘트 답변을 작성합니다.",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "comment id, 코멘트 답변 내용",
                     required = true
