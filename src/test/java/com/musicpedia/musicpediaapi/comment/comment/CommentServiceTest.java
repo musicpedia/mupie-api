@@ -116,6 +116,8 @@ public class CommentServiceTest {
         // then
         assertThat(comment.getContent())
                 .isEqualTo("수정 테스트: 이번 앨범 나쁘진 않네요");
+        assertThat(comment.isModified())
+                .isTrue();
     }
 
     @Test
