@@ -8,6 +8,7 @@ import com.musicpedia.musicpediaapi.domain.comment.comment.entity.Comment;
 import com.musicpedia.musicpediaapi.domain.comment.comment.repository.CommentRepository;
 import com.musicpedia.musicpediaapi.domain.comment.reply_comment.dto.request.ReplyCommentCreateRequest;
 import com.musicpedia.musicpediaapi.domain.comment.reply_comment.dto.response.ReplyCommentDetail;
+import com.musicpedia.musicpediaapi.domain.comment.reply_comment.dto.response.ReplyCommentPage;
 import com.musicpedia.musicpediaapi.domain.comment.reply_comment.entity.ReplyComment;
 import com.musicpedia.musicpediaapi.domain.comment.reply_comment.repository.ReplyCommentRepository;
 import com.musicpedia.musicpediaapi.domain.member.entity.Member;
@@ -35,7 +36,7 @@ public class ReplyCommentService {
         ReplyComment replyComment = request.toReplyComment();
 
         Long commentId = request.getCommentId();
-        Comment comment = commentRepository.findById(commentId)
+        Comment comment = commentRepository.findByIdAndSpotifyId(commentId, replyComment.getSpotifyId())
                 .orElseThrow(() -> new NoResultException("해당하는 id의 코멘트를 찾을 수 없습니다."));
         replyComment.updateComment(comment);
         replyComment.updateMember(member);
@@ -43,5 +44,16 @@ public class ReplyCommentService {
         replyCommentRepository.save(replyComment);
 
         return replyComment.toReplyCommentDetail();
+    }
+
+    public ReplyCommentPage getReplyComments(long memberId, long commentId, Pageable pageable) {
+        memberRepository.findById(memberId)
+                .orElseThrow(() -> new NoResultException("해당하는 id의 회원을 찾을 수 없습니다."));
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new NoResultException("해당하는 id의 코멘트를 찾을 수 없습니다."));
+
+        Page<ReplyComment> replyComments = replyCommentRepository.findAllByComment(comment, pageable);
+
+        return ReplyCommentPage.from(replyComments);
     }
 }

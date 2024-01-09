@@ -32,6 +32,7 @@ public class ReplyCommentCreateRequest {
         return ReplyComment.builder()
                 .content(content)
                 .spotifyId(spotifyId)
+                .score(score)
                 .build();
     }
 }

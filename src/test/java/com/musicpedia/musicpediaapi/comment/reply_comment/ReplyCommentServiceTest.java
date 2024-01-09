@@ -92,6 +92,33 @@ public class ReplyCommentServiceTest {
         assertThat(replyCommentDetail.getContent()).isEqualTo("저장 테스트: 좋은 감상평이네요.");
     }
 
+    @Test
+    @DisplayName("[Service] 코멘트 답변 조회 - 성공")
+    public void 코멘트_답변_조회_성공() {
+        // given
+        long memberId = 1L;
+        long commentId = 1L;
+        Pageable pageable = Pageable.unpaged();
+
+        given(memberRepository.findById(anyLong()))
+                .willReturn(Optional.of(member));
+        given(commentRepository.findById(anyLong()))
+                .willReturn(Optional.of(comment));
+
+        Page<ReplyComment> replyComments = testReplyCommentPageBuilder();
+        given(replyCommentRepository.findAllByComment(any(), any(Pageable.class)))
+                .willReturn(replyComments);
+
+        // when
+        ReplyCommentPage replyCommentPage = replyCommentService.getReplyComments(memberId, commentId, pageable);
+
+        // then
+        assertThat(replyCommentPage).isNotNull();
+        assertThat(replyCommentPage.getTotalCount())
+                .isEqualTo(replyCommentPage.getComments().size());
+    }
+
+
     private Member testMemberBuilder() {
         return Member.builder()
                 .description("검정치마 좋아합니다.")

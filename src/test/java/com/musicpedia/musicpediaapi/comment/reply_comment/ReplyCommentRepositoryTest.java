@@ -80,6 +80,20 @@ public class ReplyCommentRepositoryTest {
                 .isEqualTo("저장 테스트:좋은 감상평이네요.");
     }
 
+    @Test
+    @DisplayName("[Repository] 코멘트 답변 조회 - 성공")
+    public void Repo_코멘트_답변_조회_페이징_성공() {
+        //given
+        Pageable pageable = PageRequest.of(0, 3, Sort.Direction.DESC, "likeCount");
+
+        //when
+        Page<ReplyComment> comments = replyCommentRepository.findAllByComment(comment, pageable);
+
+        //then
+        assertThat(comments.getTotalPages())
+                .isEqualTo(comments.getTotalElements()/comments.getSize() + 1);
+    }
+
     private Member testMemberBuilder() {
         return Member.builder()
                 .description("검정치마 좋아합니다.")
