@@ -29,6 +29,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class CommentServiceTest {
@@ -106,7 +107,7 @@ public class CommentServiceTest {
 
         given(memberRepository.findById(anyLong()))
                 .willReturn(Optional.of(member));
-        given(commentRepository.findByIdAndSpotifyIdAndMember(anyLong(), anyString(), any()))
+        given(commentRepository.findById(anyLong()))
                 .willReturn(Optional.of(comment));
 
         // when
@@ -115,6 +116,28 @@ public class CommentServiceTest {
         // then
         assertThat(comment.getContent())
                 .isEqualTo("수정 테스트: 이번 앨범 나쁘진 않네요");
+    }
+
+    @Test
+    @DisplayName("[Service] 코멘트 삭제 - 성공")
+    public void 코멘트_삭제_성공() {
+        // given
+        long commentId = 1L;
+        long memberId = 1L;
+        Member member = testMemberBuilder();
+        Comment comment = testCommentBuilder();
+
+        given(memberRepository.findById(anyLong()))
+                .willReturn(Optional.of(member));
+        given(commentRepository.findByIdAndMember(anyLong(), any()))
+                .willReturn(Optional.of(comment));
+        doNothing().when(commentRepository).delete(comment);
+
+        // when
+        commentService.deleteComment(memberId, commentId);
+
+        // then
+        verify(commentRepository, times(1)).delete(comment);
     }
 
     private Member testMemberBuilder() {
