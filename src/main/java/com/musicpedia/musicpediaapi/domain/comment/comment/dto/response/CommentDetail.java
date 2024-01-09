@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
@@ -29,7 +31,7 @@ public class CommentDetail {
     private boolean isModified;
 
     @Schema(example = "2023-10-12 01:45:14.291106")
-    private String createdAt;
+    private LocalDateTime createdAt;
 
     @Data
     @Builder
