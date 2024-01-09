@@ -107,7 +107,7 @@ public class CommentServiceTest {
 
         given(memberRepository.findById(anyLong()))
                 .willReturn(Optional.of(member));
-        given(commentRepository.findByIdAndMember(anyLong(), member))
+        given(commentRepository.findByIdAndMember(anyLong(), any()))
                 .willReturn(Optional.of(comment));
 
         // when

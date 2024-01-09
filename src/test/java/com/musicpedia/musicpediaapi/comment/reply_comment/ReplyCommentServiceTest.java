@@ -80,7 +80,7 @@ public class ReplyCommentServiceTest {
 
         given(memberRepository.findById(anyLong()))
                 .willReturn(Optional.of(member));
-        given(commentRepository.findById(anyLong()))
+        given(commentRepository.findByIdAndSpotifyId(anyLong(), anyString()))
                 .willReturn(Optional.of(comment));
         given(replyCommentRepository.save(any()))
                 .willReturn(testReplyCommentBuilder());
@@ -115,9 +115,53 @@ public class ReplyCommentServiceTest {
         // then
         assertThat(replyCommentPage).isNotNull();
         assertThat(replyCommentPage.getTotalCount())
-                .isEqualTo(replyCommentPage.getComments().size());
+                .isEqualTo(replyCommentPage.getReplyComments().size());
     }
 
+    @Test
+    @DisplayName("[Service] 코멘트 답변 수정 - 성공")
+    public void 코멘트_답변_수정_성공() {
+        // given
+        long memberId = 1L;
+        ReplyComment replyComment = testReplyCommentBuilder();
+        ReplyCommentUpdateRequest replyCommentUpdateRequest = testUpdateRequest();
+
+        given(memberRepository.findById(anyLong()))
+                .willReturn(Optional.of(member));
+        given(replyCommentRepository.findByIdAndMember(anyLong(), any()))
+                .willReturn(Optional.of(replyComment));
+
+        // when
+        replyCommentService.updateReplyComment(memberId, replyCommentUpdateRequest);
+
+        // then
+        assertThat(replyComment.getContent())
+                .isEqualTo("수정 테스트: 나쁘지 않은 감상평이네요.");
+        assertThat(replyComment.isModified())
+                .isTrue();
+    }
+
+    @Test
+    @DisplayName("[Service] 코멘트 삭제 - 성공")
+    public void 코멘트_삭제_성공() {
+        // given
+        long commentId = 1L;
+        long memberId = 1L;
+        Member member = testMemberBuilder();
+        ReplyComment replyComment = testReplyCommentBuilder();
+
+        given(memberRepository.findById(anyLong()))
+                .willReturn(Optional.of(member));
+        given(replyCommentRepository.findByIdAndMember(anyLong(), any()))
+                .willReturn(Optional.of(replyComment));
+        doNothing().when(replyCommentRepository).delete(replyComment);
+
+        // when
+        replyCommentService.deleteReplyComment(memberId, commentId);
+
+        // then
+        verify(replyCommentRepository, times(1)).delete(replyComment);
+    }
 
     private Member testMemberBuilder() {
         return Member.builder()
@@ -141,6 +185,15 @@ public class ReplyCommentServiceTest {
         replyCommentCreateRequest.setCommentId(1L);
 
         return replyCommentCreateRequest;
+    }
+
+    private ReplyCommentUpdateRequest testUpdateRequest() {
+        ReplyCommentUpdateRequest replyCommentUpdateRequest = new ReplyCommentUpdateRequest();
+        replyCommentUpdateRequest.setContent("수정 테스트: 나쁘지 않은 감상평이네요.");
+        replyCommentUpdateRequest.setSpotifyId("1tfAfSTJHXtmgkzDwBasOp");
+        replyCommentUpdateRequest.setReplyCommentId(1L);
+
+        return replyCommentUpdateRequest;
     }
 
     private Comment testCommentBuilder() {
