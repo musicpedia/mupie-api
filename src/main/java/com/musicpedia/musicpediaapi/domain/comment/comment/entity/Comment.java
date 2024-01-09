@@ -46,10 +46,12 @@ public class Comment extends BaseTimeEntity {
     public Comment(
             String content,
             String spotifyId,
+            String score,
             Member member
     ) {
         this.content = content;
         this.spotifyId = spotifyId;
+        this.score = score;
         this.member = member;
     }
 

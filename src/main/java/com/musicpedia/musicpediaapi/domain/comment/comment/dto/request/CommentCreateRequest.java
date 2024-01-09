@@ -18,10 +18,15 @@ public class CommentCreateRequest {
     @NotBlank
     private String spotifyId;
 
+    @Schema(example = "4.5")
+    @NotBlank
+    private String score;
+
     public Comment toComment() {
         return Comment.builder()
                 .content(content)
                 .spotifyId(spotifyId)
+                .score(score)
                 .build();
     }
 }

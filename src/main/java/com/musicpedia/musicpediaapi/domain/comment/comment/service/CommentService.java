@@ -22,8 +22,6 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final MemberRepository memberRepository;
 
-    private final RatingService ratingService;
-
     @Transactional
     public CommentDetail saveComment(long memberId, CommentCreateRequest request) {
         Member member = memberRepository.findById(memberId)
